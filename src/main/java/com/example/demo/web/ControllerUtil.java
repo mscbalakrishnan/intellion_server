@@ -8,8 +8,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Category;
 import com.example.demo.domain.Doctor;
+import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.dto.CategoryDto;
 import com.example.demo.domain.dto.DoctorDto;
 
@@ -17,7 +19,7 @@ public class ControllerUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerUtil.class);
 
 	public static List<DoctorDto> toDto(List<Doctor> doctors) {
-		logger.debug("" + doctors);
+//		logger.debug("" + doctors);
 		List<DoctorDto> toReturn = new ArrayList<>();
 		for (Doctor doctor : doctors) {
 			DoctorDto ddto = new DoctorDto(doctor);
@@ -27,9 +29,14 @@ public class ControllerUtil {
 				catDtoList.add(cdto);
 			}
 			ddto.setCategories(catDtoList);
+			Set<AppointmentDto> appointmentDtos = new HashSet<>();
+			for (Appointment appointment:doctor.getAppointments()){
+				appointmentDtos.add(new AppointmentDto(appointment));
+			}
+			ddto.setAppointments(appointmentDtos);
 			toReturn.add(ddto);
 		}
-		logger.debug("" + toReturn);
+//		logger.debug("" + toReturn);
 		return toReturn;
 	}
 }

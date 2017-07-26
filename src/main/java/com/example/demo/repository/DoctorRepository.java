@@ -11,6 +11,6 @@ import com.example.demo.domain.Doctor;
 
 @Repository()
 public interface DoctorRepository extends CrudRepository<Doctor, Long>{
-	@Transactional
-	List<Doctor> findAll();
+//	@Transactional
+//	List<Doctor> findAll();
 }

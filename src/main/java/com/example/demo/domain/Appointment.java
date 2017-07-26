@@ -1,25 +1,21 @@
 package com.example.demo.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -41,16 +37,13 @@ public class Appointment implements Serializable {
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	
 	private LocalDateTime time;
 	
-	@JsonManagedReference
-	@OneToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="doctor_id")
 	private Doctor doctor;
 	
-	@JsonManagedReference
-	@OneToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="patient_id")
 	private Patient patient;
 	

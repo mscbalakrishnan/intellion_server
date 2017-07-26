@@ -1,6 +1,7 @@
 package com.example.demo.domain.dto;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.example.demo.domain.Appointment;
@@ -31,14 +32,14 @@ public class DoctorDto implements Serializable {
 		this.categories = categories;
 	}
 	
-	private AppointmentDto appointment;
+	private Set<AppointmentDto> appointments;
 	
-	public AppointmentDto getAppointment() {
-		return appointment;
+	public Set<AppointmentDto> getAppointment() {
+		return appointments;
 	}
 
-	public void setAppointment(AppointmentDto appointment) {
-		this.appointment = appointment;
+	public void setAppointments(Set<AppointmentDto> appointments) {
+		this.appointments = appointments;
 	}
 
 	public DoctorDto(String name) {
@@ -64,9 +65,7 @@ public class DoctorDto implements Serializable {
 		setQualification(doctor.getQualification());
 		setFees(doctor.getFees());
 		setMobile(doctor.getMobile());
-		Appointment appointment = doctor.getAppointment();
-		AppointmentDto adto = new AppointmentDto(appointment); 
-		setAppointment(adto);
+		
 	}
 	public static Doctor Dto2Pojo(DoctorDto doctor){
 		Doctor d = new Doctor();
@@ -78,9 +77,6 @@ public class DoctorDto implements Serializable {
 		d.setQualification(doctor.getQualification());
 		d.setFees(doctor.getFees());
 		d.setMobile(doctor.getMobile());
-//		Appointment appointment = doctor.getAppointment();
-//		AppointmentDto adto = new AppointmentDto(appointment); 
-//		setAppointment(adto);
 		return d;
 	}
 	public String getName() {

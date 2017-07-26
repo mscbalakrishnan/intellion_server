@@ -30,7 +30,7 @@ import com.example.demo.service.PatientService;
  *
  */
 @Controller
-@RequestMapping("category")
+@RequestMapping("/intelhosp/categories")
 public class CategoryController extends DemoController {
 	private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 	@Autowired

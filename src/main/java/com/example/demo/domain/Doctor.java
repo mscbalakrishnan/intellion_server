@@ -9,11 +9,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 //@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@doctor_id")
@@ -48,16 +47,15 @@ public class Doctor implements Serializable {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-	@JsonBackReference
-	@OneToOne(mappedBy="doctor",fetch=FetchType.LAZY)
-	private Appointment appointment;
-	
-	public Appointment getAppointment() {
-		return appointment;
+	@OneToMany(mappedBy="doctor",fetch=FetchType.LAZY)
+	private Set<Appointment> appointments;
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
 
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 	public Doctor(String name) {
@@ -129,6 +127,13 @@ public class Doctor implements Serializable {
 
 	public void setFees(float fees) {
 		this.fees = fees;
+	}
+
+	@Override
+	public String toString() {
+		return "Doctor [id=" + id + ", name=" + name + ", title=" + title + ", email=" + email + ", qualification="
+				+ qualification + ", fees=" + fees + ", mobile=" + mobile + ", categories=" + categories
+				+ ", appointments=" + appointments + "]";
 	}
 
 }

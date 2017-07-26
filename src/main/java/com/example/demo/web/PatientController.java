@@ -54,7 +54,7 @@ public class PatientController extends DemoController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping
+	@GetMapping("/")
 	@ResponseBody
 	public List<PatientDto> getAllPatientsPojo(HttpServletRequest request) {
 		List<Patient> patients =  (List<Patient>) this.patientService.findAll();

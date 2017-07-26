@@ -1,7 +1,9 @@
 package com.example.demo.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Doctor;
+import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.dto.DoctorDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
@@ -63,11 +67,13 @@ public class DoctorController extends DemoController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping
+	@GetMapping("/")
 	@ResponseBody
-	public List<Doctor> getAllDoctorsPojo(HttpServletRequest request) {
-		logger.debug("inside getAll Doctors ...");
-		return (List<Doctor>) this.doctorService.findAll();
+	public List<DoctorDto> getAllDoctorsPojo(HttpServletRequest request) {
+		List<DoctorDto> toReturn = new ArrayList<>();
+		List<Doctor> doctors = (List<Doctor>) this.doctorService.findAll();
+		toReturn = ControllerUtil.toDto(doctors);
+		return toReturn;
 	}
 	
 	/**

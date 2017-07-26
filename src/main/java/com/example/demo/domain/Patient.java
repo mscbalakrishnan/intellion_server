@@ -2,18 +2,18 @@ package com.example.demo.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -202,16 +202,14 @@ public class Patient implements Serializable {
 	public void setRemainder(PeriodicRemainder remainder) {
 		this.remainder = remainder;
 	}
-	@JsonBackReference
-	@OneToOne(mappedBy="patient",fetch=FetchType.LAZY)
-	private Appointment appointment;
+	@OneToMany(mappedBy="patient",fetch=FetchType.LAZY)
+	private Set<Appointment> appointments;
 	
-	public Appointment getAppointment() {
-		return appointment;
+	public Set<Appointment> getAppointments() {
+		return appointments;
 	}
-
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 	@Override
 	public String toString() {
@@ -221,6 +219,7 @@ public class Patient implements Serializable {
 				+ gender + ", Occupation=" + Occupation + ", email=" + email + ", dob=" + dob + ", age=" + age
 				+ ", medicalHistory=" + medicalHistory + ", medicalAlert=" + medicalAlert + ", allergies=" + allergies
 				+ ", needWelcomeMessage=" + needWelcomeMessage + ", birthdayWish=" + birthdayWish + ", remainder="
-				+ remainder + "]";
+				+ remainder + ", appointments=" + appointments + "]";
 	}
+	
 }

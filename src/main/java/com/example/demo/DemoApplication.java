@@ -29,9 +29,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @SpringBootApplication
-public class DemoApplication implements CommandLineRunner{
+public class DemoApplication implements CommandLineRunner {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
-	
+
 	@Autowired
     private PatientRepository patientRepository;
 	@Autowired
@@ -91,9 +91,13 @@ public class DemoApplication implements CommandLineRunner{
 		patientRepository.save(p);
 		Appointment a = new Appointment(LocalDateTime.now(), d, p);
 		appointmentRepository.save(a);
+		Appointment a1 = new Appointment(LocalDateTime.now().plusDays(1), d, p);
+		appointmentRepository.save(a1);
+		Appointment a2 = new Appointment(LocalDateTime.now().plusDays(2), d, p);
+		appointmentRepository.save(a2);
 		
 //		logger.debug(""+doctorRepository.findAll());
-		List<Doctor> all = doctorRepository.findAll();
+		List<Doctor> all = (List<Doctor>) doctorRepository.findAll();
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(all);
 		logger.debug(""+json);

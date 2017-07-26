@@ -1,24 +1,16 @@
 package com.example.demo.web;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.domain.Doctor;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
 import com.example.demo.service.PatientService;
@@ -39,12 +31,23 @@ public class DemoController {
 	@Autowired
 	private AppointmentService appointmentService;
 	
-	@GetMapping("/settings")
-	@ResponseBody
-	public String settings(HttpServletRequest request) {
-		logger.debug("*********** Received the Object to Set ");
-		return "Hello World";
-	}
+	@Value("${application.message:Hello World}")
+	private String message = "Hello World";
+	
+	@GetMapping
+	public String welcome(Model model) {
+		model.addAttribute("name", "Kumaraguru");
+		model.addAttribute("time", new Date());
+		model.addAttribute("message", this.message);
+		return "welcome";
+}
+	
+//	@GetMapping("/settings")
+//	@ResponseBody
+//	public String settings(HttpServletRequest request) {
+//		logger.debug("*********** Received the Object to Set ");
+//		return "Hello World";
+//	}
 	/**
 	 * List all doctors
 	 * Using @JsonIdentityInfo

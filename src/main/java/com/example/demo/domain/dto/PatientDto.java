@@ -3,14 +3,15 @@ package com.example.demo.domain.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.example.demo.domain.Appointment;
 import com.example.demo.domain.BloodGroup;
-import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Gender;
 import com.example.demo.domain.Patient;
 import com.example.demo.domain.PeriodicRemainder;
 import com.example.demo.domain.Title;
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class PatientDto implements Serializable {
 
@@ -76,6 +77,12 @@ public class PatientDto implements Serializable {
 		setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
 		setBirthdayWish(patient.isBirthdayWish());
 		setRemainder(patient.getRemainder());
+		Set<Appointment> appointments = patient.getAppointments();
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		for (Appointment appointment:appointments){
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		setAppointments(appointmentDtos);
 	}
 	public Long getId() {
 		return id;
@@ -216,14 +223,13 @@ public class PatientDto implements Serializable {
 		this.remainder = remainder;
 	}
 	
-	private AppointmentDto appointment;
+	private Set<AppointmentDto> appointments;
 	
-	public AppointmentDto getAppointment() {
-		return appointment;
+	public Set<AppointmentDto> getAppointments() {
+		return appointments;
 	}
-
-	public void setAppointment(AppointmentDto appointment) {
-		this.appointment = appointment;
+	public void setAppointments(Set<AppointmentDto> appointments) {
+		this.appointments = appointments;
 	}
 	public static Patient Dto2Pojo(PatientDto patient){
 		Patient p = new Patient();

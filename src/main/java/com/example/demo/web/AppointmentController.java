@@ -1,6 +1,8 @@
 package com.example.demo.web;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,10 +51,15 @@ public class AppointmentController extends DemoController {
 	 * @param request
 	 * @return 
 	 */
-	@GetMapping
+	@GetMapping("/")
 	@ResponseBody
-	public List<Appointment> getAllAppointmentPojo(HttpServletRequest request) {
-		return (List<Appointment>) this.appointmentService.findAll();
+	public Set<AppointmentDto> getAllAppointmentPojo(HttpServletRequest request) {
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findAll();
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
 	}
 	
 	/**
@@ -63,8 +70,8 @@ public class AppointmentController extends DemoController {
 	 */
 	@GetMapping("/{appointmentid}")
 	@ResponseBody
-	public Appointment getAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
-		return this.appointmentService.findOne(appointmentId);
+	public AppointmentDto getAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
+		return new AppointmentDto(this.appointmentService.findOne(appointmentId));
 	}
 
 	/**
