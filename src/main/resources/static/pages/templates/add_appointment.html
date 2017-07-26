@@ -1,0 +1,56 @@
+<div class="contact">
+		<div class="container100">
+			<div class="contact-form">
+				<h3>Patient Appointment</h3>
+				<div class="col-md-8 contact-form-right">
+					<h4>Patient Form</h4>
+					<form action="saveAppointment" method="post">
+						<table border="0" cellpadding="0" cellspacing="0">
+						<tr><td>
+							<input id="doctorName" name="doctorName" type="text" onkeyup="autoCompleteDynamic('doctorName','doctorId','Doctor','doctorName');" value="Doctor Name" onfocus="if (this.value == 'Doctor Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Doctor Name';}" required="">
+							<input type="hidden" name="doctorId" id="doctorId"/>
+							<input id="patientName" name="patientName" onkeyup="autoCompleteDynamic('patientName','patientId','Patient','patientName');" type="text" value="Patient Name" onfocus="if (this.value == 'Patient Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Patient Name';}" required="">
+							<input type="hidden" name="patientId" id="patientId"/>
+							<input id="patientEmail" name="patientEmail" type="email" value="Email" onfocus="if (this.value == 'Email') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Email';}" required="">
+						</td></tr>
+						<tr><td>&nbsp;</td></tr>
+						<tr>
+							<td>
+								<input id="patientPhone" name="patientPhone" type="text" value="Telephone" onfocus="if (this.value == 'Telephone') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Telephone';}" required="">
+								<input id="appointDate" name="appointDate" type="text" value="Date" onfocus="if (this.value == 'Date') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Date';}" required="">&nbsp;&nbsp;&nbsp;
+								<input id="appointTime" name="appointTime" type="text" value="Time" onfocus="if (this.value == 'Time') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Time';}" required="">
+							</td>
+						</tr>
+						
+						<tr><td>&nbsp;</td></tr>
+						
+						<tr><td>
+							<label>All Months</label>&nbsp;&nbsp;<input type="checkbox" name="allmonths" id="allmonths"/>
+							<label>Alternative</label>&nbsp;&nbsp;<input type="checkbox" name="alternative" id="alternative"/>
+							<label>Daily</label>&nbsp;&nbsp;<input type="checkbox" name="daily" id="daily"/>
+						</td></tr>
+						<tr><td>
+							<textarea onfocus="if (this.value == 'Details...') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Details...';}" required="">Details...</textarea>
+						</td></tr>
+						<tr><td>
+							<input type="submit" value="Submit" >&nbsp;<input type="button" value="Cancel" >&nbsp;<input type="button" value="Reset" >
+						</td></tr>
+						
+						
+	
+						</table>
+					</form>
+				</div>
+				<div class="col-md-4 contact-form-right">
+					<h4>Patient Search</h4>
+					<form >
+						
+							<div class="col-sm-4 valignMid"><label>Patient Name</label></div>
+							<div class=""><input id="patientNameSearch" onkeyup="autoCompleteDynamic('patientNameSearch','','','');" name="patientNameSearch" type="text" value="Name" onfocus="if (this.value == 'Name') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Name';}" ></div>
+						
+					</form>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div>
