@@ -30,7 +30,10 @@
 <!-- DataTables -->
 <link rel="stylesheet"
 	href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-	
+
+<!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  
 <link rel="stylesheet"
 	href="../css/intellion.css">
 	
@@ -282,7 +285,7 @@
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat">Profile</a>
+										<a href="javascript:void(0)"onclick="new Profile().loadProfilePage()" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
 										<a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -613,6 +616,7 @@
 	<script src="../js/Doctor.js"></script>
 	<script src="../js/Patient.js"></script>
 	<script src="../js/GridViewModel.js"></script>
+	<script src="../js/Profile.js"></script>
 	<script src="../js/PageContents.js"></script>
 	<script src="../js/Appointment.js"></script>
 

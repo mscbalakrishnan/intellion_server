@@ -382,20 +382,7 @@ var WsUtils = {
 			alertMsg += '</div>';
 			return alertMsg;
 		},
-		showFileUploadRetailerScreen  : function()
-		{
-			if($("#cardSellingFileUpload").css("display") == "none")
-				$("#cardSellingFileUpload").show();
-			else
-				$("#cardSellingFileUpload").hide();
-		},
-		showFileUploadProductReturnScreen  : function()
-		{
-			if($("#cardReturnFileUpload").css("display") == "none")
-				$("#cardReturnFileUpload").show();
-			else
-				$("#cardReturnFileUpload").hide();
-		},
+
 		showPopupWindow : function(callbackFunction)
 		{
 			$("body").append("<div id='modaldiv'></div>");

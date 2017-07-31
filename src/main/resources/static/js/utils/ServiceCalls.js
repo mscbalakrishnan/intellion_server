@@ -83,7 +83,7 @@ var ServiceCalls = {
 				
 				if(resultGlobalClass.requestData.data != undefined)
 				{
-					resultGlobalClass.requestData.data.limit = limit1;
+					//resultGlobalClass.requestData.data.limit = limit1;
 					resultGlobalClass.requestData.totalCount = false;
 				}
 				
@@ -115,9 +115,9 @@ var ServiceCalls = {
 					type : resultGlobalClass.requestMethod,
 					dataType : resultGlobalClass.resultType,
 					async : resultGlobalClass.isAsyncCall,
-					data : {param : JSON.stringify(resultGlobalClass.requestData)},
+					data : resultGlobalClass.requestData.data,
 					headers : {
-						"Content-Type" : "application/x-www-form-urlencoded"
+						"Content-Type" : "application/json"
 					}, 
 					success : function(data){
 						

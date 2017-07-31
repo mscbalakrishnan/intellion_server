@@ -25,7 +25,7 @@ var Doctor = function() {
 			callback : function(){
 				var responseObj = resultGlobalClass.response;
 				$(".content").html(responseObj);	
-				
+				initDoctorVo();
 				if(data){
 					doctorVo.id(data["id"]);
 					doctorVo.name(data["name"]);
@@ -114,5 +114,40 @@ var Doctor = function() {
 		
 		ServiceCalls.call();
 	
+	};
+	self.saveDoctor = function(){
+		
+
+		
+		var objToSave = {};
+		objToSave.id = doctorVo.id();
+		objToSave.name  = doctorVo.name();
+		objToSave.title = doctorVo.title();
+		objToSave.email = doctorVo.email();
+		objToSave.qualification = doctorVo.qualification();
+		objToSave.fees = doctorVo.fees()
+		objToSave.mobile = doctorVo.mobile()
+	//	objToSave.category = doctorVo.category();
+		
+		var methodType = "POST";
+		if(doctorVo.id()){
+			methodType = "PUT";
+		}
+		
+		console.log(objToSave);
+		
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				alert('Saved Successfully.')
+			},
+			requestUrl : "/intelhosp/doctors",
+			requestMethod: methodType,
+			requestData : {
+				"data" : objToSave ,
+				"queryName" : "",
+				"queryParamArray" : {}
+			},resultType : "json",
+		});
+		ServiceCalls.call();
 	}
 }

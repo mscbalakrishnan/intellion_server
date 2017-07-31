@@ -1,29 +1,11 @@
 var appointmentVo;
 function initAppointmentVo() {
-	doctorVo = {
+	appointmentVo = {
 		id : ko.observable(""),
-		name : ko.observable(""),
-		title : ko.observable(""),
-		email : ko.observable(""),
-		qualification : ko.observable(""),
-		fees : ko.observable(""),
-		mobile : ko.observable(""),
-		category : ko.observable(""),
-		categoryList : ko.observableArray([ {
-			"id" : 1,
-			"name" : "dentist"
-		}, {
-			"id" : 2,
-			"name" : "Root Canel Splst"
-		} ]),
-		title : ko.observable(""),
-		titleList : ko.observableArray([ {
-			"id" : 1,
-			"name" : "Mr"
-		}, {
-			"id" : 2,
-			"name" : "Ms/Mrs"
-		} ])
+		time : ko.observable(""),
+		doctor :  ko.observable(""),
+		patient: ko.observable("")
+		
 	};
 };
 initAppointmentVo();
