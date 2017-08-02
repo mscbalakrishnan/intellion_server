@@ -36,6 +36,11 @@
   
 <link rel="stylesheet"
 	href="../css/intellion.css">
+
+<link rel="stylesheet" type="text/css" href="../css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="../css/jquery.datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="../css/jquery.ui.autocomplete.css" />
+
 	
 <!-- Theme style -->
 <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
@@ -619,6 +624,9 @@
 	<script src="../js/Profile.js"></script>
 	<script src="../js/PageContents.js"></script>
 	<script src="../js/Appointment.js"></script>
+	<script type="text/javascript" src="../js/datetimepicker/jquery.datetimepicker.full.js"></script>
+	<script type="text/javascript" src="../js/datetimepicker/jquery-ui.js"></script>
+
 
 
 	<!-- Page specific script -->
@@ -745,7 +753,7 @@
         }
 
       },dayClick: function (date, jsEvent, view) {
-    	  new Appointment().loadAddAppointmentForm();
+    	  new Appointment().loadAddAppointmentForm(date);
 	    },
 	    events: function(start, end, timezone, callback) {
 	    	new Appointment().loadAppointmentDetails(callback);

@@ -98,7 +98,10 @@ var Patient = function() {
 				}
 				ko.cleanNode($("#patientForm")[0]);
 				ko.applyBindings(patientVo, $("#patientForm")[0]);
-				$('#dob').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+								
+				 $("#dob" ).datetimepicker({
+					 timepicker:false
+				 });
 			},
 			requestUrl : "../pages/templates/patient_add.html",			
 			requestData : {},

@@ -1,39 +1,59 @@
 <section class="content">
-    <div class="row" id="addAppointment">
-        <!-- left column -->
-        <div class="col-md-12">
-		<!-- general form elements -->
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title">Add Appointment</h3>
-			</div>
-			<!-- /.box-header -->
-			<!-- form start -->
-			<form role="form">
-				<div class="box-body">
-					<div id = "left">
-						
-						<div class="form-group">
-							<div class="row">
-								<div class="col-xs-6">
-									<input class="form-control" id="doctor" placeholder="Search Doctor"type="text" >
-								</div>
-								<div class="col-xs-6">
-									<input class="form-control" id="patien" placeholder="Search Patient" type="text" data-bind="value:label">
+	<div class="row" id="addAppointment">
+		<!-- left column -->
+		<div class="col-md-12">
+			<!-- general form elements -->
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Add Appointment</h3>
+				</div>
+				<!-- /.box-header -->
+				<!-- form start -->
+				<form role="form">
+					<div class="box-body">
+						<div id="left">
+
+							<div class="form-group">
+								<div class="row">
+									<div class="col-xs-6">
+										<input class="form-control" id="doctor"
+											placeholder="Search Doctor" type="text"
+											onkeyup="new Appointment().showDoctorNames()">
+									</div>
+									<div class="col-xs-4">
+										<input class="form-control" id="patien"
+											placeholder="Search Patient" type="text"
+											data-bind="value:label">
+									</div>
+									<div class="col-xs-2">
+										<button type="button" class="btn btn-primary"
+											onclick="new Appointment().loadPatientFormInAppointmentPage()">Add
+											Patient</button>
+									</div>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-xs-9">
+										<input class="form-control" id="appointmentDateTime"
+											placeholder="Appointment Date Time" type="text" >
+									</div>
+								</div>
+							</div>
+
+							<div id="patientForm"></div>
 						</div>
-				</div>
-			</form>
+				</form>
+			</div>
+			<!-- /.box -->
 		</div>
 		<!-- /.box -->
 	</div>
-	<!-- /.box -->
-</div>
-<div class="box-footer">
-					<button type="button" class="btn btn-primary" onclick="new Patient().savePatient()">Submit</button>
-					<button type="button" class="btn btn-primary"
-						onclick="new Patient().loadPatientsPageList()">Cancel</button>
-				</div>
-<!-- /.box-body -->
+	<div class="box-footer">
+		<button type="button" class="btn btn-primary"
+			onclick="new Patient().saveAppointment1()">Submit</button>
+		<button type="button" class="btn btn-primary"
+			onclick="WsUtils.hidePopup()">Cancel</button>
+	</div>
+	<!-- /.box-body -->
 </section>
