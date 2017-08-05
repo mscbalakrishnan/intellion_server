@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +16,6 @@ import javax.persistence.SequenceGenerator;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@doctor_id")
 public class Doctor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,8 +34,8 @@ public class Doctor implements Serializable {
 	private float fees;
 	private String mobile;
 	
-	@JsonBackReference
-	@ManyToMany(mappedBy = "doctors",fetch=FetchType.LAZY)
+	@JsonBackReference	
+	@ManyToMany(mappedBy = "doctors",fetch=FetchType.LAZY,cascade = CascadeType.REMOVE)
     private Set<Category> categories;
 	
 	public Doctor(){}
@@ -47,7 +47,7 @@ public class Doctor implements Serializable {
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
 	}
-	@OneToMany(mappedBy="doctor",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="doctor",fetch=FetchType.LAZY,cascade = CascadeType.REMOVE)
 	private Set<Appointment> appointments;
 
 	public Set<Appointment> getAppointments() {

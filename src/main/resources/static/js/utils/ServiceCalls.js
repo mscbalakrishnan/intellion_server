@@ -78,7 +78,7 @@ var ServiceCalls = {
 				
 				if(resultGlobalClass.requestData.data == undefined)
 				{
-					resultGlobalClass["requestData"]["data"] = {};
+					resultGlobalClass["requestData"]["data"] = "";
 				}
 				
 				if(resultGlobalClass.requestData.data != undefined)
@@ -109,13 +109,24 @@ var ServiceCalls = {
 					//}
 					
 				}
-				//alert(resultGlobalClass.requestData)
+				//alert(resultGlobalClass.requestData)\
+				var param = resultGlobalClass.requestData.data;
+				
+				if(param != ""){
+					param = JSON.stringify(resultGlobalClass.requestData.data);
+					if(param == "{}" ){
+						param = "";
+					}
+				}
+				
+				console.log(param)
 				$.ajax({
 					url : url ,
 					type : resultGlobalClass.requestMethod,
 					dataType : resultGlobalClass.resultType,
 					async : resultGlobalClass.isAsyncCall,
-					data : resultGlobalClass.requestData.data,
+					data : param,
+					contentType: "application/json",
 					headers : {
 						"Content-Type" : "application/json"
 					}, 
@@ -161,6 +172,21 @@ var ServiceCalls = {
 					error : function(XMLHttpRequest, textStatus, errorThrown){
 						
 						loader.hideLoader();
+						
+						if(XMLHttpRequest.status == 200){
+							if(resultGlobalClass.callback != "")
+							{
+								if($.isFunction(resultGlobalClass.callback))
+								{
+									resultGlobalClass.callback.apply();
+								}	
+								else
+								{
+									eval(resultGlobalClass.callback + "();");
+								}	
+							}
+							loader.hideLoader();	
+						}
 						
 						if (XMLHttpRequest.readyState == 4) {
 				            // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)

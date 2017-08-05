@@ -180,32 +180,31 @@ var Patient = function() {
 	self.savePatient = function(){
 		
 
-		
-		/*var objToSave = {};
-		objToSave.id = doctorVo.id();
-		objToSave.name  = doctorVo.name();
-		objToSave.title = doctorVo.title();
-		objToSave.email = doctorVo.email();
-		objToSave.qualification = doctorVo.qualification();
-		objToSave.fees = doctorVo.fees()
-		objToSave.mobile = doctorVo.mobile()
-	//	objToSave.category = doctorVo.category();*/
-		
 		var methodType = "POST";
 		if(patientVo.id()){
 			methodType = "PUT";
 		}
 		
-		console.log(objToSave);
+		 var data = ko.toJS(patientVo);
+		 var dob = data.dob;
+		 var date = dob.split(" ")[0];
+		 var dateArr = date.split("/");
+		 data.dob = dateArr[0]+"-"+dateArr[1]+"-"+dateArr[2];
+		 
+		 if(data.remainder == ""){
+			 data.remainder = null;
+		 }
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
-				alert('Saved Successfully.')
+				alert('Saved Successfully.');
+				new Patient().loadPatientsPageList();
+				
 			},
 			requestUrl : "/intelhosp/patients",
 			requestMethod: methodType,
 			requestData : {
-				"data" : objToSave ,
+				"data" : data ,
 				"queryName" : "",
 				"queryParamArray" : {}
 			},resultType : "json",

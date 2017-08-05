@@ -78,11 +78,11 @@ public class PatientDto implements Serializable {
 		setBirthdayWish(patient.isBirthdayWish());
 		setRemainder(patient.getRemainder());
 		Set<Appointment> appointments = patient.getAppointments();
-		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		/*Set<AppointmentDto> appointmentDtos = new HashSet<>();
 		for (Appointment appointment:appointments){
 			appointmentDtos.add(new AppointmentDto(appointment));
 		}
-		setAppointments(appointmentDtos);
+		setAppointments(appointmentDtos);*/
 	}
 	public Long getId() {
 		return id;

@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
+import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.DoctorRepository;
 import com.example.demo.repository.PatientRepository;
@@ -81,5 +83,34 @@ public class AppointmentServiceImpl implements AppointmentService {
 				throw new IllegalArgumentException("Appointment Id does not exists:" + id);
 			}
 		}
+	}
+
+	@Override
+	public Iterable<Appointment> findByDoctorId(int doctorId) {
+		return appointmentRepository.findByDoctor_Id(Long.valueOf(doctorId));
+	}
+	@Override
+	public Iterable<Appointment> findByPatientId(int patientId) {
+		return appointmentRepository.findByPatient_Id(Long.valueOf(patientId));
+	}
+
+	@Override
+	public Iterable<Appointment> findByTimeBetween(LocalDate from, LocalDate to) {
+		return appointmentRepository.findByTimeBetween(from.atStartOfDay(),to.atTime(23, 59));
+	}
+
+	@Override
+	public Iterable<Appointment> findByTimeAfter(LocalDate from) {
+		return appointmentRepository.findByTimeAfter(from.atStartOfDay());
+	}
+
+	@Override
+	public Iterable<Appointment> findByTimeBefore(LocalDate upto) {
+		return appointmentRepository.findByTimeBefore(upto.atTime(23,59));
+	}
+
+	@Override
+	public Iterable<Appointment> findByDoctorName(String name) {
+		return appointmentRepository.findByDoctor_Name(name);
 	}
 }

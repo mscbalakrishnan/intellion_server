@@ -1,16 +1,13 @@
 package com.example.demo.web;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Doctor;
-import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.dto.DoctorDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
@@ -35,8 +31,8 @@ import com.example.demo.service.PatientService;
  *
  */
 @Controller
-@RequestMapping("/intelhosp/doctors")
-public class DoctorController extends DemoController {
+@RequestMapping(value="/intelhosp/doctors")
+public class DoctorController {
 	private static final Logger logger = LoggerFactory.getLogger(DoctorController.class);
 	@Autowired
 	private PatientService patientService;
@@ -50,7 +46,7 @@ public class DoctorController extends DemoController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping("/doctordto")
+	@GetMapping(value="/doctordto")
 	@ResponseBody
 	public List<DoctorDto> getAllDoctors(HttpServletRequest request) {
 		List<DoctorDto> toReturn = new ArrayList<>();
@@ -58,16 +54,12 @@ public class DoctorController extends DemoController {
 		toReturn = ControllerUtil.toDto(doctors);
 		return toReturn;
 	}
+
 	/**
-	 * List all doctors
-	 * Using @JsonIdentityInfo
-	 * In this the second time reference is replace with ObjectId
-	 * Now the implementation is changed to use @JsonBackReference and @JsonBackReference
-	 * Its returning only the required parameters, So chosen this approach.
 	 * @param request
 	 * @return
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@ResponseBody
 	public List<DoctorDto> getAllDoctorsPojo(HttpServletRequest request) {
 		List<DoctorDto> toReturn = new ArrayList<>();
@@ -82,7 +74,7 @@ public class DoctorController extends DemoController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping("/{doctorid}")
+	@GetMapping(value="/{doctorid}")
 	@ResponseBody
 	public Doctor getDoctor(@PathVariable("doctorid") long doctorId, HttpServletRequest request) {
 		return this.doctorService.findOne(doctorId);
@@ -93,7 +85,7 @@ public class DoctorController extends DemoController {
 	 * @param doctorId
 	 * @param request
 	 */
-	@DeleteMapping("/{doctorid}")
+	@DeleteMapping(value="/{doctorid}")
 	@ResponseBody
 	public void deleteDoctor(@PathVariable("doctorid") long doctorId, HttpServletRequest request) {
 		this.doctorService.delete(doctorId);
@@ -105,9 +97,6 @@ public class DoctorController extends DemoController {
 	 * @param request
 	 * @return
 	 */
-	/*@PostMapping(
-			headers = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_JSON_UTF8_VALUE }, 
-			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_JSON_UTF8_VALUE })*/
 	@PostMapping
 	@ResponseBody
 	public DoctorDto addDoctor(@RequestBody DoctorDto doctorDto, HttpServletRequest request) {
@@ -122,9 +111,6 @@ public class DoctorController extends DemoController {
 	 * @param request
 	 * @return
 	 */
-	/*@PutMapping(
-			headers = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_JSON_UTF8_VALUE }, 
-			consumes = { MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_JSON_UTF8_VALUE })*/
 	@PutMapping
 	@ResponseBody
 	public DoctorDto editDoctor(@RequestBody DoctorDto doctorDto, HttpServletRequest request) {

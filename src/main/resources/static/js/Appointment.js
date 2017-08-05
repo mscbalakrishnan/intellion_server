@@ -64,11 +64,14 @@ var Appointment = function() {
 				});
 				$("#modelData").html(responseObj);
 				var dt = new Date(date);
-				$("#appointmentDateTime").val(dt.getDate() + "/" + (dt.getMonth()+1) + "/" + dt.getFullYear() + " "+dt.getUTCHours() + ":"+ dt.getUTCMinutes()	);
+				$("#appointmentDateTime").val(
+						dt.getDate() + "/" + (dt.getMonth() + 1) + "/"
+								+ dt.getFullYear() + " " + dt.getUTCHours()
+								+ ":" + dt.getUTCMinutes());
 				$("#appointmentDateTime").datetimepicker(
 						{
 							format : 'd/m/Y H:i',
-							formatTime:'H:i',
+							formatTime : 'H:i',
 							onShow : function(ct) {
 								this.setOptions({
 									minDate : jQuery('#appointmentDateTime')
@@ -155,7 +158,7 @@ var Appointment = function() {
 		ServiceCalls.loadHtmlPage();
 	};
 
-	self.saveAppointment1 = function() {
+	self.saveAppointment = function() {
 
 		var methodType = "POST";
 		if (appointmentVo.id()) {
@@ -193,46 +196,95 @@ var Appointment = function() {
 			searchString = encodeURI(searchString);
 			// alert("searchString =====>"+searchString+",inputBoxId :
 			// "+inputBoxId);
-			$("#doctor").autocomplete({
-				matchContains : true,
-				minChars : 0,
-				source : {
+			$("#doctor")
+					.autocomplete(
+							{
+								matchContains : true,
+								minChars : 0,
+								source : function(request, response) {
 
-					label : "BAla",
-					value : "bala",
-					code : "code",
-				},
-				/*
-				 * function(request, response) {
-				 * 
-				 * $.ajax({ url:
-				 * "fetchAutoCompleteData.action?searchStr="+searchString+"&domainName="+domain+"&columnName="+searchColumn,
-				 * dataType: "json", type: "post", data: { maxRows: 20, term:
-				 * request.term }, success: function(data) { //alert("data :
-				 * "+data);
-				 * 
-				 * if(data.returnList.length==0){ $("#"+resultBoxId).val(""); }
-				 * response($.map(data.returnList, function(item) {
-				 * if(domain=="Patient"){ return {
-				 * 
-				 * label: item.patientName, value: item.patientName, code:
-				 * item.patientId+"~-~"+item.patientName+"~-~"+item.patientEmail+"~-~"+item.patientTelephone,
-				 * pkIds: item.patientId, mail : item.patientEmail, phone:
-				 * item.patientTelephone } } }));
-				 * 
-				 *  } }); },
-				 */
+									$.ajax({
+												url : "intelhosp/appointments/doctorname?name="
+														+ searchString,
+												dataType : "json",
+												type : "post",
+												data : {
+													maxRows : 20,
+													term : request.term
+												},
+												success : function(data) {
 
-				select : function(event, ui) {
-					console.log(ui.item.pkIds);
-				},
-				change : function(event, ui) {
-					console.log(ui.item.pkIds);
-				}
-			});
+													if (data.returnList.length == 0) {
+														$("#" + resultBoxId)
+																.val("");
+													}
+													response($.map(
+														data.returnList,
+																function(item) {
+																		return {
+																			label : item.patientName,
+																			value : item.patientName,
+																			code : item.patientId
+																					+ "~-~"
+																					+ item.patientName
+																					+ "~-~"
+																					+ item.patientEmail
+																					+ "~-~"
+																					+ item.patientTelephone,
+																			pkIds : item.patientId,
+																			mail : item.patientEmail,
+																			phone : item.patientTelephone
+																		}
+														}));
+
+												}
+											});
+								},
+
+								select : function(event, ui) {
+									console.log(ui.item);
+								},
+								change : function(event, ui) {
+									console.log(ui.item);
+								}
+							});
 		} catch (e) {
 			alert(e);
 		}
 	};
+
+	self.savePatientOnAppointment = function() {
+
+		var methodType = "POST";
+		if (patientVo.id()) {
+			methodType = "PUT";
+		}
+
+		var data = ko.toJS(patientVo);
+		var dob = data.dob;
+		var date = dob.split(" ")[0];
+		var dateArr = date.split("/");
+		data.dob = dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2];
+
+		if (data.remainder == "") {
+			data.remainder = null;
+		}
+
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function() {
+				alert('Saved Successfully.')
+				$('#patientForm').html('');
+			},
+			requestUrl : "/intelhosp/patients",
+			requestMethod : methodType,
+			requestData : {
+				"data" : data,
+				"queryName" : "",
+				"queryParamArray" : {}
+			},
+			resultType : "json",
+		});
+		ServiceCalls.call();
+	}
 
 }

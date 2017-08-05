@@ -211,7 +211,10 @@ var WsUtils = {
 					}	
 					else
 					{
-						eval(okCallbackFunction + "();");
+						if(okCallbackFunction){
+							eval(okCallbackFunction + "();");
+						}
+						
 					}
 				}
 					/*$("#modaldiv").remove();
@@ -415,7 +418,10 @@ var WsUtils = {
 				}	
 				else
 				{
-					eval(callbackFunction + "();");
+					if(callbackFunction){
+						eval(callbackFunction + "();");
+					}
+					
 				}	
 			});
 					

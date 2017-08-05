@@ -1,5 +1,7 @@
 package com.example.demo.web;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.Appointment;
-import com.example.demo.domain.Doctor;
 import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
@@ -31,9 +34,9 @@ import com.example.demo.service.PatientService;
  * @author Kumaraguru_Narayanan
  *
  */
-@Controller
-@RequestMapping("/intelhosp/appointments")
-public class AppointmentController extends DemoController {
+@RestController
+@RequestMapping(value="/intelhosp/appointments")
+public class AppointmentController {
 	private static final Logger logger = LoggerFactory.getLogger(AppointmentController.class);
 	@Autowired
 	private PatientService patientService;
@@ -43,15 +46,10 @@ public class AppointmentController extends DemoController {
 	private AppointmentService appointmentService;
 
 	/**
-	 * List all doctors
-	 * Using @JsonIdentityInfo
-	 * In this the second time reference is replace with ObjectId
-	 * Now the implementation is changed to use @JsonBackReference and @JsonBackReference
-	 * Its returning only the required parameters, So chosen this approach.
 	 * @param request
-	 * @return 
+	 * @return
 	 */
-	@GetMapping("/")
+	@GetMapping
 	@ResponseBody
 	public Set<AppointmentDto> getAllAppointmentPojo(HttpServletRequest request) {
 		Set<AppointmentDto> appointmentDtos = new HashSet<>();
@@ -62,13 +60,77 @@ public class AppointmentController extends DemoController {
 		return appointmentDtos;
 	}
 	
+	@GetMapping(value="/doctor")
+	public Iterable<AppointmentDto> findByDoctorId(@RequestParam int doctorId) {
+		logger.debug("Doctor ID ----> {}",doctorId);
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByDoctorId(doctorId);
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
+	}
+	@GetMapping(value="/doctorname")
+	public Iterable<AppointmentDto> findByDoctorName(@RequestParam String name) {
+		logger.debug("Doctor Name ----> {}",name);
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByDoctorName(name);
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
+	}
+	@GetMapping(value="/patient")
+	public Iterable<AppointmentDto> findByPatientId(@RequestParam int patientId) {
+		logger.debug("Patient ID ----> {}",patientId);
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByPatientId(patientId);
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
+	}
+	
+	@GetMapping(value="/upto")
+	public Iterable<AppointmentDto> findByDateBefore(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		logger.debug("Upto Date ----> {}",date);
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByTimeBefore(date);
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
+	}
+	@GetMapping(value="/from")
+	public Iterable<AppointmentDto> findByDateAfter(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		logger.debug("From Date ----> {}",date);
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByTimeAfter(date);
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
+	}
+	@GetMapping(value="/betweendates")
+	public Iterable<AppointmentDto> findByDateBetween(
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+		logger.debug("FROM date ----> {}",from);
+		logger.debug("TO date ----> {}",to);
+		Set<AppointmentDto> appointmentDtos = new HashSet<>();
+		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByTimeBetween(from, to);
+		for (Appointment appointment:appointments) {
+			appointmentDtos.add(new AppointmentDto(appointment));
+		}
+		return appointmentDtos;
+	}
 	/**
 	 * Get a particular {@link Appointment} with id 
 	 * @param appointmentId
 	 * @param request
 	 * @return
 	 */
-	@GetMapping("/{appointmentid}")
+	@GetMapping(value="/{appointmentid}")
 	@ResponseBody
 	public AppointmentDto getAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
 		return new AppointmentDto(this.appointmentService.findOne(appointmentId));
@@ -79,7 +141,7 @@ public class AppointmentController extends DemoController {
 	 * @param appointmentId
 	 * @param request
 	 */
-	@DeleteMapping("/{appointmentid}")
+	@DeleteMapping(value="/{appointmentid}")
 	@ResponseBody
 	public void deleteAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
 		this.appointmentService.delete(appointmentId);
@@ -95,7 +157,7 @@ public class AppointmentController extends DemoController {
 	@ResponseBody
 	public AppointmentDto addAppointment(@RequestBody AppointmentDto appointmentDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , appointmentDto.toString());
-		Appointment appointment = this.appointmentService.save(appointmentDto.getId(),appointmentDto.getTime(),appointmentDto.getDoctor(),appointmentDto.getPatient());
+		Appointment appointment = this.appointmentService.save(appointmentDto.getId(),appointmentDto.getTime(),appointmentDto.getDoctor().getId(),appointmentDto.getPatient().getId());
 		return new AppointmentDto(appointment);
 		
 	}
@@ -109,7 +171,7 @@ public class AppointmentController extends DemoController {
 	@ResponseBody
 	public AppointmentDto editAppointment(@RequestBody AppointmentDto appointmentDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentDto.toString());
-		Appointment appointment = this.appointmentService.save(appointmentDto.getId(),appointmentDto.getTime(),appointmentDto.getDoctor(),appointmentDto.getPatient());
+		Appointment appointment = this.appointmentService.save(appointmentDto.getId(),appointmentDto.getTime(),appointmentDto.getDoctor().getId(),appointmentDto.getPatient().getId());
 		return new AppointmentDto(appointment);
 	}
 }

@@ -11,8 +11,8 @@ public class AppointmentDto implements Serializable {
 
 	private Long id;
 	private LocalDateTime time;
-	private Long doctor;
-	private Long patient;
+	private DoctorDto doctor;
+	private PatientDto patient;
 	
 	public Long getId() {
 		return id;
@@ -27,33 +27,27 @@ public class AppointmentDto implements Serializable {
 		this.time = time;
 	}
 	
-	public Long getDoctor() {
+	public DoctorDto getDoctor() {
 		return doctor;
 	}
-	public void setDoctor(Long doctor) {
+	public void setDoctor(DoctorDto doctor) {
 		this.doctor = doctor;
 	}
-	public Long getPatient() {
+	public PatientDto getPatient() {
 		return patient;
 	}
-	public void setPatient(Long patient) {
+	public void setPatient(PatientDto patient) {
 		this.patient = patient;
 	}
 	protected AppointmentDto() {
 	}
 	
-	public AppointmentDto(LocalDateTime time, Long doctor, Long patient) {
-		super();
-		this.time = time;
-		this.doctor = doctor;
-		this.patient = patient;
-	}
 	public AppointmentDto(Appointment appointment) {
 		if(appointment!=null){
 			setId(appointment.getId());
 			setTime(appointment.getTime());
-			setPatient(appointment.getPatient().getId());
-			setDoctor(appointment.getDoctor().getId());
+			setPatient(new PatientDto(appointment.getPatient()));
+			setDoctor(new DoctorDto(appointment.getDoctor()));
 		}
 	}
 	@Override

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.example.demo.domain.Appointment;
@@ -17,4 +18,10 @@ public interface AppointmentService {
 
 	void delete(Appointment appointment);
 
+	Iterable<Appointment> findByDoctorId(int doctorId);
+	Iterable<Appointment> findByDoctorName(String name);
+	Iterable<Appointment> findByPatientId(int patientId);
+	Iterable<Appointment> findByTimeBetween(LocalDate from, LocalDate to);
+	Iterable<Appointment> findByTimeAfter(LocalDate from);
+	Iterable<Appointment> findByTimeBefore(LocalDate upto);
 }

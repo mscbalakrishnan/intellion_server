@@ -3,7 +3,6 @@ package com.example.demo.domain;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,13 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@category_id")
 public class Category implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,7 +40,7 @@ public class Category implements Serializable {
 		this.name = name;
 	}
 	
-	@JsonManagedReference
+	@JsonManagedReference	
 	@ManyToMany(fetch=FetchType.LAZY)
     @JoinTable(name = "doctor_category",
     joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 

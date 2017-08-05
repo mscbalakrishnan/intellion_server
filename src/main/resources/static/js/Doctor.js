@@ -70,9 +70,12 @@ var Doctor = function() {
 							callbackFunction : function(data,event,type){
 								if(type == 'delete')
 								{	
-									var requestUrl = "/intelhosp/doctors/"+data.id;
-											console.log(requestUrl)
-									WsUtils.deleteOperation(function(){				
+									
+									WsUtils.deleteOperation(function(){
+										
+										var requestUrl = "/intelhosp/doctors/"+data.id;
+										console.log(requestUrl)
+										
 										resultGlobalObject = $.extend(resultGlobalClass, {
 											callback : function(){
 												WsUtils.showAlert("Delete Success");
@@ -86,6 +89,7 @@ var Doctor = function() {
 											},resultType : "json",
 										});
 										ServiceCalls.call();
+										
 									}, "");
 									
 								}
@@ -120,7 +124,9 @@ var Doctor = function() {
 
 		
 		var objToSave = {};
-		objToSave.id = doctorVo.id();
+		if(doctorVo.id()){
+			objToSave.id = doctorVo.id();
+		}
 		objToSave.name  = doctorVo.name();
 		objToSave.title = doctorVo.title();
 		objToSave.email = doctorVo.email();
@@ -139,6 +145,7 @@ var Doctor = function() {
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				alert('Saved Successfully.')
+				new Doctor().loadDoctorPageList();
 			},
 			requestUrl : "/intelhosp/doctors",
 			requestMethod: methodType,
@@ -149,5 +156,7 @@ var Doctor = function() {
 			},resultType : "json",
 		});
 		ServiceCalls.call();
-	}
+	};
+	
 }
+
