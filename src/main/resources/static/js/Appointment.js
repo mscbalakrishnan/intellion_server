@@ -1,4 +1,5 @@
 var appointmentVo;
+var events = [];
 function initAppointmentVo() {
 	appointmentVo = {
 		id : ko.observable(""),
@@ -17,7 +18,7 @@ var Appointment = function() {
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
-				var events = [];
+				events = [];
 				$.each(JSON.parse(responseObj), function(i, v) {
 					var datetime = v.time.split("T");
 					var date = datetime[0];
@@ -34,7 +35,7 @@ var Appointment = function() {
 
 					events.push({
 						id : v.id,
-						title : 'Meeting',
+						title : "Dr." + v.doctor.name+ ">> " + v.patient.name,
 						start : new Date(appointDate.getFullYear(), appointDate
 								.getMonth() - 1, appointDate.getDate(), hour,
 								min),
@@ -55,7 +56,7 @@ var Appointment = function() {
 	};
 
 	self.loadAddAppointmentForm = function(date) {
-		alert(date);
+
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
@@ -64,23 +65,23 @@ var Appointment = function() {
 				});
 				$("#modelData").html(responseObj);
 				var dt = new Date(date);
-				$("#appointmentDateTime").val(
-						dt.getDate() + "/" + (dt.getMonth() + 1) + "/"
+				$("#appointmentDateTime").val(dt.getDate() + "/" + (dt.getMonth() + 1) + "/"
 								+ dt.getFullYear() + " " + dt.getUTCHours()
 								+ ":" + dt.getUTCMinutes());
-				$("#appointmentDateTime").datetimepicker(
-						{
+				$("#appointmentDateTime").datetimepicker({
 							format : 'd/m/Y H:i',
 							formatTime : 'H:i',
 							onShow : function(ct) {
 								this.setOptions({
 									minDate : jQuery('#appointmentDateTime')
-											.val() ? jQuery(
-											'#appointmentDateTime').val()
+											.val() ? jQuery('#appointmentDateTime').val()
 											: false
 								})
 							},
 						});
+			
+				new Appointment().showDoctorNames("doctor");
+				new Appointment().showPatientNames("patient");
 			},
 			requestUrl : "../pages/templates/add_appointment.html",
 			requestData : {},
@@ -170,10 +171,26 @@ var Appointment = function() {
 		objToSave.time = appointmentVo.time();
 		objToSave.doctor = appointmentVo.doctor();
 		objToSave.patient = appointmentVo.patient();
+		var selectedDate = jQuery('#appointmentDateTime').val();
+		
+		var datetime = selectedDate.split(" ");
+		var date = datetime[0];
+		var time = datetime[1];
+		
+		var dateArr = date.split("/");
+		var day = dateArr[0];
+		var month = dateArr[1];
+		var year = dateArr[2];
+		var timeArr = time.split(":");
+		var hour = timeArr[0];
+		var min = timeArr[1];
+		
+		objToSave.time = year+"-"+month+"-"+day+"T"+hour+":"+min;
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
-				alert('Saved Successfully.')
+				alert('Saved Successfully.');
+				WsUtils.hidePopup();
 			},
 			requestUrl : "/intelhosp/appointments",
 			requestMethod : methodType,
@@ -186,71 +203,125 @@ var Appointment = function() {
 		});
 		ServiceCalls.call();
 	};
-	self.showDoctorNames = function() {
+	self.showDoctorNames = function(textbox) {
 
-		try {
-			// console.log($("#doctor").val());
 
-			var searchString = $("#doctor").val();
-			// alert("searchString "+searchString);
-			searchString = encodeURI(searchString);
-			// alert("searchString =====>"+searchString+",inputBoxId :
-			// "+inputBoxId);
-			$("#doctor")
-					.autocomplete(
-							{
-								matchContains : true,
-								minChars : 0,
-								source : function(request, response) {
+		var options = {
 
-									$.ajax({
-												url : "intelhosp/appointments/doctorname?name="
-														+ searchString,
-												dataType : "json",
-												type : "post",
-												data : {
-													maxRows : 20,
-													term : request.term
-												},
-												success : function(data) {
+				  url: function(phrase) {
+					 console.log(phrase);
+				    return "../intelhosp/doctors/doctorname/find?name="+phrase;
+				  },
 
-													if (data.returnList.length == 0) {
-														$("#" + resultBoxId)
-																.val("");
-													}
-													response($.map(
-														data.returnList,
-																function(item) {
-																		return {
-																			label : item.patientName,
-																			value : item.patientName,
-																			code : item.patientId
-																					+ "~-~"
-																					+ item.patientName
-																					+ "~-~"
-																					+ item.patientEmail
-																					+ "~-~"
-																					+ item.patientTelephone,
-																			pkIds : item.patientId,
-																			mail : item.patientEmail,
-																			phone : item.patientTelephone
-																		}
-														}));
+				  getValue: function(element) {
+				    return element.name;
+				  },
 
-												}
-											});
-								},
+				  ajaxSettings: {
+				    dataType: "json",
+				    method: "get",
+				    data: {
+				        dataType: "text"
+				     }
+				    
+				  },
+				  
+				  template: {
+						type: "custom",
+						method: function(value, item) {
+							var html = '<div class="user-panel" style="background:#000">' + 
+								'<div class="pull-left image">'+
+									'<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">'+
+								'</div>'+
+								'<div class="pull-left info">'+
+									'<p>'+item.name+'</p>'+
+									'<a href="#"><i class="fa fa-circle text-success"></i> Online</a>'+
+								'</div>'+
+								'</div>';
+							return html;
+						}
+					},
 
-								select : function(event, ui) {
-									console.log(ui.item);
-								},
-								change : function(event, ui) {
-									console.log(ui.item);
-								}
-							});
-		} catch (e) {
-			alert(e);
-		}
+				  preparePostData: function(data) {
+				    data.name = $("#"+textbox).val();
+				    return "";
+				  },
+				  
+				  adjustWidth:false,
+				  list: {
+
+					  onChooseEvent: function() {
+							var item = $("#"+textbox).getSelectedItemData();
+							console.log(item.id);
+							appointmentVo.doctor(item.id);
+						}
+					},
+
+				  requestDelay: 400,
+				};
+
+			 $("#"+textbox).easyAutocomplete(options);
+			
+	};
+
+	self.showPatientNames = function(textbox) {
+
+		var options = {
+
+				  url: function(phrase) {
+					 console.log(phrase);
+				    return "../intelhosp/patients/patientname/find?name="+phrase;
+				  },
+
+				  getValue: function(element) {
+				    return element.name;
+				  },
+
+				  ajaxSettings: {
+				    dataType: "json",
+				    method: "get",
+				    data: {
+				        dataType: "text"
+				     }
+				    
+				  },
+				  
+				  template: {
+						type: "custom",
+						method: function(value, item) {
+							var html = '<div class="user-panel" style="background:#000">' + 
+								'<div class="pull-left image">'+
+									'<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">'+
+								'</div>'+
+								'<div class="pull-left info">'+
+									'<p>'+item.name+'</p>'+
+									'<a href="#"><i class="fa fa-circle text-success"></i> Online</a>'+
+								'</div>'+
+								'</div>';
+							return html;
+						}
+					},
+
+				  preparePostData: function(data) {
+				    data.name = $("#"+textbox).val();
+				    return "";
+				  },
+				  
+				  adjustWidth:false,
+				  list: {
+
+					  onChooseEvent: function() {
+							var item = $("#"+textbox).getSelectedItemData();
+							console.log(item.id);
+							appointmentVo.patient(item.id);
+						}
+					},
+
+				  requestDelay: 400,
+				};
+
+			 $("#"+textbox).easyAutocomplete(options);
+			
 	};
 
 	self.savePatientOnAppointment = function() {
@@ -285,6 +356,9 @@ var Appointment = function() {
 			resultType : "json",
 		});
 		ServiceCalls.call();
-	}
+	};
+	
+
+	
 
 }

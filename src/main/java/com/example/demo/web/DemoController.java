@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DemoController {
 	private static final Logger logger = LoggerFactory.getLogger(DemoController.class);
 		
-	@Value("${application.message:Hello World}")
-	private String message = "Hello World";
-	
-	@GetMapping
-	public String welcome(Model model) {
-		model.addAttribute("name", "Kumaraguru");
-		model.addAttribute("time", new Date());
-		model.addAttribute("message", this.message);
-		return "welcome";
-	}
+//	@Value("${application.message:Hello World}")
+//	private String message = "Hello World";
+//	
+//	@GetMapping
+//	public String welcome(Model model) {
+//		model.addAttribute("name", "Kumaraguru");
+//		model.addAttribute("time", new Date());
+//		model.addAttribute("message", this.message);
+//		return "welcome";
+//	}
 }

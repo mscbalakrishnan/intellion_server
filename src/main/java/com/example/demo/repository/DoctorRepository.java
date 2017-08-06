@@ -11,6 +11,8 @@ import com.example.demo.domain.Doctor;
 
 @Repository()
 public interface DoctorRepository extends CrudRepository<Doctor, Long>{
+
+	List<Doctor> findByNameContaining(String name);
 //	@Transactional
 //	List<Doctor> findAll();
 }

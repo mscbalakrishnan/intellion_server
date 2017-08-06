@@ -1,7 +1,9 @@
 package com.example.demo.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
+import com.example.demo.domain.dto.DoctorDto;
 import com.example.demo.domain.dto.PatientDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
@@ -67,7 +72,17 @@ public class PatientController {
 	public PatientDto getPatient(@PathVariable("patientid") long patientId, HttpServletRequest request) {
 		return new PatientDto(this.patientService.findOne(patientId));
 	}
-
+	@GetMapping(value="/patientname/find")
+	@ResponseBody
+	public Set<PatientDto> findByName(@RequestParam("name") String name) {
+		logger.debug("Patient Name ----> {}",name);
+		Set<PatientDto> patientDtos = new HashSet<>();
+		List<Patient> patients =  (List<Patient>) this.patientService.findByName(name);
+		for (Patient patient:patients) {
+			patientDtos.add(new PatientDto(patient));
+		}
+		return patientDtos;
+	}
 	/**
 	 * Delete Patient
 	 * @param patientId

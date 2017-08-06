@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import com.example.demo.domain.Doctor;
 
 public interface DoctorService {
@@ -14,4 +16,6 @@ public interface DoctorService {
 	void delete(long id);
 
 	void delete(Doctor doctor);
+
+	List<Doctor> findByDoctorName(String name);
 }
