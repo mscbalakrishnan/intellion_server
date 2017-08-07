@@ -1,7 +1,7 @@
 package com.example.demo.web;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.dto.AppointmentDto;
+import com.example.demo.domain.dto.AppointmentInputDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
 import com.example.demo.service.PatientService;
@@ -149,29 +150,31 @@ public class AppointmentController {
 
 	/**
 	 * Add a new {@link Appointment}
-	 * @param appointmentDto
+	 * @param appointmentInputDto
 	 * @param request
 	 * @return
 	 */
 	@PostMapping
 	@ResponseBody
-	public AppointmentDto addAppointment(@RequestBody AppointmentDto appointmentDto, HttpServletRequest request) {
-		logger.debug("*********** Received the Object to ADD {}" , appointmentDto.toString());
-		Appointment appointment = this.appointmentService.save(appointmentDto.getId(),appointmentDto.getTime(),appointmentDto.getDoctor().getId(),appointmentDto.getPatient().getId());
+	public AppointmentDto addAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
+		logger.debug("*********** Received the Object to ADD {}" , appointmentInputDto.toString());
+		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
+		appointment = this.appointmentService.save(appointment);
 		return new AppointmentDto(appointment);
 		
 	}
 	/**
 	 * Edit {@link Appointment}
-	 * @param appointmentDto
+	 * @param appointmentInputDto
 	 * @param request
 	 * @return
 	 */
 	@PutMapping
 	@ResponseBody
-	public AppointmentDto editAppointment(@RequestBody AppointmentDto appointmentDto, HttpServletRequest request) {
-		logger.debug("*********** Received the Object to EDIT {}" , appointmentDto.toString());
-		Appointment appointment = this.appointmentService.save(appointmentDto.getId(),appointmentDto.getTime(),appointmentDto.getDoctor().getId(),appointmentDto.getPatient().getId());
+	public AppointmentDto editAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
+		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
+		Appointment appointment = new Appointment(appointmentInputDto.getId(),appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
+		appointment = this.appointmentService.save(appointment);
 		return new AppointmentDto(appointment);
 	}
 }

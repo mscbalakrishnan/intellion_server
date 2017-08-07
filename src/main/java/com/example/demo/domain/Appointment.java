@@ -76,6 +76,13 @@ public class Appointment implements Serializable {
 	protected Appointment() {
 	}
 	
+	public Appointment(Long id, LocalDateTime time, Doctor doctor, Patient patient) {
+		super();
+		this.id = id;
+		this.time = time;
+		this.doctor = doctor;
+		this.patient = patient;
+	}
 	public Appointment(LocalDateTime time, Doctor doctor, Patient patient) {
 		super();
 		this.time = time;

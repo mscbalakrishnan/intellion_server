@@ -243,6 +243,8 @@ var WsUtils = {
 		
 		showAlert : function(msg)
 		{
+			alert(msg);
+			
 			if($(".alert").html() != undefined)
 			{
 				$(".alert").remove();
