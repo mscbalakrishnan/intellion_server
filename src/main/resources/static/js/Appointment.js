@@ -126,6 +126,8 @@ var Appointment = function() {
 				WsUtils.showAlert("Delete Success");
 				$(".alert").delay(3000).fadeOut("slow");
 				WsUtils.hidePopup();
+				  resultGlobalObject.requestMethod = "GET";
+			      $('#calendar').fullCalendar('refetchEvents');
 			},
 			requestUrl : requestUrl,
 			requestMethod:"DELETE",
