@@ -179,7 +179,9 @@ var Patient = function() {
 	
 	self.savePatient = function(){
 		
-
+		if(WsUtils.validate("patientForm"))
+			return;
+		
 		var methodType = "POST";
 		if(patientVo.id()){
 			methodType = "PUT";

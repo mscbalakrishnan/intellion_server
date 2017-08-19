@@ -121,7 +121,8 @@ var Doctor = function() {
 	};
 	self.saveDoctor = function(){
 		
-
+		if(WsUtils.validate("doctorForm"))
+			return;
 		
 		var objToSave = {};
 		if(doctorVo.id()){

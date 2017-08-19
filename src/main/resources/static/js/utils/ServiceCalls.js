@@ -1,3 +1,10 @@
+var obs_modal = 
+{
+		title 	: ko.observable(""),
+		body 	: ko.observable(""),
+		buttons	: ko.observableArray([])
+};
+
 var constants = {
 		isUser : "",
 		getServerUrl : function() {

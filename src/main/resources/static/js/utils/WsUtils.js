@@ -394,7 +394,7 @@ var WsUtils = {
 			var str = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 			 ' <div class="modal-dialog">'+
 			  '  <div class="modal-content">'+
-			   '   <div class="modal-header">'+
+			   '   <div class="modal-header" style="padding:0px;margin:0px;height:40px">'+
 			   ' <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" style="font-size: 28px;">&times;</span><span class="sr-only">Close</span></button>' +
 		        ' <h4 class="modal-title" id="myModalLabel" data-bind="text: obs_modal.title()"></h4> ' + 
 			      '</div>'+
@@ -409,6 +409,9 @@ var WsUtils = {
 			'</div>';
 			
 			$("#modaldiv").append(str);
+			
+			//ko.cleanNode($("#modaldiv")[0]);
+			//ko.applyBindings(obs_modal,	$("#modaldiv")[0]);	
 		
 			$("#myModal").modal('show');
 			
@@ -589,6 +592,30 @@ var WsUtils = {
 
 				 $("#"+textbox).easyAutocomplete(options);
 		},
+		validate:function(formName){
+			$(".help-block").text("");
+			$(".has-error").removeClass("has-error");
+			var hasError = false;
+			$("#"+formName).find("[validation='required']").each(function(ele){
+				if($(this).val() == ""){
+					//console.log($(this).tagName())
+					$(this).parent().addClass("has-error");
+					var helpBlock = $(this).parent().find(".help-block");
+					if(helpBlock){
+						helpBlock.remove();
+						$(this).parent().append('</i><span class="help-block"></span>');
+						
+					}
+					$(this).parent().find(".help-block").text("Mandatory Field is empty");
+					hasError = true;
+				}
+				
+
+			});
+			
+			return hasError;
+			//;
+		}
 		
 		
 };

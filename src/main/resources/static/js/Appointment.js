@@ -8,7 +8,9 @@ function initAppointmentVo() {
 		doctorId : ko.observable(""),
 		patientId : ko.observable(""),
 		patientName : ko.observable(""),
-		doctorName : ko.observable("")
+		doctorName : ko.observable(""),
+		mobile: ko.observable(""),
+		email: ko.observable("")
 
 	};
 };
@@ -51,6 +53,8 @@ var Appointment = function() {
 				appointmentVo.doctorId(data.doctorId);
 				appointmentVo.patientId(data.patientId);
 				appointmentVo.time(data.time);
+				appointmentVo.mobile(data.appointmentObj.patient.mobile);
+				appointmentVo.email(data.appointmentObj.patient.email);
 				appointmentVo.doctorName(data.doctorName);
 				appointmentVo.patientName(data.patientName);
 				
@@ -68,25 +72,15 @@ var Appointment = function() {
 				appointmentVo.time(day + "/" + month + "/" + year + " " + hour	+ ":" + min);
 				
 				var dt = new Date(date);
-				$("#appointmentDateTime").val(day + "/" + month + "/" + year + " " + hour	+ ":" + min);
-				$("#appointmentDateTime").datetimepicker(
-						{
-							format : 'd/m/Y H:i',
-							formatTime : 'H:i',
-							onShow : function(ct) {
-								this.setOptions({
-									minDate : jQuery('#appointmentDateTime')
-											.val() ? jQuery('#appointmentDateTime').val()
-											: false
-								})
-							},
-						});
+				
 
 				new Appointment().showDoctorNames("doctor");
 				new Appointment().showPatientNames("patient");
 				
 				ko.cleanNode($("#existingAppointment")[0]);
-				ko.applyBindings(appointmentVo,	$("#existingAppointment")[0]);
+				ko.applyBindings(appointmentVo,	$("#existingAppointment")[0]);				
+			
+				
 				$(".active").hide();
 				$("#existingAppointment").show();
 				
@@ -102,11 +96,30 @@ var Appointment = function() {
 				$("#cancel").on("click",function(){
 					$(".active").hide();
 					$("#deleteDiv").show();
+					//$(".content").css("min-height:0px !impartant");
+					//$(".modal-header").remove();
 				})
 				
 				$("#update").on("click",function(){
 					$(".active").hide();
+					$(".patient").hide();
+					$(".doctor").removeClass("col-xs-6");
+					$(".doctor").addClass("col-xs-12");
 					$("#addAppointment").show();
+					
+					$("#appointmentDateTime").val(day + "/" + month + "/" + year + " " + hour	+ ":" + min);
+					$("#appointmentDateTime").datetimepicker(
+							{
+								format : 'd/m/Y H:i',
+								formatTime : 'H:i',
+								onShow : function(ct) {
+									this.setOptions({
+										minDate : jQuery('#appointmentDateTime')
+												.val() ? jQuery('#appointmentDateTime').val()
+												: false
+									})
+								},
+							});
 					
 				})
 			},
@@ -170,6 +183,7 @@ var Appointment = function() {
 
 				new Appointment().showDoctorNames("doctor");
 				new Appointment().showPatientNames("patient");
+				$(".addPatient").show();
 			},
 			requestUrl : "../pages/templates/add_appointment.html",
 			requestData : {},
@@ -248,6 +262,10 @@ var Appointment = function() {
 	};
 
 	self.saveAppointment = function() {
+		
+		if(WsUtils.validate("appointmentForm"))
+				return;
+	
 
 		var objToSave = {};
 		var methodType = "POST";
@@ -332,7 +350,7 @@ var Appointment = function() {
 			template : {
 				type : "custom",
 				method : function(value, item) {
-					var html = '<div class="user-panel" style="background:#000">'
+					var html = '<div class="user-panel" style="background:#132d3b">'
 							+ '<div class="pull-left image">'
 							+ '<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">'
 							+ '</div>'
@@ -430,6 +448,9 @@ var Appointment = function() {
 	};
 
 	self.savePatientOnAppointment = function() {
+		
+		if(WsUtils.validate("patientForm"))
+			return;
 
 		var methodType = "POST";
 		if (patientVo.id()) {
@@ -483,6 +504,7 @@ var Appointment = function() {
 			doctorName : v.doctor.name,
 			patientName : v.patient.name,
 			time : v.time,
+			appointmentObj:v,
 			title : "Dr." + v.doctor.name + ">> " + v.patient.name,
 			start : new Date(appointDate.getFullYear(),
 					appointDate.getMonth() - 1, appointDate.getDate(), hour,
@@ -564,13 +586,12 @@ var Appointment = function() {
 				    	new Appointment().loadAppointmentDetails(callback);
 				      },
 				      eventClick: function(calEvent, jsEvent, view) {
-
-				          new Appointment().loadAddAppointmentFormForUpdate(calEvent);
+				    	  new Appointment().loadAddAppointmentFormForUpdate(calEvent);			          
 
 				      },
 				      eventMouseover: function(calEvent, jsEvent, view) {
 
-
+				    	  
 				      },
 				      eventMouseout : function(calEvent, jsEvent, view) {
 

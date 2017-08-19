@@ -16,17 +16,19 @@
 								<div class="row">
 									<div class="col-xs-6">
 										<input class="form-control" id="Name" placeholder="Name #"
-											type="text" data-bind="value:name">
+											type="text" data-bind="value:name" validation="required">
+										<span class="help-block"></span>
 									</div>
 									<div class="col-xs-3">
 										<select class="form-control" id="gender"
-											data-bind="options:genderList,optionsText:'name',optionsValue:'id',value:gender">
+											data-bind="options:genderList,optionsText:'name',optionsValue:'id',value:gender" validation="required">
 										</select>
+										<span class="help-block"></span>
 									</div>
 									
 									<div class="col-xs-3">
 										<input class="form-control" id="dob" placeholder="Date of Birth"
-											type="text" data-bind="value:dob">
+											type="text" data-bind="value:dob" validation="required">
 									</div>
 									
 								
@@ -61,7 +63,7 @@
 									<div class="col-xs-6">
 										<input class="form-control" id="mobileNumber"
 											placeholder="Mobile Number #" type="number"
-											data-bind="value:mobile">
+											data-bind="value:mobile" validation="required">
 									</div>
 								</div>
 							</div>
@@ -86,7 +88,8 @@
 								
 									<div class="col-xs-3">
 										<input class="form-control" id="age" placeholder="Age"
-											type="text" data-bind="value:age">
+											type="text" data-bind="value:age" validation="required">
+											<span class="help-block"></span>
 									</div>
 									
 								</div>

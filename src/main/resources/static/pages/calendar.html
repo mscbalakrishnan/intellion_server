@@ -295,7 +295,7 @@
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="javascript:void(0)"onclick="new Profile().loadProfilePage()" class="btn btn-default btn-flat">Profile</a>
+										<a href="javascript:void(0)"onclick="new Profile().loadDoctorProfilePage()" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
 										<a href="#" class="btn btn-default btn-flat">Sign out</a>
@@ -361,6 +361,16 @@
 					<li><a href="javascript:void(0)"
 						onclick="new Patient().loadPatientsPageList()"> <i
 							class="fa fa-envelope"></i> <span>Patient</span> <span
+							class="pull-right-container"> <small
+								class="label pull-right bg-yellow">12</small> <small
+								class="label pull-right bg-green">16</small> <small
+								class="label pull-right bg-red">5</small>
+						</span>
+					</a></li>
+					
+					<li><a href="javascript:void(0)"
+						onclick="new Profile().loadPatientProfilePage()"> <i
+							class="fa fa-envelope"></i> <span>Patient Profile</span> <span
 							class="pull-right-container"> <small
 								class="label pull-right bg-yellow">12</small> <small
 								class="label pull-right bg-green">16</small> <small
@@ -629,6 +639,7 @@
 	<script src="../js/Profile.js"></script>
 	<script src="../js/PageContents.js"></script>
 	<script src="../js/Appointment.js"></script>
+	<script type="text/javascript" src="../js/jquery.validate.js"></script>
 	<script src="../autocomplete/jquery.easy-autocomplete.js"></script>
 	<script type="text/javascript" src="../js/datetimepicker/jquery.datetimepicker.full.js"></script>
 	<script type="text/javascript" src="../js/datetimepicker/jquery-ui.js"></script>
