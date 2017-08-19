@@ -510,8 +510,8 @@ var Appointment = function() {
 					appointDate.getMonth() - 1, appointDate.getDate(), hour,
 					min),
 			allDay : false,
-			backgroundColor : '#0073b7', // Blue
-			borderColor : '#0073b7' // Blue
+			backgroundColor : '#00a65a', // Blue
+			borderColor : '#00a65a' // Blue
 		});
 	};
 	self.initializeCalander = function(){
@@ -600,7 +600,7 @@ var Appointment = function() {
 			    })
 
 			    /* ADDING EVENTS */
-			    var currColor = '#3c8dbc' // Red by default
+			    var currColor = '#00a65a' // Red by default
 			    // Color chooser button
 			    var colorChooser = $('#color-chooser-btn')
 			    $('#color-chooser > li > a').click(function (e) {
