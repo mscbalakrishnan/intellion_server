@@ -20,7 +20,7 @@ function initPatientVo() {
 		occupation:ko.observable("former"),
 		
 		address2 : ko.observable("add2"),
-		dob : ko.observable("04/06/1985"),
+		dob : ko.observable("1985/06/04"),
 		city : ko.observable(""),
 		pincode : ko.observable(""),
 		profileId : ko.observable(""),
@@ -199,7 +199,7 @@ var Patient = function() {
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
-				alert('Saved Successfully.');
+				WsUtils.showAlert('Saved Successfully.');
 				new Patient().loadPatientsPageList();
 				
 			},

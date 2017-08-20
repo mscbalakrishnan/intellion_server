@@ -58,7 +58,7 @@ var WsUtils = {
 									'</div>' + 
 									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="addNewBtn" >Add New</button></div> ' + 
 									'</div>'+
-									'<div class="table-responsive row" id="gridContainer"></div>';
+									'<div class="table-responsive row" id="gridContainer" style="padding:10px"></div>';
 			
 			return gridContainerHtml;
 		},
@@ -243,7 +243,6 @@ var WsUtils = {
 		
 		showAlert : function(msg)
 		{
-			alert(msg);
 			
 			if($(".alert").html() != undefined)
 			{
@@ -593,24 +592,68 @@ var WsUtils = {
 				 $("#"+textbox).easyAutocomplete(options);
 		},
 		validate:function(formName){
+			//validation = "required"
+			//errormsg = "error message we want to display"
+			//validationtype = "email,number,text"
+			
 			$(".help-block").text("");
 			$(".has-error").removeClass("has-error");
 			var hasError = false;
 			$("#"+formName).find("[validation='required']").each(function(ele){
-				if($(this).val() == ""){
-					//console.log($(this).tagName())
-					$(this).parent().addClass("has-error");
-					var helpBlock = $(this).parent().find(".help-block");
-					if(helpBlock){
-						helpBlock.remove();
-						$(this).parent().append('</i><span class="help-block"></span>');
+				var validationType = "";
+				if($(this).attr("type") && $(this).attr("type") != "text"){
+					validationType = $(this).attr("type");
+				}else{
+					 validationType = "empty";
+				}
+					
+				valArr = validationType.split(",");
+				var element = $(this);
+				var elementValue = element.val();
+				$.each(valArr,function(i,val){
+					if(validationType == 'empty' && elementValue == ""){
+						element.parent().addClass("has-error");
+						var helpBlock = element.parent().find(".help-block");
+						if(helpBlock){
+							helpBlock.remove();
+							element.parent().append('</i><span class="help-block"></span>');
+							
+						}
+						
+						if(element.attr("errormsg")){
+							element.parent().find(".help-block").text(element.attr("errormsg"));
+						}else{
+							element.parent().find(".help-block").text("Invalid value.");
+						}
+						
+						hasError = true;
+					}
+					else if(val == 'email'){
+					    var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+					    if(!pattern.test(elementValue)) {
+					    	hasError = true;
+					    	if(element.attr("errormsg")){
+								element.parent().find(".help-block").text(element.attr("errormsg"));
+							}else{
+								element.parent().find(".help-block").text("Invalid Email Address.");
+							}
+					    }
 						
 					}
-					$(this).parent().find(".help-block").text("Mandatory Field is empty");
-					hasError = true;
-				}
+					else if(val == 'number'){
+					    if(elementValue == "" || isNaN(elementValue)) {
+					    	hasError = true;
+					    	if(element.attr("errormsg")){
+								element.parent().find(".help-block").text(element.attr("errormsg"));
+							}else{
+								element.parent().find(".help-block").text("Invalid Value.");
+							}
+					    }
+						
+					}
 				
-
+				});
+				
 			});
 			
 			return hasError;

@@ -40,7 +40,7 @@ var Appointment = function() {
 	};
 	
 	self.loadAddAppointmentFormForUpdate = function(data){
-		console.log(data);
+	// console.log(data);
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
@@ -81,7 +81,7 @@ var Appointment = function() {
 				ko.applyBindings(appointmentVo,	$("#existingAppointment")[0]);				
 			
 				
-				$(".active").hide();
+				$(".activediv").hide();
 				$("#existingAppointment").show();
 				
 				$("#yes").on("click",function(){
@@ -89,22 +89,23 @@ var Appointment = function() {
 				});
 				
 				$("#no").on("click",function(){
-					$(".active").hide();
+					$(".activediv").hide();
 					$("#existingAppointment").show();
 				});
 				
 				$("#cancel").on("click",function(){
-					$(".active").hide();
+					$(".activediv").hide();
 					$("#deleteDiv").show();
-					//$(".content").css("min-height:0px !impartant");
-					//$(".modal-header").remove();
+					// $(".content").css("min-height:0px !impartant");
+					// $(".modal-header").remove();
 				})
 				
 				$("#update").on("click",function(){
-					$(".active").hide();
+					$(".activediv").hide();
 					$(".patient").hide();
 					$(".doctor").removeClass("col-xs-6");
 					$(".doctor").addClass("col-xs-12");
+					$("#addAppointment").attr("isUpdate",true);
 					$("#addAppointment").show();
 					
 					$("#appointmentDateTime").val(day + "/" + month + "/" + year + " " + hour	+ ":" + min);
@@ -160,7 +161,7 @@ var Appointment = function() {
 
 				});
 				$("#modelData").html(responseObj);
-				$(".active").hide();
+				$(".activediv").hide();
 				$("#addAppointment").show();
 				var dt = new Date(date);
 				$("#appointmentDateTime").val(
@@ -199,7 +200,9 @@ var Appointment = function() {
 						{
 							callback : function() {
 								var responseObj = resultGlobalClass.response;
-								$("#patientForm").html(responseObj);
+								$(".activediv").hide();
+								$("#patientFormDiv").show();
+								$("#patientFormDiv").html(responseObj);
 
 								initPatientVo();
 								if (data) {
@@ -263,6 +266,10 @@ var Appointment = function() {
 
 	self.saveAppointment = function() {
 		
+		if($("#addAppointment").attr("isUpdate")){
+			$("#patient").removeAttr("validation");
+		}
+		
 		if(WsUtils.validate("appointmentForm"))
 				return;
 	
@@ -296,7 +303,13 @@ var Appointment = function() {
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
-				WsUtils.showAlert('Appointment Added Successfully.');
+				
+				if($("#addAppointment").attr("isUpdate")){
+					WsUtils.showAlert('Rescheduled Appointment Successfully.');
+				}else{
+					WsUtils.showAlert('Appointment Added Successfully.');
+				}
+				
 				$(".alert").delay(3000).fadeOut("slow");
 
 				var data = resultGlobalClass.response;
@@ -469,8 +482,8 @@ var Appointment = function() {
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
-				alert('Saved Successfully.')
-				$('#patientForm').html('');
+				WsUtils.showAlert('Saved Successfully.')
+				self.cancelPatientOnAppointment();
 			},
 			requestUrl : "/intelhosp/patients",
 			requestMethod : methodType,
@@ -483,6 +496,28 @@ var Appointment = function() {
 		});
 		ServiceCalls.call();
 	};
+	self.cancelPatientOnAppointment = function() {
+		
+		$("#appointmentDateTime").val("02/08/2017 03:00");
+		$("#appointmentDateTime").datetimepicker(
+				{
+					format : 'd/m/Y H:i',
+					formatTime : 'H:i',
+					onShow : function(ct) {
+						this.setOptions({
+							minDate : jQuery('#appointmentDateTime')
+									.val() ? jQuery('#appointmentDateTime').val()
+									: false
+						})
+					},
+				});
+		
+		$(".activediv").hide();
+		$("#addAppointment").show();
+		$(".addPatient").show();
+		$("#patientFormDiv").html("");
+		
+	},
 	self.displayAppointments = function(v) {
 		var datetime = v.time.split("T");
 		var date = datetime[0];

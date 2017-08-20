@@ -145,7 +145,7 @@ var Doctor = function() {
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
-				alert('Saved Successfully.')
+				WsUtils.showAlert('Saved Successfully.')
 				new Doctor().loadDoctorPageList();
 			},
 			requestUrl : "/intelhosp/doctors",

@@ -1,6 +1,7 @@
 <div class="row" id="doctorForm">
+	<div class="col-md-2"></div>
 	<!-- left column -->
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<!-- general form elements -->
 		<div class="box box-primary">
 			<div class="box-header with-border">
@@ -10,60 +11,79 @@
 			<!-- form start -->
 			<form role="form" class="validate">
 				<div class="box-body">
+					<div class="form-group"></div>
 					<div class="form-group">
-						</div>
-					<div class="form-group">
-						
+
 						<label>Name</label>
 						<div class="row">
-						<div class="col-md-2">
-							<select data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title" class="form-control"  id="title" required></select>
+							<div class="col-md-2">
+								<select
+									data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title"
+									class="form-control" id="title" required></select>
+							</div>
+							<div class="col-md-10">
+								<input class="form-control" data-bind="value:name" id="name"
+									placeholder="Enter your name..." type="text"
+									validation="required">
+
+							</div>
 						</div>
-						<div class="col-md-10">
-							<input class="form-control" data-bind="value:name" id="name"	placeholder="Enter your name..." type="text" validation="required">
-							
-						</div>	
-						</div>
-							
-						
-					
+
+
+
 					</div>
 					<div class="form-group">
-						<label for="exampleInputEmail1">Email address</label> <input data-bind="value:email"
-							class="form-control" id="email" placeholder="Enter email" validation="required"
-							type="email">
+						<label for="exampleInputEmail1">Email address</label> <input
+							data-bind="value:email" class="form-control" id="email"
+							placeholder="Enter email" validation="required" type="email">
 						<span class="help-block"></span>
 					</div>
 					<div class="form-group">
-						<label>Mobile Number</label> <input class="form-control" data-bind="value:mobile"
-							id="mobileNo" placeholder="Enter your mobile number.." validation="required"
-							type="text">
-						<span class="help-block"></span>
+						<label>Mobile Number</label> <input class="form-control"
+							data-bind="value:mobile" id="mobileNo"
+							placeholder="Enter your mobile number.." validation="required"
+							type="text"> <span class="help-block"></span>
 					</div>
 
 					<div class="form-group">
-					    
-						<label>Category</label>
-						 <select data-bind="options:categoryList,optionsText:'name',optionsValue:'id',value:category" class="form-control"  id="category" required></select>
+
+						<label>Category</label> <select
+							data-bind="options:categoryList,optionsText:'name',optionsValue:'id',value:category"
+							class="form-control" id="category" required></select>
 					</div>
 					<div class="form-group">
-						<label>Qualification</label> <input class="form-control" data-bind="value:qualification"
-							id="qualification" placeholder="Qualifications" type="text" validation="required">
-							<span class="help-block"></span>
+						<label>Qualification</label> <input class="form-control"
+							data-bind="value:qualification" id="qualification"
+							placeholder="Qualifications" type="text" validation="required">
+						<span class="help-block"></span>
 					</div>
 					<div class="form-group">
-						<label>Consulting Fees</label> <input class="form-control" data-bind="value:fees"
-							id="fees" placeholder="Consulting Fee" type="text" validation="required">
-							<span class="help-block"></span>
+						<label>Consulting Fees</label> <input class="form-control"
+							data-bind="value:fees" id="fees" placeholder="Consulting Fee"
+							type="text" validation="required"> <span
+							class="help-block"></span>
 					</div>
 
 				</div>
 				<!-- /.box-body -->
 
-				<div class="box-footer">
+				<!-- <div class="box-footer">
 					<button type="button" class="btn btn-primary" onclick="new Doctor().saveDoctor()">Submit</button>
 					<button type="button" class="btn btn-primary"
 						onclick="new Doctor().loadDoctorPageList()">Cancel</button>
+				</div> -->
+
+				<div class="box-footer">
+					<div class="col-md-2"></div>
+					<div class="col-md-4">
+						<button type="button" class="btn btn-block btn-info"
+							onclick="new Doctor().saveDoctor()">Submit</button>
+					</div>
+					<div class="col-md-4">
+						<button type="button" class="btn btn-block btn-danger btn-flat"
+							onclick="new Doctor().loadDoctorPageList()">Cancel</button>
+					</div>
+					<div class="col-md-2"></div>
 				</div>
 			</form>
 		</div>
@@ -75,6 +95,7 @@
 
 	</div>
 	<!-- /.box -->
+	<div class="col-md-2"></div>
 
 </div>
 
