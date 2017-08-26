@@ -1,0 +1,1 @@
+Dear $data.userName, you have an appointment at $data.hospital, on $data.dateTime 

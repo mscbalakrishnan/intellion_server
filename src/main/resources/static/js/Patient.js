@@ -11,16 +11,16 @@ var patientVo;
 function initPatientVo() {
 	patientVo = {
 		id : ko.observable(""),
-		name : ko.observable("Bala"),
+		name : ko.observable(""),
 		title : ko.observable("1"),
-		email : ko.observable("a@a.com"),
-		mobile : ko.observable("12121"),
-		landline : ko.observable("2323"),
-		address1 : ko.observable("add1"),
-		occupation:ko.observable("former"),
+		email : ko.observable(""),
+		mobile : ko.observable(""),
+		landline : ko.observable(""),
+		address1 : ko.observable(""),
+		occupation:ko.observable(""),
 		
-		address2 : ko.observable("add2"),
-		dob : ko.observable("1985/06/04"),
+		address2 : ko.observable(""),
+		dob : ko.observable(""),
 		city : ko.observable(""),
 		pincode : ko.observable(""),
 		profileId : ko.observable(""),
@@ -33,7 +33,7 @@ function initPatientVo() {
 		genderList:ko.observableArray([{"id":1,"name":"Male"},{"id":2,"name":"Female"}]),
 		age : ko.observable(""),
 		
-		medicalHistory : ko.observable("medical hostory"),
+		medicalHistory : ko.observable(""),
 		medicalAlert : ko.observable(""),
 		dentalHistory : ko.observable(""),
 		allergies : ko.observable(""),
@@ -113,7 +113,7 @@ var Patient = function() {
 	
 	self.loadPatientsPageList = function(selectionMode) {
 		
-		$("#content").html(WsUtils.getGridFilterContainer());
+		$("#content").html(WsUtils.getGridFilterContainer("Patients List", "Add Patient"));
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				$("#comboDiv").html(WsUtils.getGridFilterContainer());
@@ -128,8 +128,8 @@ var Patient = function() {
 					initDataGridModel();
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
-							gridHeaders : {"title":"Title","name":"Name","mobile":"Mobile","email" : "Email","age":"Age"},
-							hiddenColumns : ["id","label","profileId","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments"],
+							gridHeaders : {"title":"Title","name":"Name","gender":"Gender","profileId":"Profile","mobile":"Mobile","email" : "Email","label":"Label/Grp"},
+							hiddenColumns : ["id","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments"],
 							isDeleteButton : true,
 							isCustomPagination : false,
 							callbackFunction : function(data,event,type){

@@ -50,15 +50,19 @@ var WsUtils = {
 				return "";
 				
 		},
-		getGridFilterContainer : function()
+		getGridFilterContainer : function(title,buttonName)
 		{
-			var gridContainerHtml = '<div class="row" style="padding:10px"><div class="col-sm-6">' + 
+           if(!buttonName) buttonName = "Add New";
+           if(!title) title = "";
+           
+			var gridContainerHtml = '<div class="row box-header" style="padding:4px;margin:0px;background:#3c8dbc"><div class="col-sm-6">' + 
 										' <div class="dataTables_length" id="filter">' +
+										'<h3 class="box-title" style="color:#FFF">'+title+'</h3>'+
 										' </div>' +
 									'</div>' + 
-									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="addNewBtn" >Add New</button></div> ' + 
+									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="addNewBtn" >'+buttonName+'</button></div> ' + 
 									'</div>'+
-									'<div class="table-responsive row" id="gridContainer" style="padding:10px"></div>';
+									'<div class="table-responsive row" id="gridContainer" style="padding:0px 10px 0px 10px"></div>';
 			
 			return gridContainerHtml;
 		},
@@ -188,15 +192,12 @@ var WsUtils = {
 
 		deleteOperation : function(okCallbackFunction,cancelCallbackFunction) 
 		{ 
-			/*$("#modaldiv").remove();
-			$(".modal-backdrop").remove();
-			$(".modal-footer").remove();*/
 			WsUtils.hidePopup();
 			var button = "";
 			button += '<button type="button" class="btn btn-primary" value="1" id="confirmBtn" style="margin-right: 3%;">Delete</button>';
 			button += '<button type="button" class="btn btn-cancel" value="0"   id="cancelBtn"  style="margin-right: 3%;">Cancel</button>';
 			
-			WsUtils.showPopupWindow();
+			WsUtils.showPopupWindowForDelete();
 			$("#modelData").html(confirmDelete);
 			$("#myModalLabel").html("Confirmation");
 			$(".modal-footer").html(button);
@@ -430,6 +431,50 @@ var WsUtils = {
 			});
 					
 		},
+		showPopupWindowForDelete : function(callbackFunction)
+		{
+			$("body").append("<div id='modaldiv'></div>");
+			var str = '<div class="modal modal-warning fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+			 ' <div class="modal-dialog">'+
+			  '  <div class="modal-content">'+
+			   '   <div class="modal-header" >'+
+			   ' <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" style="font-size: 28px;">&times;</span><span class="sr-only">Close</span></button>' +
+		        ' <h4 class="modal-title" id="myModalLabel" data-bind="text: obs_modal.title()"></h4> ' + 
+			      '</div>'+
+			      '<div class="modal-body" id="modelData">'+
+
+			     ' </div>'+
+			      '<div class="modal-footer">'+
+			      '</div>'+
+			    '</div>'+
+			  '</div>'+
+			'</div>';
+			
+		
+			
+			$("#modaldiv").append(str);
+			
+			//ko.cleanNode($("#modaldiv")[0]);
+			//ko.applyBindings(obs_modal,	$("#modaldiv")[0]);	
+		
+			$("#myModal").modal('show');
+			
+			$('#myModal').unbind("hidden.bs.modal").bind('hidden.bs.modal',function()
+			{
+				if($.isFunction(callbackFunction))
+				{
+					callbackFunction.apply();
+				}	
+				else
+				{
+					if(callbackFunction){
+						eval(callbackFunction + "();");
+					}
+					
+				}	
+			});
+					
+		},
 		hidePopup : function()
 		{
 			$("#myModal").modal('hide');
@@ -628,10 +673,16 @@ var WsUtils = {
 						
 						hasError = true;
 					}
-					else if(val == 'email'){
+					else if(validationType == 'email'){
 					    var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
 					    if(!pattern.test(elementValue)) {
 					    	hasError = true;
+					    	element.parent().addClass("has-error");
+					    	if(helpBlock){
+								helpBlock.remove();
+								element.parent().append('</i><span class="help-block"></span>');
+								
+							}
 					    	if(element.attr("errormsg")){
 								element.parent().find(".help-block").text(element.attr("errormsg"));
 							}else{
@@ -640,13 +691,37 @@ var WsUtils = {
 					    }
 						
 					}
-					else if(val == 'number'){
+					else if(validationType == 'number'){
 					    if(elementValue == "" || isNaN(elementValue)) {
 					    	hasError = true;
+					    	element.parent().addClass("has-error");
+					    	if(helpBlock){
+								helpBlock.remove();
+								element.parent().append('</i><span class="help-block"></span>');
+								
+							}
 					    	if(element.attr("errormsg")){
 								element.parent().find(".help-block").text(element.attr("errormsg"));
 							}else{
-								element.parent().find(".help-block").text("Invalid Value.");
+								element.parent().find(".help-block").text("Invalid Number.");
+							}
+					    }
+						
+					}
+					else if(validationType == 'mobile'){
+					    if(elementValue == "" || isNaN(elementValue) || elementValue.length != 10) {
+					    	hasError = true;
+					    	element.parent().addClass("has-error");
+					    	var helpBlock = element.parent().find(".help-block");
+							if(helpBlock){
+								helpBlock.remove();
+								element.parent().append('</i><span class="help-block"></span>');
+								
+							}
+					    	if(element.attr("errormsg")){
+								element.parent().find(".help-block").text(element.attr("errormsg"));
+							}else{
+								element.parent().find(".help-block").text("Invalid Phone Number.");
 							}
 					    }
 						

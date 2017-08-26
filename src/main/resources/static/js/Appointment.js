@@ -113,12 +113,12 @@ var Appointment = function() {
 							{
 								format : 'd/m/Y H:i',
 								formatTime : 'H:i',
-								onShow : function(ct) {
+								onShow : function(ct) {/*
 									this.setOptions({
 										minDate : jQuery('#appointmentDateTime')
 												.val() ? jQuery('#appointmentDateTime').val()
 												: false
-									})
+									})*/
 								},
 							});
 					
@@ -174,10 +174,10 @@ var Appointment = function() {
 							formatTime : 'H:i',
 							onShow : function(ct) {
 								this.setOptions({
-									minDate : jQuery('#appointmentDateTime')
+									/*minDate : jQuery('#appointmentDateTime')
 											.val() ? jQuery(
 											'#appointmentDateTime').val()
-											: false
+											: false*/
 								})
 							},
 						});

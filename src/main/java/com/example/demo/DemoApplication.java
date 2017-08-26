@@ -19,12 +19,20 @@ import com.example.demo.domain.Appointment;
 import com.example.demo.domain.BloodGroup;
 import com.example.demo.domain.Category;
 import com.example.demo.domain.Doctor;
+import com.example.demo.domain.Medication;
+import com.example.demo.domain.MedicationType;
+import com.example.demo.domain.MedicationUnit;
 import com.example.demo.domain.Patient;
+import com.example.demo.domain.Prescription;
+import com.example.demo.domain.PrescriptionEntry;
 import com.example.demo.domain.Title;
 import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.DoctorRepository;
+import com.example.demo.repository.MedicationRepository;
 import com.example.demo.repository.PatientRepository;
+import com.example.demo.repository.PrescriptionEntryRepository;
+import com.example.demo.repository.PrescriptionRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -40,6 +48,12 @@ public class DemoApplication implements CommandLineRunner {
     private DoctorRepository doctorRepository;
 	@Autowired
     private CategoryRepository categoryRepository;
+	@Autowired
+    private MedicationRepository medicationRepository;
+	@Autowired
+    private PrescriptionRepository prescriptionRepository;
+	@Autowired
+    private PrescriptionEntryRepository prescriptionEntryRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -83,12 +97,13 @@ public class DemoApplication implements CommandLineRunner {
 		categoryRepository.save(dentist);
 		categoryRepository.save(root_canal_specialist);
 		
-		Patient p = new Patient("Guru");
+		Patient p = new Patient("Gurupatient");
 		p.setTitle(Title.Mr);
 		p.setBloodGroup(BloodGroup.BPositive);
 		p.setMobile("(+91)1234567890");
 		p.setDob(LocalDate.of(1989, 1, 15));
 		patientRepository.save(p);
+		
 		Appointment a = new Appointment(LocalDateTime.now(), d, p);
 		appointmentRepository.save(a);
 		Appointment a1 = new Appointment(LocalDateTime.now().plusDays(1), d, p);
@@ -101,7 +116,50 @@ public class DemoApplication implements CommandLineRunner {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String json = objectMapper.writeValueAsString(all);
 		logger.debug(""+json);
-//		Doctor doctor = doctorRepository.findOne(Long.valueOf(1));
-//		logger.debug(doctor.toString());
+
+		Medication m1 = new Medication();
+		m1.setName("Crosin");
+		m1.setType(MedicationType.Tablet);
+		Medication m2 = new Medication();
+		m2.setName("benadryl");
+		m2.setType(MedicationType.Syrup);
+		medicationRepository.save(m1);
+		medicationRepository.save(m2);
+		
+		Prescription prescription = new Prescription();
+		prescription.setDoctor(d);
+		prescription.setPatient(p);
+		prescription.setDate(LocalDate.now());
+		prescription = prescriptionRepository.save(prescription);
+		
+		PrescriptionEntry pe1 = new PrescriptionEntry();
+		pe1.setBeforeFood(true);
+		pe1.setMedication(m1);
+		pe1.setMorning(1);
+		pe1.setNoon(0);
+		pe1.setNight((float)0.5);
+		pe1.setNotes("Sleep well");
+		pe1.setNoOfDays(3);
+		pe1.setUnit(MedicationUnit.Number);
+		pe1.setPrescription(prescription);
+		
+		PrescriptionEntry pe2 = new PrescriptionEntry();
+		pe2.setBeforeFood(false);
+		pe2.setMedication(m2);
+		pe2.setMorning(2);
+		pe2.setNoon(0);
+		pe2.setNight((float)0.5);
+		pe2.setNotes("Work less");
+		pe2.setNoOfDays(3);
+		pe2.setUnit(MedicationUnit.Milliliter);
+		pe2.setPrescription(prescription);
+		
+//		Set<PrescriptionEntry> prescriptionEntries = new HashSet<>();
+//		prescriptionEntries.add(pe1);
+//		prescriptionEntries.add(pe2);
+//		prescription.setPrescriptionEntries(prescriptionEntries);
+		prescriptionEntryRepository.save(pe1);
+		prescriptionEntryRepository.save(pe2);
+		
 	}
 }

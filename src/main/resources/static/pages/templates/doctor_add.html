@@ -23,7 +23,7 @@
 							</div>
 							<div class="col-md-10">
 								<input class="form-control" data-bind="value:name" id="name"
-									placeholder="Enter your name..." type="text"
+									placeholder="Enter doctor name..." type="text"
 									validation="required">
 
 							</div>
@@ -35,19 +35,19 @@
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address</label> <input
 							data-bind="value:email" class="form-control" id="email"
-							placeholder="Enter email" validation="required" type="email">
+							placeholder="Enter doctor email" validation="required" type="email">
 						<span class="help-block"></span>
 					</div>
 					<div class="form-group">
 						<label>Mobile Number</label> <input class="form-control"
 							data-bind="value:mobile" id="mobileNo"
-							placeholder="Enter your mobile number.." validation="required"
-							type="text"> <span class="help-block"></span>
+							placeholder="Doctor mobile number (#10 digit only)" validation="required"
+							type="mobile"> <span class="help-block"></span>
 					</div>
 
 					<div class="form-group">
 
-						<label>Category</label> <select
+						<label>Select Category</label> <select
 							data-bind="options:categoryList,optionsText:'name',optionsValue:'id',value:category"
 							class="form-control" id="category" required></select>
 					</div>

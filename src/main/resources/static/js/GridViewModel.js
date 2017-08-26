@@ -1,3 +1,7 @@
+var Language = {
+		noData	: "No Data to Display",
+}
+
 var dataGridModel = {};
 function initDataGridModel()
 {
@@ -74,10 +78,10 @@ var dataGridController = {
 			
 			gridParam.gridHeaders = tableHeader;
 			
-			var dataGridString = " <div class='box'> <div class='box-body'> " +
-					" <table class='table table-bordered table-striped' id='"+tableId+"'> " + 
+			var dataGridString = " <div class='box box-primary'> <div class='box-body'> " +
+					" <table class='table table-bordered table-striped' id='"+tableId+"' > " + 
 			          "  <thead> " +
-			          "		<tr data-bind='foreach:$root.gridHeaders'> " +
+			          "		<tr data-bind='foreach:$root.gridHeaders' style='background:#3c8dbc;color:#FFF'> " +
 			                    " <th><span data-bind='text: headerName'></span></th> " +
 			                " </tr> " +
 			            "</thead> " +

@@ -1,6 +1,5 @@
 package com.example.demo.repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.data.repository.CrudRepository;

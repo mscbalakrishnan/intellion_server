@@ -48,7 +48,7 @@ var Doctor = function() {
 	};
 	self.loadDoctorPageList = function(selectionMode) {
 		
-		$("#content").html(WsUtils.getGridFilterContainer());
+		$("#content").html(WsUtils.getGridFilterContainer('Doctors List', 'Add New Doctor'));
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				$("#comboDiv").html(WsUtils.getGridFilterContainer());
@@ -58,15 +58,17 @@ var Doctor = function() {
 					self.loadDoctorPage();
 				});
 				
-				var dataArray =  dataArr;
+				var dataArray = dataArr ; 
+				
 				if(dataArray.length > 0 ){
 					initDataGridModel();
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
-							gridHeaders : {"title":"Title","name":"Name","qualification":"Qualification","email" : "Email"},
-							hiddenColumns : ["id","categoryid","categories","appointment"],
+							gridHeaders : {"title":"Title","name":"Name","qualification":"Qualification","email" : "Email","mobile":"Mobile"},
+							hiddenColumns : ["id","categoryid","categories","appointment","fees"],
 							isDeleteButton : true,
 							isCustomPagination : false,
+							isSearchVisible:true,
 							callbackFunction : function(data,event,type){
 								if(type == 'delete')
 								{	
@@ -120,8 +122,9 @@ var Doctor = function() {
 	
 	};
 	self.saveDoctor = function(){
-		
-		if(WsUtils.validate("doctorForm"))
+		var hasError = WsUtils.validate("doctorForm");
+		console.log(hasError);
+		if(hasError)
 			return;
 		
 		var objToSave = {};
