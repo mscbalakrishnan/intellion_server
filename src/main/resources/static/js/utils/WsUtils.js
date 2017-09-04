@@ -394,14 +394,14 @@ var WsUtils = {
 			var str = '<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 			 ' <div class="modal-dialog">'+
 			  '  <div class="modal-content">'+
-			   '   <div class="modal-header" style="padding:0px;margin:0px;height:40px">'+
+			   '   <div class="modal-header headerFooterColor" >'+
 			   ' <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" style="font-size: 28px;">&times;</span><span class="sr-only">Close</span></button>' +
 		        ' <h4 class="modal-title" id="myModalLabel" data-bind="text: obs_modal.title()"></h4> ' + 
 			      '</div>'+
 			      '<div class="modal-body" id="modelData">'+
 			      //customerServiceStatusScreen.toString()+
 			     ' </div>'+
-			      '<div class="modal-footer">'+
+			      '<div class="modal-footer headerFooterColor" >'+
 			       // '<button type="button" class="btn btn-default" onclick=$("#myModal").remove();$(".modal-backdrop").remove(); data-dismiss="modal">Close</button>'+
 			      '</div>'+
 			    '</div>'+
@@ -434,7 +434,7 @@ var WsUtils = {
 		showPopupWindowForDelete : function(callbackFunction)
 		{
 			$("body").append("<div id='modaldiv'></div>");
-			var str = '<div class="modal modal-warning fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
+			var str = '<div class="modal modal-info fade in" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
 			 ' <div class="modal-dialog">'+
 			  '  <div class="modal-content">'+
 			   '   <div class="modal-header" >'+
