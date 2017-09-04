@@ -109,16 +109,16 @@ var Appointment = function() {
 					$("#addAppointment").show();
 					
 					$("#appointmentDateTime").val(day + "/" + month + "/" + year + " " + hour	+ ":" + min);
+					$("#doctor").val(data.patientName);
 					$("#appointmentDateTime").datetimepicker(
 							{
 								format : 'd/m/Y H:i',
 								formatTime : 'H:i',
-								onShow : function(ct) {/*
-									this.setOptions({
-										minDate : jQuery('#appointmentDateTime')
-												.val() ? jQuery('#appointmentDateTime').val()
-												: false
-									})*/
+								onShow : function(ct) {
+														this.setOptions({
+														minDate:new Date()
+														})
+														 
 								},
 							});
 					
@@ -174,10 +174,11 @@ var Appointment = function() {
 							formatTime : 'H:i',
 							onShow : function(ct) {
 								this.setOptions({
-									/*minDate : jQuery('#appointmentDateTime')
-											.val() ? jQuery(
-											'#appointmentDateTime').val()
-											: false*/
+									/*
+									 * minDate : jQuery('#appointmentDateTime')
+									 * .val() ? jQuery(
+									 * '#appointmentDateTime').val() : false
+									 */
 								})
 							},
 						});
@@ -615,7 +616,19 @@ var Appointment = function() {
 			      drop      : function (date, allDay) {
 
 			      },dayClick: function (date, jsEvent, view) {
-			    	  new Appointment().loadAddAppointmentForm(date);
+			    	  var check = $.fullCalendar.formatDate(date,'Y-MM-D');
+			    	  var today = moment().format('Y-MM-D');
+			    	  console.log(check + '<'+ today);
+			    	  if(check < today)
+			    	    {
+			    		  	WsUtils.showAlert('Please choose the current or future date for appointment.');
+			    	    }
+			    	    else
+			    	    {
+			    	    	new Appointment().loadAddAppointmentForm(date);
+			    	    }
+			    	  
+			    	  
 				    },
 				    events: function(start, end, timezone, callback) {
 				    	new Appointment().loadAppointmentDetails(callback);
