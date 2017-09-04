@@ -9,7 +9,7 @@ function initDoctorVo() {
 		fees : ko.observable(""),
 		mobile : ko.observable(""),
 		category : ko.observable(""),
-		categoryList:ko.observableArray([{"id":1,"name":"dentist"},{"id":2,"name":"Root Canel Splst"}]),
+		categoryList:ko.observableArray([]),
 		title : ko.observable(""),
 		titleList:ko.observableArray([{"id":1,"name":"Mr"},{"id":2,"name":"Ms/Mrs"}])
 	};
@@ -35,6 +35,7 @@ var Doctor = function() {
 					doctorVo.fees(data["fees"]);
 					doctorVo.mobile(data["mobile"]);
 					doctorVo.category(data["categoryid"]);
+					doctorVo.categoryList(data["categories"])
 				}
 				ko.cleanNode($("#doctorForm")[0]);
 				ko.applyBindings(doctorVo, $("#doctorForm")[0]);
