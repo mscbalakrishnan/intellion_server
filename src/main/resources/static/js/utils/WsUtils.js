@@ -252,7 +252,18 @@ var WsUtils = {
 			$("#pageErrorMessage").html(WsUtils.str_alert_msg(msg, "I"));
 			WsUtils.gotoPageTop();
 		},
-		
+		showPopupAlert : function(msg)
+		{
+			
+			$("#popupErrorMessage").html("");
+			$("#popupErrorMessage").html(WsUtils.str_alert_msg(msg, "I"));
+			//WsUtils.gotoPageTop();
+		},
+		clearPopupAlert : function()
+		{
+			
+			$("#popupErrorMessage").html("");
+		},
 		showSuccess : function(msg)
 		{
 			if($(".alert").html() != undefined)
@@ -398,6 +409,7 @@ var WsUtils = {
 			   ' <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true" style="font-size: 28px;">&times;</span><span class="sr-only">Close</span></button>' +
 		        ' <h4 class="modal-title" id="myModalLabel" data-bind="text: obs_modal.title()"></h4> ' + 
 			      '</div>'+
+			      '<div id="popupErrorMessage"></div>'+
 			      '<div class="modal-body" id="modelData">'+
 			      //customerServiceStatusScreen.toString()+
 			     ' </div>'+

@@ -109,7 +109,8 @@ var Appointment = function() {
 					$("#addAppointment").show();
 					
 					$("#appointmentDateTime").val(day + "/" + month + "/" + year + " " + hour	+ ":" + min);
-					$("#doctor").val(data.patientName);
+					$("#doctor").val(data.doctorName);
+					$("#doctor").change(function(){appointmentVo.doctorId("")});
 					$("#appointmentDateTime").datetimepicker(
 							{
 								format : 'd/m/Y H:i',
@@ -164,21 +165,18 @@ var Appointment = function() {
 				$(".activediv").hide();
 				$("#addAppointment").show();
 				var dt = new Date(date);
-				$("#appointmentDateTime").val(
+				/*$("#appointmentDateTime").val(
 						dt.getDate() + "/" + (dt.getMonth() + 1) + "/"
-								+ dt.getFullYear() + " " + dt.getUTCHours()
-								+ ":" + dt.getUTCMinutes());
+								+ dt.getFullYear() + " " + dt.getHours()
+								+ ":" + dt.getUMinutes());*/
+				$("#appointmentDateTime").val($.datepicker.formatDate('dd/mm/yy',dt) + " " + dt.getHours()	+ ":" + dt.getMinutes());
 				$("#appointmentDateTime").datetimepicker(
 						{
 							format : 'd/m/Y H:i',
 							formatTime : 'H:i',
 							onShow : function(ct) {
 								this.setOptions({
-									/*
-									 * minDate : jQuery('#appointmentDateTime')
-									 * .val() ? jQuery(
-									 * '#appointmentDateTime').val() : false
-									 */
+									minDate:new Date()
 								})
 							},
 						});
@@ -301,6 +299,15 @@ var Appointment = function() {
 
 		objToSave.time = year + "-" + month + "-" + day + "T" + hour + ":"
 				+ min;
+		WsUtils.clearPopupAlert();
+		if(!appointmentVo.doctorId()){
+			WsUtils.showPopupAlert('Invalid Doctor Selection..');
+			return;
+		}
+		if(!appointmentVo.patientId()){
+			WsUtils.showPopupAlert('Invalid Patient Selection..');
+			return;
+		}
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
@@ -616,16 +623,17 @@ var Appointment = function() {
 			      drop      : function (date, allDay) {
 
 			      },dayClick: function (date, jsEvent, view) {
-			    	  var check = $.fullCalendar.formatDate(date,'Y-MM-D');
-			    	  var today = moment().format('Y-MM-D');
+			    	  var check = $.fullCalendar.formatDate(date,'Y/MM/DD HH:mm');
+			    	  var today = moment().format('Y/MM/DD');
 			    	  console.log(check + '<'+ today);
+			    	
 			    	  if(check < today)
 			    	    {
 			    		  	WsUtils.showAlert('Please choose the current or future date for appointment.');
 			    	    }
 			    	    else
 			    	    {
-			    	    	new Appointment().loadAddAppointmentForm(date);
+			    	    	new Appointment().loadAddAppointmentForm(check);
 			    	    }
 			    	  
 			    	  
