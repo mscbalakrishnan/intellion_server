@@ -25,10 +25,17 @@
 									placeholder="Enter Patient Name " type="text"
 									data-bind="value:name" validation="required">
 							</div>
-							<div class="col-xs-6">
-								<input class="form-control" placeholder="Profile ID" type="text"
-									data-bind="value:profileId">
+
+							<div class="col-xs-3">
+								<input class="form-control" id="dob" placeholder="Date of Birth"
+									type="dob" data-bind="value:dob" validation="required">
 							</div>
+							<div class="col-xs-3">
+								<input class="form-control" id="age" placeholder="Age"
+									type="number" data-bind="value:age" validation="required">
+							</div>
+
+
 						</div>
 					</div>
 					<div class="form-group">
@@ -39,9 +46,11 @@
 									data-bind="value:mobile" validation="required">
 							</div>
 							<div class="col-xs-6">
-								<input class="form-control" id="patientLabel"
-									placeholder="Patient Label" type="text" data-bind="value:label">
+								<input class="form-control" placeholder="Profile ID" type="text"
+									data-bind="value:profileId">
 							</div>
+
+
 						</div>
 					</div>
 					<div class="form-group">
@@ -51,10 +60,10 @@
 									placeholder="Address 1" type="text" data-bind="value:address1">
 							</div>
 							<div class="col-xs-6">
-								<input class="form-control" id="landlineNo"
-									placeholder="Landline Number Ex:044-234352" type="number"
-									data-bind="value:landline">
+								<input class="form-control" id="patientLabel"
+									placeholder="Patient Label" type="text" data-bind="value:label">
 							</div>
+
 						</div>
 					</div>
 					<div class="form-group">
@@ -63,7 +72,13 @@
 								<input class="form-control" id="address2"
 									placeholder="Address 2" type="text" data-bind="value:address2">
 							</div>
+							<div class="col-xs-6">
+								<input class="form-control" id="landlineNo"
+									placeholder="Landline Number Ex:044-234352" type="number"
+									data-bind="value:landline">
+							</div>
 						</div>
+
 					</div>
 					<div class="form-group">
 						<div class="row">
@@ -101,18 +116,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-xs-3">
-								<input class="form-control" id="dob" placeholder="Date of Birth"
-									type="dob" data-bind="value:dob" validation="required">
-							</div>
-							<div class="col-xs-3">
-								<input class="form-control" id="age" placeholder="Age"
-									type="number" data-bind="value:age" validation="required">
-							</div>
-						</div>
-					</div>
+
 					<div class="form-group">
 						<div class="row">
 							<div class="col-xs-6">
@@ -139,10 +143,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<div class="row" style="text-align:right;font-size:17px;color:#271396">
 						<div class="col-xs-12">
 							<div class="checkbox">
-								<label> <input type="checkbox"> Send Welcome Message
+								<label> <input type="checkbox"> Send Welcome
+									Message
 								</label>
 							</div>
 						</div>

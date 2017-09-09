@@ -30,7 +30,7 @@ function initPatientVo() {
 		bloodGroup : ko.observable(""),
 		bloodGroupList:ko.observableArray([{"id":1,"name":"A1+"},{"id":2,"name":"O+"}]),
 		gender : ko.observable(""),
-		genderList:ko.observableArray([{"id":1,"name":"Male"},{"id":2,"name":"Female"}]),
+		genderList:ko.observableArray([{"id":0,"name":"Male"},{"id":1,"name":"Female"}]),
 		age : ko.observable(""),
 		
 		medicalHistory : ko.observable(""),
@@ -67,6 +67,18 @@ var Patient = function() {
 				$(".content").html(responseObj);
 				initPatientVo();
 				if(data){
+					var dob = data["dob"];
+					if(dob){
+						dateArr = dob.split("-");
+						 data.dob = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
+						 patientVo.dob(data.dob);
+					}
+					
+					if(data["gender"] == "Male")
+						patientVo.gender(0);
+					else
+						patientVo.gender(1);
+						
 					patientVo.id (data["id"]),
 					patientVo.name ( data["name"]),
 					patientVo.title ( data["title"]),
@@ -77,7 +89,8 @@ var Patient = function() {
 					patientVo.address1 ( data["address1"]),
 					
 					patientVo.address2 ( data["address2"]),
-					patientVo.dob ( data["dob"]),
+					
+					//patientVo.dob ( data["dob"]),
 					patientVo.city ( data["city"]),
 					patientVo.pincode ( data["pincode"]),
 					patientVo.profileId ( data["profileId"]),
@@ -85,7 +98,7 @@ var Patient = function() {
 					patientVo.label ( data["label"]),
 					patientVo.landline ( data["landline"]),
 					patientVo.bloodGroup ( data["bloodGroup"]),
-					patientVo.gender ( data["gender"]),
+					
 					patientVo.age ( data["age"]),
 					
 					patientVo.medicalHistory ( data["medicalHistory"]),
@@ -100,7 +113,8 @@ var Patient = function() {
 				ko.applyBindings(patientVo, $("#patientForm")[0]);
 								
 				 $("#dob" ).datetimepicker({
-					 timepicker:false
+					 timepicker:false,
+					 format : 'd-m-Y',
 				 });
 			},
 			requestUrl : "../pages/templates/patient_add.html",			
@@ -142,7 +156,7 @@ var Patient = function() {
 										resultGlobalObject = $.extend(resultGlobalClass, {
 											callback : function(){
 												WsUtils.showAlert("Delete Success");
-												$(".alert").delay(3000).fadeOut("slow");
+												
 												self.loadPatientsPageList();	
 											},
 											requestUrl : requestUrl,
@@ -189,10 +203,10 @@ var Patient = function() {
 		}
 		
 		 var data = ko.toJS(patientVo);
-		 var dob = data.dob;
-		 var date = dob.split(" ")[0];
-		 var dateArr = date.split("/");
-		 data.dob = dateArr[0]+"-"+dateArr[1]+"-"+dateArr[2];
+		/* var dob = data.dob;*/
+		 var date = data.dob;
+		 var dateArr = date.split("-");
+		 data.dob = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
 		 
 		 if(data.remainder == ""){
 			 data.remainder = null;

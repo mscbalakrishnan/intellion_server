@@ -165,11 +165,17 @@ var Appointment = function() {
 				$(".activediv").hide();
 				$("#addAppointment").show();
 				var dt = new Date(date);
-				/*$("#appointmentDateTime").val(
-						dt.getDate() + "/" + (dt.getMonth() + 1) + "/"
-								+ dt.getFullYear() + " " + dt.getHours()
-								+ ":" + dt.getUMinutes());*/
-				$("#appointmentDateTime").val($.datepicker.formatDate('dd/mm/yy',dt) + " " + dt.getHours()	+ ":" + dt.getMinutes());
+				var hours = dt.getHours();
+				if(hours <= 9){
+						hours = "0"+hours;
+				}
+				var minutes = dt.getMinutes();
+				if(minutes <= 9){
+					minutes = "0"+minutes;
+				}
+				
+				var appointmentDate = $.datepicker.formatDate('dd/mm/yy',dt) + " " + hours	+ ":" + minutes;
+				$("#appointmentDateTime").val(appointmentDate);
 				$("#appointmentDateTime").datetimepicker(
 						{
 							format : 'd/m/Y H:i',
@@ -202,7 +208,9 @@ var Appointment = function() {
 								$(".activediv").hide();
 								$("#patientFormDiv").show();
 								$("#patientFormDiv").html(responseObj);
-
+								$("#myModalLabel").html("Add Patient");
+								$(".content").css("min-height","450px")
+								
 								initPatientVo();
 								if (data) {
 											patientVo.id(data["id"]),
@@ -250,9 +258,12 @@ var Appointment = function() {
 								ko.cleanNode($("#patientForm")[0]);
 								ko.applyBindings(patientVo,
 										$("#patientForm")[0]);
+								
+								WsUtils.addOnblurEvent("patientForm");
 
 								$("#dob").datetimepicker({
-									timepicker : false
+									timepicker : false,
+									 format : 'd-m-Y'
 								});
 
 							},
@@ -479,10 +490,10 @@ var Appointment = function() {
 		}
 
 		var data = ko.toJS(patientVo);
-		var dob = data.dob;
-		var date = dob.split(" ")[0];
-		var dateArr = date.split("/");
-		data.dob = dateArr[0] + "-" + dateArr[1] + "-" + dateArr[2];
+		//var dob = data.dob;
+		 var date = data.dob;
+		 var dateArr = date.split("-");
+		 data.dob = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
 
 		if (data.remainder == "") {
 			data.remainder = null;
@@ -490,7 +501,7 @@ var Appointment = function() {
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
-				WsUtils.showAlert('Saved Successfully.')
+				WsUtils.showPopupAlert('Saved Successfully.')
 				self.cancelPatientOnAppointment();
 			},
 			requestUrl : "/intelhosp/patients",
@@ -506,7 +517,7 @@ var Appointment = function() {
 	};
 	self.cancelPatientOnAppointment = function() {
 		
-		$("#appointmentDateTime").val("02/08/2017 03:00");
+		//$("#appointmentDateTime").val("02/08/2017 03:00");
 		$("#appointmentDateTime").datetimepicker(
 				{
 					format : 'd/m/Y H:i',
@@ -524,6 +535,7 @@ var Appointment = function() {
 		$("#addAppointment").show();
 		$(".addPatient").show();
 		$("#patientFormDiv").html("");
+		$(".content").css("min-height","250px");
 		
 	},
 	self.displayAppointments = function(v) {

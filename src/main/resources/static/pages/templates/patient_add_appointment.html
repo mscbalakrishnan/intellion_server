@@ -1,111 +1,108 @@
-<section class="content">
-	<div class="row" id="patientForm">
-		<!-- left column -->
-		<div class="col-md-12">
-			<!-- general form elements -->
-			<div class="box box-primary">
-				<div class="box-header with-border">
-					<h3 class="box-title">Add Patient</h3>
+
+<div class="row" id="patientForm">
+	<!-- left column -->
+	<div class="col-md-12">
+		<!-- general form elements -->
+		<!-- <div class="box box-primary"> -->
+			<!-- <div class="box-header with-border">
+				<h3 class="box-title">Add Patient</h3>
+			</div> -->
+			<!-- /.box-header -->
+			<!-- form start -->
+			<form role="form">
+				<div class="box-body">
+					<div id="left">
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-6">
+									<input class="form-control" id="Name" placeholder="Name #"
+										type="text" data-bind="value:name" validation="required">
+									<span class="help-block"></span>
+								</div>
+								<div class="col-xs-3">
+									<select class="form-control" id="gender"
+										data-bind="options:genderList,optionsText:'name',optionsValue:'id',value:gender"
+										validation="required" errorMsg="Gender value is required">
+									</select> <span class="help-block"></span>
+								</div>
+
+								<div class="col-xs-3">
+									<input class="form-control" id="dob"
+										placeholder="Date of Birth" type="text" data-bind="value:dob"
+										validation="required">
+								</div>
+
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+
+								<div class="col-xs-6">
+									<select class="form-control" id="bloodgroup"
+										data-bind="options:bloodGroupList,optionsText:'name',optionsValue:'id',value:bloodGroup">
+									</select>
+								</div>
+
+								<div class="col-xs-3">
+									<input class="form-control" id="age" placeholder="Age"
+										type="number" data-bind="value:age" validation="required"
+										errorMsg="Gender value is required"> <span
+										class="help-block"></span>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="row">
+
+								<div class="col-xs-6">
+									<input class="form-control" id="address1"
+										placeholder="Address 1" type="text" data-bind="value:address1">
+								</div>
+								<div class="col-xs-6">
+									<input class="form-control" id="address2"
+										placeholder="Address 2" type="text" data-bind="value:address2">
+								</div>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-3">
+									<input class="form-control" id="city" placeholder="City"
+										type="text" data-bind="value:city">
+								</div>
+								<div class="col-xs-3">
+									<input class="form-control" id="pincode" placeholder="Pincode"
+										type="text" data-bind="value:pincode">
+								</div>
+								<div class="col-xs-6">
+									<input class="form-control" id="mobileNumber"
+										placeholder="Mobile Number #" type="mobile"
+										data-bind="value:mobile" validation="required">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-xs-12">
+									<input class="form-control" id="email"
+										placeholder="Email Address" type="email"
+										data-bind="value:email"> <span class="help-block"></span>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
 				</div>
-				<!-- /.box-header -->
-				<!-- form start -->
-				<form role="form">
-					<div class="box-body">
-						<div id="left">
-							<div class="form-group">
-								<div class="row">
-									<div class="col-xs-6">
-										<input class="form-control" id="Name" placeholder="Name #"
-											type="text" data-bind="value:name" validation="required">
-										<span class="help-block"></span>
-									</div>
-									<div class="col-xs-3">
-										<select class="form-control" id="gender"
-											data-bind="options:genderList,optionsText:'name',optionsValue:'id',value:gender"
-											validation="required" errorMsg="Gender value is required">
-										</select> <span class="help-block"></span>
-									</div>
-
-									<div class="col-xs-3">
-										<input class="form-control" id="dob"
-											placeholder="Date of Birth" type="text" data-bind="value:dob"
-											validation="required">
-									</div>
-
-
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-
-									<div class="col-xs-6">
-										<input class="form-control" id="address1"
-											placeholder="Address 1" type="text"
-											data-bind="value:address1">
-									</div>
-									<div class="col-xs-6">
-										<input class="form-control" id="address2"
-											placeholder="Address 2" type="text"
-											data-bind="value:address2">
-									</div>
-
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-xs-3">
-										<input class="form-control" id="city" placeholder="City"
-											type="text" data-bind="value:city">
-									</div>
-									<div class="col-xs-3">
-										<input class="form-control" id="pincode" placeholder="Pincode"
-											type="text" data-bind="value:pincode">
-									</div>
-									<div class="col-xs-6">
-										<input class="form-control" id="mobileNumber"
-											placeholder="Mobile Number #" type="number"
-											data-bind="value:mobile" validation="required">
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="row">
-									<div class="col-xs-12">
-										<input class="form-control" id="email"
-											placeholder="Email Address" type="email"
-											data-bind="value:email" validation="required"> <span
-											class="help-block"></span>
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="row">
-
-									<div class="col-xs-6">
-										<select class="form-control" id="bloodgroup"
-											data-bind="options:bloodGroupList,optionsText:'name',optionsValue:'id',value:bloodGroup">
-										</select>
-									</div>
-
-									<div class="col-xs-3">
-										<input class="form-control" id="age" placeholder="Age"
-											type="number" data-bind="value:age" validation="required"
-											errorMsg="Gender value is required"> <span
-											class="help-block"></span>
-									</div>
-
-								</div>
-							</div>
-						</div>
-						</div>
-				</form>
-			</div>
-			<!-- /.box -->
-		</div>
+			</form>
+		<!-- </div> -->
 		<!-- /.box -->
 	</div>
-	
+	<!-- /.box -->
 	<div class="box-footer">
 		<div class="col-md-6">
 			<button type="button" class="btn btn-block btn-info"
@@ -116,6 +113,8 @@
 				onclick="new Appointment().cancelPatientOnAppointment()">Cancel</button>
 		</div>
 	</div>
+</div>
 
-	<!-- /.box-body -->
-</section>
+
+
+<!-- /.box-body -->

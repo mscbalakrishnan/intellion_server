@@ -251,6 +251,7 @@ var WsUtils = {
 			}
 			$("#pageErrorMessage").html(WsUtils.str_alert_msg(msg, "I"));
 			WsUtils.gotoPageTop();
+			$(".alert").delay(3000).fadeOut("slow");
 		},
 		showPopupAlert : function(msg)
 		{
@@ -258,6 +259,7 @@ var WsUtils = {
 			$("#popupErrorMessage").html("");
 			$("#popupErrorMessage").html(WsUtils.str_alert_msg(msg, "I"));
 			//WsUtils.gotoPageTop();
+			$("#popupErrorMessage").delay(3000).fadeOut("slow");
 		},
 		clearPopupAlert : function()
 		{
@@ -684,6 +686,22 @@ var WsUtils = {
 						}
 						
 						hasError = true;
+					}if(validationType == 'dob' && elementValue == ""){
+						element.parent().addClass("has-error");
+						var helpBlock = element.parent().find(".help-block");
+						if(helpBlock){
+							helpBlock.remove();
+							element.parent().append('</i><span class="help-block"></span>');
+							
+						}
+						
+						if(element.attr("errormsg")){
+							element.parent().find(".help-block").text(element.attr("errormsg"));
+						}else{
+							element.parent().find(".help-block").text("Invalid value.");
+						}
+						
+						hasError = true;
 					}
 					else if(validationType == 'email'){
 					    var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
@@ -707,6 +725,8 @@ var WsUtils = {
 					    if(elementValue == "" || isNaN(elementValue)) {
 					    	hasError = true;
 					    	element.parent().addClass("has-error");
+					    	var helpBlock = element.parent().find(".help-block");
+					    	console.log(helpBlock);
 					    	if(helpBlock){
 								helpBlock.remove();
 								element.parent().append('</i><span class="help-block"></span>');
@@ -745,6 +765,14 @@ var WsUtils = {
 			
 			return hasError;
 			//;
+		},
+		addOnblurEvent:function(formName){
+			$("#"+formName).find("[validation='required']").each(function(ele){
+				console.log(ele)
+				$(this).blur(function(){
+					WsUtils.validate(formName);
+				});
+			});
 		}
 		
 		
