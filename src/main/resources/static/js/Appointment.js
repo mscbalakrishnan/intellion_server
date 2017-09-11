@@ -294,6 +294,8 @@ var Appointment = function() {
 		objToSave.time = appointmentVo.time();
 		objToSave.doctorId = appointmentVo.doctorId();
 		objToSave.patientId = appointmentVo.patientId();
+		objToSave.smsToDoctor = $("#smsToDoctor").prop("checked");
+		objToSave.smsToPatient = $("#smsToPatient").prop("checked");
 		var selectedDate = jQuery('#appointmentDateTime').val();
 
 		var datetime = selectedDate.split(" ");
