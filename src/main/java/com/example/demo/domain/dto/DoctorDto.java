@@ -13,9 +13,8 @@ public class DoctorDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
-	private Title title;
 	private String name;
+	private Title title;
 	private String email;
 	private String qualification;
 	private float fees;

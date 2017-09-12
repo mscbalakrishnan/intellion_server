@@ -1,5 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.Appointment;
+
 public interface NotifyService {
-	String getWelcomeMessage(String name);
+	public String getWelcomeMessage(String template, String name);
+	public String getMsgForAppConfirm(String template, Appointment appointment);
+	public void sendSMS(String phoneNumber, String text);
 }

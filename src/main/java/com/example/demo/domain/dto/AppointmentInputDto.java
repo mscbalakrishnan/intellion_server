@@ -3,8 +3,6 @@ package com.example.demo.domain.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import com.example.demo.domain.Appointment;
-
 public class AppointmentInputDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,6 +11,8 @@ public class AppointmentInputDto implements Serializable {
 	private LocalDateTime time;
 	private Long doctorId;
 	private Long patientId;
+	private boolean smsToPatient;
+	private boolean smsToDoctor;
 	
 	public Long getId() {
 		return id;
@@ -39,18 +39,32 @@ public class AppointmentInputDto implements Serializable {
 	public void setPatientId(Long patientId) {
 		this.patientId = patientId;
 	}
+	public boolean isSmsToPatient() {
+		return smsToPatient;
+	}
+	public void setSmsToPatient(boolean smsToPatient) {
+		this.smsToPatient = smsToPatient;
+	}
+	public boolean isSmsToDoctor() {
+		return smsToDoctor;
+	}
+	public void setSmsToDoctor(boolean smsToDoctor) {
+		this.smsToDoctor = smsToDoctor;
+	}
 	protected AppointmentInputDto() {
 	}
-	public AppointmentInputDto(Long id, LocalDateTime time, Long doctorId, Long patientId) {
+	public AppointmentInputDto(Long id, LocalDateTime time, Long doctorId, Long patientId, boolean smsToDoctor, boolean smsToPatient) {
 		super();
 		this.id = id;
 		this.time = time;
 		this.doctorId = doctorId;
 		this.patientId = patientId;
+		this.smsToDoctor = smsToDoctor;
+		this.smsToPatient = smsToPatient;
 	}
 	@Override
 	public String toString() {
 		return "AppointmentInputDto [id=" + id + ", time=" + time + ", doctorId=" + doctorId + ", patientId="
-				+ patientId + "]";
+				+ patientId + ", smsToPatient=" + smsToPatient + ", smsToDoctor=" + smsToDoctor + "]";
 	}
 }

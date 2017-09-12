@@ -1,7 +1,6 @@
 package com.example.demo.web;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +27,7 @@ import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.dto.AppointmentInputDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
+import com.example.demo.service.NotifyService;
 import com.example.demo.service.PatientService;
 
 /**
@@ -45,6 +45,8 @@ public class AppointmentController {
 	private DoctorService doctorService;
 	@Autowired
 	private AppointmentService appointmentService;
+	@Autowired
+	private NotifyService notifyService;
 
 	/**
 	 * @param request
@@ -160,6 +162,22 @@ public class AppointmentController {
 		logger.debug("*********** Received the Object to ADD {}" , appointmentInputDto.toString());
 		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
 		appointment = this.appointmentService.save(appointment);
+		if (appointment != null) {
+			// Success process sms
+			String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
+			if (appointmentInputDto.isSmsToDoctor()) {
+				String doctorPhoneNumber = appointment.getDoctor().getMobile();
+				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
+					notifyService.sendSMS(doctorPhoneNumber, msg);
+				}
+			}
+			if (appointmentInputDto.isSmsToPatient()) {
+				String patientPhoneNumber = appointment.getPatient().getMobile();
+				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
+					notifyService.sendSMS(patientPhoneNumber, msg);
+				}
+			}
+		}
 		return new AppointmentDto(appointment);
 		
 	}

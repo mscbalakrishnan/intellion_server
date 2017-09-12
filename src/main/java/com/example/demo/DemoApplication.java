@@ -97,10 +97,10 @@ public class DemoApplication implements CommandLineRunner {
 		categoryRepository.save(dentist);
 		categoryRepository.save(root_canal_specialist);
 		
-		Patient p = new Patient("Gurupatient");
+		Patient p = new Patient("Murali Babu");
 		p.setTitle(Title.Mr);
 		p.setBloodGroup(BloodGroup.BPositive);
-		p.setMobile("(+91)1234567890");
+		p.setMobile("9600194696");
 		p.setDob(LocalDate.of(1989, 1, 15));
 		patientRepository.save(p);
 		
