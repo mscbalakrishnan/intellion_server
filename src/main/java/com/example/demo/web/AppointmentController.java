@@ -192,9 +192,37 @@ public class AppointmentController {
 	@PutMapping
 	@ResponseBody
 	public AppointmentDto editAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
+		
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
+		
+		System.out.println("Muralibabu isSmsToDoctor :"+appointmentInputDto.isSmsToDoctor());
+		System.out.println("Muralibabu isSmsToPatient :"+appointmentInputDto.isSmsToPatient());
 		Appointment appointment = new Appointment(appointmentInputDto.getId(),appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
 		appointment = this.appointmentService.save(appointment);
+		
+		if (appointment != null) {
+			// Success process sms
+			
+			if (appointmentInputDto.isSmsToDoctor()) {
+				String doctorPhoneNumber = appointment.getDoctor().getMobile();
+				String msg = notifyService.getMsgForAppConfirmForDoc("app_confirm_doc.vm",appointment);
+				System.out.println("SMS CONTENT FOR DOCTOR:"+msg);
+				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
+					notifyService.sendSMS(doctorPhoneNumber, msg);
+				}
+			}
+			if (appointmentInputDto.isSmsToPatient()) {
+				String patientPhoneNumber = appointment.getPatient().getMobile();
+				String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
+				System.out.println("SMS CONTENT FOR PATIENT:"+msg);
+				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
+					notifyService.sendSMS(patientPhoneNumber, msg);
+				}
+			}
+		}
+		
+		
+		
 		return new AppointmentDto(appointment);
 	}
 }
