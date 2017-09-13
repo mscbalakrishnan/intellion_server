@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.template.App_Confirm;
+import com.example.demo.domain.template.App_Confirm_Doc;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.NotifyService;
 
@@ -112,6 +113,31 @@ public class NotifyServiceImpl implements NotifyService {
 		t.merge(context, writer);
 		return writer.toString();
 	}
+	
+	@Override
+	public String getMsgForAppConfirmForDoc(String template, Appointment appointment) {
+		VelocityEngine ve = new VelocityEngine();
+		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		ve.init();
+		
+		App_Confirm_Doc app_Confirm_Doc = new App_Confirm_Doc();
+		app_Confirm_Doc.setHospital(hospital);
+		app_Confirm_Doc.setPatientName(appointment.getPatient().getName());
+		app_Confirm_Doc.setDocName(appointment.getDoctor().getName());
+		app_Confirm_Doc.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		
+		VelocityContext context = new VelocityContext();
+		context.put("data", app_Confirm_Doc);
+		
+		Template t = ve.getTemplate(template);
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		return writer.toString();
+	}	
+	
+	
+	
 	@Override
 	public void sendSMS(String phoneNumber, String text){
 //		phoneNumber shoule be 10 digit Number.class validation should be doen in UI

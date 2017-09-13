@@ -164,15 +164,17 @@ public class AppointmentController {
 		appointment = this.appointmentService.save(appointment);
 		if (appointment != null) {
 			// Success process sms
-			String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
+			
 			if (appointmentInputDto.isSmsToDoctor()) {
 				String doctorPhoneNumber = appointment.getDoctor().getMobile();
+				String msg = notifyService.getMsgForAppConfirmForDoc("app_confirm_doc.vm",appointment);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
 					notifyService.sendSMS(doctorPhoneNumber, msg);
 				}
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
 				String patientPhoneNumber = appointment.getPatient().getMobile();
+				String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
 				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
 					notifyService.sendSMS(patientPhoneNumber, msg);
 				}
