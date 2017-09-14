@@ -1,10 +1,16 @@
 .deleteIcon
 {
-	background: transparent url(../img/delete.png) no-repeat center right; 
+	background: transparent url(../img/14.png) no-repeat center; 
 	cursor: pointer;
-	width:16px;
-	height:16px
+	width:60px;
+    height:30px
 }
 .headerFooterColor{
 	background: #b1d688;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
 }
