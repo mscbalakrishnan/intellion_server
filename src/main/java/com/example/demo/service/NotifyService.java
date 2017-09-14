@@ -7,4 +7,5 @@ public interface NotifyService {
 	public String getMsgForAppConfirm(String template, Appointment appointment);
 	public String getMsgForAppConfirmForDoc(String template, Appointment appointment);
 	public void sendSMS(String phoneNumber, String text);
+	public String getMsgForApp(String template, Appointment appointment, String operation);
 }

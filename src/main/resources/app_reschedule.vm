@@ -1,0 +1,1 @@
+Dear $data.userName, Your appointment at $data.hospital, rescheduled on $data.dateTime

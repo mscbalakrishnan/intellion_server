@@ -4,6 +4,8 @@ public class App_Confirm {
 	private String userName;
 	private String dateTime;
 	private String hospital;
+	private String docName;
+	private String patName;
 
 	public String getUserName() {
 		return userName;
@@ -22,5 +24,17 @@ public class App_Confirm {
 	}
 	public void setHospital(String hospital) {
 		this.hospital = hospital;
+	}
+	public String getDocName() {
+		return docName;
+	}
+	public void setDocName(String docName) {
+		this.docName = docName;
+	}
+	public String getPatName() {
+		return patName;
+	}
+	public void setPatName(String patName) {
+		this.patName = patName;
 	}	
 }

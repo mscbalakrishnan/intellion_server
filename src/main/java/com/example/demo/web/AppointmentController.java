@@ -167,14 +167,18 @@ public class AppointmentController {
 			
 			if (appointmentInputDto.isSmsToDoctor()) {
 				String doctorPhoneNumber = appointment.getDoctor().getMobile();
-				String msg = notifyService.getMsgForAppConfirmForDoc("app_confirm_doc.vm",appointment);
+				//String msg = notifyService.getMsgForAppConfirmForDoc("app_confirm_doc.vm",appointment);
+				String msg = notifyService.getMsgForApp("app_confirm.vm",appointment,"Dr "+appointment.getDoctor().getName());
+				System.out.println("APPOINTMENT BOOKING SMS CONTENT FOR DOCTOR:"+msg);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
 					notifyService.sendSMS(doctorPhoneNumber, msg);
 				}
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
 				String patientPhoneNumber = appointment.getPatient().getMobile();
-				String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
+				//String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
+				String msg = notifyService.getMsgForApp("app_confirm.vm",appointment,appointment.getPatient().getName());
+				System.out.println("APPOINTMENT BOOKING SMS CONTENT FOR PAT:"+msg);
 				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
 					notifyService.sendSMS(patientPhoneNumber, msg);
 				}
@@ -205,16 +209,17 @@ public class AppointmentController {
 			
 			if (appointmentInputDto.isSmsToDoctor()) {
 				String doctorPhoneNumber = appointment.getDoctor().getMobile();
-				String msg = notifyService.getMsgForAppConfirmForDoc("app_confirm_doc.vm",appointment);
-				System.out.println("SMS CONTENT FOR DOCTOR:"+msg);
+				String msg = notifyService.getMsgForApp("app_reschedule.vm",appointment,"Dr "+appointment.getDoctor().getName());
+				System.out.println("RESCHEDULE SMS CONTENT FOR DOCTOR:"+msg);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
 					notifyService.sendSMS(doctorPhoneNumber, msg);
 				}
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
 				String patientPhoneNumber = appointment.getPatient().getMobile();
-				String msg = notifyService.getMsgForAppConfirm("app_confirm.vm",appointment);
-				System.out.println("SMS CONTENT FOR PATIENT:"+msg);
+
+				String msg = notifyService.getMsgForApp("app_reschedule.vm",appointment,appointment.getPatient().getName());
+				System.out.println("RESCHEDULE SMS CONTENT FOR PATIENT:"+msg);
 				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
 					notifyService.sendSMS(patientPhoneNumber, msg);
 				}

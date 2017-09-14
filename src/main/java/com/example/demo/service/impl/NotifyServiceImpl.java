@@ -114,6 +114,33 @@ public class NotifyServiceImpl implements NotifyService {
 		return writer.toString();
 	}
 	
+	
+	
+	@Override
+	public String getMsgForApp(String template, Appointment appointment, String toUser) {
+		VelocityEngine ve = new VelocityEngine();
+		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		ve.init();
+		System.out.println("getMsgForApp template:"+template);
+		App_Confirm app_Confirm = new App_Confirm();
+		app_Confirm.setHospital(hospital);
+		app_Confirm.setUserName(toUser);
+		app_Confirm.setDocName(appointment.getDoctor().getName());
+		app_Confirm.setPatName(appointment.getPatient().getName());
+		app_Confirm.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		
+		VelocityContext context = new VelocityContext();
+		context.put("data", app_Confirm);
+		
+		Template t = ve.getTemplate(template);
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		return writer.toString();
+	}
+	
+	
+	
 	@Override
 	public String getMsgForAppConfirmForDoc(String template, Appointment appointment) {
 		VelocityEngine ve = new VelocityEngine();
