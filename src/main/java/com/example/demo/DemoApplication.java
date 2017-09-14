@@ -81,6 +81,7 @@ public class DemoApplication implements CommandLineRunner {
 		Doctor d = new Doctor("Kumara");
 		Doctor d1 = new Doctor("Guru");
 		d.setTitle(Title.Dr);
+		d.setMobile("9171415876");
 		d.setCategories(categories);
 		d1.setTitle(Title.Dr);
 		d1.setCategories(categories);

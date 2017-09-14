@@ -1,2 +1,2 @@
 #* Welcome $data.userName *#
-Welcome $userName
+Welcome $data.userName. Your profile has been successfully registered at $data.hospital.

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.Appointment;
+import com.example.demo.domain.dto.AppointmentDto;
 
 public interface NotifyService {
 	public String getWelcomeMessage(String template, String name);
@@ -8,4 +9,5 @@ public interface NotifyService {
 	public String getMsgForAppConfirmForDoc(String template, Appointment appointment);
 	public void sendSMS(String phoneNumber, String text);
 	public String getMsgForApp(String template, Appointment appointment, String operation);
+	public String getMsgForDelApp(String template, AppointmentDto appointmentDto, String toUser);
 }

@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.Appointment;
+import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.template.App_Confirm;
 import com.example.demo.domain.template.App_Confirm_Doc;
 import com.example.demo.service.AppointmentService;
@@ -73,7 +74,7 @@ public class NotifyServiceImpl implements NotifyService {
     }
 	
 	@Override
-	public String getWelcomeMessage(String template, String name) {
+	public String getWelcomeMessage(String template, String userName) {
 		VelocityEngine ve = new VelocityEngine();
 		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
@@ -82,17 +83,16 @@ public class NotifyServiceImpl implements NotifyService {
 		Template t = ve.getTemplate(template);
 		VelocityContext context = new VelocityContext();
 		
-		Appointment appointment = appointmentService.findOne(1);
 		App_Confirm app_Confirm = new App_Confirm();
 		app_Confirm.setHospital(hospital);
-		app_Confirm.setUserName(appointment.getPatient().getName());
-		app_Confirm.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		app_Confirm.setUserName(userName);
 		
 		context.put("data", app_Confirm);
 		StringWriter writer = new StringWriter();
 		t.merge(context, writer);
 		return writer.toString();
 	}
+	
 	@Override
 	public String getMsgForAppConfirm(String template, Appointment appointment) {
 		VelocityEngine ve = new VelocityEngine();
@@ -122,7 +122,6 @@ public class NotifyServiceImpl implements NotifyService {
 		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
-		System.out.println("getMsgForApp template:"+template);
 		App_Confirm app_Confirm = new App_Confirm();
 		app_Confirm.setHospital(hospital);
 		app_Confirm.setUserName(toUser);
@@ -139,7 +138,27 @@ public class NotifyServiceImpl implements NotifyService {
 		return writer.toString();
 	}
 	
-	
+	@Override
+	public String getMsgForDelApp(String template, AppointmentDto appointmentDto, String toUser) {
+		VelocityEngine ve = new VelocityEngine();
+		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
+		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		ve.init();
+		App_Confirm app_Confirm = new App_Confirm();
+		app_Confirm.setHospital(hospital);
+		app_Confirm.setUserName(toUser);
+		app_Confirm.setDocName(appointmentDto.getDoctor().getName());
+		app_Confirm.setPatName(appointmentDto.getPatient().getName());
+		app_Confirm.setDateTime(appointmentDto.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		
+		VelocityContext context = new VelocityContext();
+		context.put("data", app_Confirm);
+		
+		Template t = ve.getTemplate(template);
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		return writer.toString();
+	}	
 	
 	@Override
 	public String getMsgForAppConfirmForDoc(String template, Appointment appointment) {

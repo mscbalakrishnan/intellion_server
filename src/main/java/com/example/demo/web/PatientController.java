@@ -28,6 +28,7 @@ import com.example.demo.domain.dto.DoctorDto;
 import com.example.demo.domain.dto.PatientDto;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
+import com.example.demo.service.NotifyService;
 import com.example.demo.service.PatientService;
 
 /**
@@ -45,6 +46,8 @@ public class PatientController {
 	private DoctorService doctorService;
 	@Autowired
 	private AppointmentService appointmentService;
+	@Autowired
+	private NotifyService notifyService;
 
 
 	/**
@@ -105,6 +108,17 @@ public class PatientController {
 		logger.debug("*********** Received the Object to ADD {}" , patientDto.toString());
 		Patient patient = PatientDto.Dto2Pojo(patientDto);
 		patient = this.patientService.save(patient);
+		
+		if(null != patient){
+			String patientPhoneNumber = patient.getMobile();
+			if(patientDto.isNeedWelcomeMessage() && patientPhoneNumber !=null && patientPhoneNumber.trim().length() > 0){
+				//send sms
+				String msg = notifyService.getWelcomeMessage("welcome.vm",patient.getName());
+				logger.debug("*********** PATIENT REG WELCOME SMS CONTENT: "+msg);		
+				notifyService.sendSMS(patientPhoneNumber, msg);
+			}
+		}
+		
 		return new PatientDto(patient);
 	}
 
