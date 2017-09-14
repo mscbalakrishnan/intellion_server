@@ -90,7 +90,7 @@ var Patient = function() {
 					
 					patientVo.address2 ( data["address2"]),
 					
-					//patientVo.dob ( data["dob"]),
+					// patientVo.dob ( data["dob"]),
 					patientVo.city ( data["city"]),
 					patientVo.pincode ( data["pincode"]),
 					patientVo.profileId ( data["profileId"]),
@@ -107,7 +107,7 @@ var Patient = function() {
 					patientVo.needWelcomeMessage ( data["needWelcomeMessage"]),
 					patientVo.birthdayWish ( data["birthdayWish"]),
 					patientVo.remainder ( data["remainder"])
-					//patientVo.appointments ( data["appointments"])
+					// patientVo.appointments ( data["appointments"])
 				}
 				ko.cleanNode($("#patientForm")[0]);
 				ko.applyBindings(patientVo, $("#patientForm")[0]);
@@ -203,7 +203,7 @@ var Patient = function() {
 		}
 		
 		 var data = ko.toJS(patientVo);
-		/* var dob = data.dob;*/
+		/* var dob = data.dob; */
 		 var date = data.dob;
 		 var dateArr = date.split("-");
 		 data.dob = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
@@ -211,7 +211,11 @@ var Patient = function() {
 		 if(data.remainder == ""){
 			 data.remainder = null;
 		 }
-		
+		 data.needWelcomeMessage = false;
+		 if($("#patientWelMsg").prop("checked")){
+			 data.needWelcomeMessage = true;
+		 }
+		 console.log(data);
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				WsUtils.showAlert('Saved Successfully.');

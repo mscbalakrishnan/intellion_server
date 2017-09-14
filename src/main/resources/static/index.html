@@ -42,13 +42,18 @@
                         <h3 class="panel-title">Please Sign In</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form role="form" id="loginForm">
                             <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                             <div class="form-group" id="invalidLoginError">
+                                    
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <input class="form-control" placeholder="User Name" name="userName"  
+                                    id="userName" type="text" autofocus validation="required" errorMsg="Please enter user name">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="Password" name="password"
+                                     id="password" type="password" value="" validation="required" errorMsg="Please enter password">
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -56,7 +61,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="pages/calendar.html" class="btn btn-lg btn-success btn-block">Login</a>
+                                <a href="javascript:void(0)" onclick="new login().doLogin()" class="btn btn-lg btn-success btn-block">Login</a>
                             </fieldset>
                         </form>
                     </div>
@@ -76,6 +81,9 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="dist/js/sb-admin-2.js"></script>
+    
+    <script type="text/javascript" src="js/login.js"></script>
+    <script src="js/utils/WsUtils.js"></script>
 
 </body>
 

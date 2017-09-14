@@ -500,7 +500,14 @@ var Appointment = function() {
 		if (data.remainder == "") {
 			data.remainder = null;
 		}
+		
+		data.needWelcomeMessage = false;
+		 if($("#patientWelMsg").prop("checked")){
+			 data.needWelcomeMessage = true;
+		 }
 
+		 console.log(data);
+		 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				WsUtils.showPopupAlert('Saved Successfully.')
@@ -565,13 +572,15 @@ var Appointment = function() {
 			title : "Dr." + v.doctor.name + ">> " + v.patient.name,
 			start : new Date(appointDate.getFullYear(),
 					appointDate.getMonth() - 1, appointDate.getDate(), hour,
-					min),
+					min,Math.random(900)),
 			allDay : false,
 			backgroundColor : '#00a65a', // Blue
 			borderColor : '#00a65a' // Blue
 		});
 	};
 	self.initializeCalander = function(){
+		
+		 
 		  $(function () {
 
 			    /*

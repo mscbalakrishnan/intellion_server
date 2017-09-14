@@ -670,7 +670,7 @@ var WsUtils = {
 				var element = $(this);
 				var elementValue = element.val();
 				$.each(valArr,function(i,val){
-					if(validationType == 'empty' && elementValue == ""){
+					if((validationType == 'empty' || validationType == 'password') && elementValue == ""){
 						element.parent().addClass("has-error");
 						var helpBlock = element.parent().find(".help-block");
 						if(helpBlock){

@@ -9,7 +9,7 @@ function initDoctorVo() {
 		fees : ko.observable(""),
 		mobile : ko.observable(""),
 		category : ko.observable(""),
-		categoryList:ko.observableArray([]),
+		categoryList:ko.observableArray([{"id":1,"name":"dentist","doctors":null},{"id":2,"name":"root canal specialist","doctors":null}]),
 		title : ko.observable(""),
 		titleList:ko.observableArray([{"id":1,"name":"Mr"},{"id":2,"name":"Ms/Mrs"}])
 	};

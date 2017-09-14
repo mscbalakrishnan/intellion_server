@@ -429,7 +429,8 @@
 											class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat">Sign out</a>
+										<a href="javascript:void(0)" onclick="new login().doLogOff()"
+											class="btn btn-default btn-flat">Sign out</a>
 									</div>
 								</li>
 							</ul></li>
@@ -487,14 +488,12 @@
 						onclick="new Profile().loadPatientProfilePage()"> <i
 							class="fa fa-envelope"></i> <span>Patient Profile</span>
 					</a></li>
-					
-					<li><a href="javascript:void(0)"
-						onclick="#"> <i
+
+					<li><a href="javascript:void(0)" onclick="#"> <i
 							class="fa fa-envelope"></i> <span>Inventory</span>
 					</a></li>
-					
-					<li><a href="javascript:void(0)"
-						onclick="#"> <i
+
+					<li><a href="javascript:void(0)" onclick="#"> <i
 							class="fa fa-envelope"></i> <span>Settings</span>
 					</a></li>
 
@@ -565,8 +564,7 @@
 			<div class="pull-right hidden-xs">
 				<b>Version</b> V1.1
 			</div>
-			<strong>Copyright &copy; 2017-2020 <a
-				href="http://">Intellion</a>.
+			<strong>Copyright &copy; 2017-2020 <a href="http://">Intellion</a>.
 			</strong> All rights reserved.
 		</footer>
 
@@ -786,14 +784,21 @@
 	<script type="text/javascript"
 		src="../js/datetimepicker/jquery.datetimepicker.full.js"></script>
 	<script type="text/javascript" src="../js/datetimepicker/jquery-ui.js"></script>
+	<script type="text/javascript" src="../js/login.js"></script>
 
 
 
 	<!-- Page specific script -->
 	<script>
 		$(document).ready(function() {
+			
+			 if(!localStorage.getItem("user")){
+				  new login().doLogOff();
+			  }else{
+				  new Appointment().initializeCalander();
+			  }
 
-			new Appointment().initializeCalander();
+			
 
 		});
 	</script>
