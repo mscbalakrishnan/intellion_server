@@ -335,7 +335,8 @@ var Appointment = function() {
 
 				var data = resultGlobalClass.response;
 
-				self.displayAppointments(data);
+				//self.displayAppointments(data);
+				location.reload();
 				
 				if (!appointmentVo.id()) {
 					$('#calendar').fullCalendar("removeEvents");        

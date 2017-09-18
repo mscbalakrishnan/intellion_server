@@ -34,7 +34,7 @@ var Doctor = function() {
 					doctorVo.qualification(data["qualification"]);
 					doctorVo.fees(data["fees"]);
 					doctorVo.mobile(data["mobile"]);
-					doctorVo.category(data["categoryid"]);
+					//doctorVo.category(data["categoryid"]);
 					doctorVo.categoryList(data["categories"])
 				}
 				ko.cleanNode($("#doctorForm")[0]);
