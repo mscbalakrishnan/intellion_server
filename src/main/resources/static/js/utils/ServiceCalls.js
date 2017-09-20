@@ -199,7 +199,7 @@ var ServiceCalls = {
 				            // HTTP error (can be checked by XMLHttpRequest.status and XMLHttpRequest.statusText)
 				        }
 				        else if (XMLHttpRequest.readyState == 0) {
-				        	alert("Network Error. Please check internet connection");
+				        	//alert("Network Error. Please check internet connection");
 				        }
 				        else {
 				        	alert("Network Error. Please check internet connection");
