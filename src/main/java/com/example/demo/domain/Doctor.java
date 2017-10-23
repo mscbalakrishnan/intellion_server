@@ -25,7 +25,7 @@ public class Doctor implements Serializable {
 	@GeneratedValue(generator = "doctor_generator")
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	private String name;
 	
 	private Title title;

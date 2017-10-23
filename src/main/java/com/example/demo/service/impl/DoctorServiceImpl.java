@@ -28,6 +28,11 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	@Override
 	public Doctor save(Doctor d) {
+		List<Doctor> list = findByDoctorName(d.getName());
+		if (list.size() > 0) {
+			//Alreaady Exists
+			throw new IllegalArgumentException("Doctor already present");
+		}
 		Doctor d1 = doctorRepository.save(d);
 		logger.debug("Saved Object is {}",d1);
 		return d1;
