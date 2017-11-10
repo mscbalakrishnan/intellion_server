@@ -1,0 +1,298 @@
+{
+	"info": {
+		"name": "murali",
+		"_postman_id": "1ca95f4a-1278-6028-8d56-83f3bcc61b89",
+		"description": "list of rest apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get All Doctors",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/doctors",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"doctors"
+					]
+				},
+				"description": "api to get all doctors"
+			},
+			"response": []
+		},
+		{
+			"name": "get one doctor",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/doctors/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"doctors",
+						"1"
+					]
+				},
+				"description": "api to get one doctor"
+			},
+			"response": []
+		},
+		{
+			"name": "get all medications",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/medications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"medications"
+					]
+				},
+				"description": "api to get all medications"
+			},
+			"response": []
+		},
+		{
+			"name": "add medication",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"benadryl1234\",\n    \"type\": \"Syrup\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/medications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"medications"
+					]
+				},
+				"description": "api to add medication"
+			},
+			"response": []
+		},
+		{
+			"name": "edit medication",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 4,\n    \"name\": \"xyz\",\n    \"type\": \"Syrup\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/medications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"medications"
+					]
+				},
+				"description": "api to edit medication"
+			},
+			"response": []
+		},
+		{
+			"name": "delete medication",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/medications/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"medications",
+						"4"
+					]
+				},
+				"description": "api to delete medication"
+			},
+			"response": []
+		},
+		{
+			"name": "get all prescription",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/prescription",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"prescription"
+					]
+				},
+				"description": "api to get all prescription"
+			},
+			"response": []
+		},
+		{
+			"name": "edit prescription",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"id\": 2,\n        \"doctorId\": 2,\n        \"patientId\": 1,\n        \"date\": \"2017-11-10\",\n        \"prescriptionEntries\": [\n            {\n                \n                \"medicationDto\": 1,\n                \"beforeFood\": true,\n                \"morning\": 1.0,\n                \"noon\": 1.0,\n                \"night\": 1.0,\n                \"noOfDays\": 10,\n                \"notes\": null,\n                \"unit\": null\n            },\n            {\n                \n                \"medicationDto\": 2,\n                \"beforeFood\": true,\n                \"morning\": 2.0,\n                \"noon\": 1.0,\n                \"night\": 2.0,\n                \"noOfDays\": 20,\n                \"notes\": null,\n                \"unit\": null\n            }\n        ]\n    }\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/prescription",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"prescription"
+					]
+				},
+				"description": "api to edit prescription"
+			},
+			"response": []
+		},
+		{
+			"name": "delete prescription",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/prescription/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"prescription",
+						"1"
+					]
+				},
+				"description": "api to delete prescription"
+			},
+			"response": []
+		},
+		{
+			"name": "add prescription",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"doctorId\": 2,\n  \"patientId\": 1,\n  \"date\": \"2017-11-10\",\n  \"prescriptionEntries\": [\n    {\n      \"medicationDto\": 1,\n      \n      \"beforeFood\": true,\n      \"morning\": 0,\n      \"noon\": 0,\n      \"night\": 0,\n      \"noOfDays\": 1,\n      \"notes\": null,\n      \"unit\": null\n    },\n    {\n      \"medicationDto\": 2,\n     \n      \"beforeFood\": false,\n      \"morning\": 0,\n      \"noon\": 0,\n      \"night\": 0,\n      \"noOfDays\": 2,\n      \"notes\": null,\n      \"unit\": null\n    }\n  ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/intelhosp/prescription",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"intelhosp",
+						"prescription"
+					]
+				},
+				"description": "api to add prescription"
+			},
+			"response": []
+		}
+	]
+}
