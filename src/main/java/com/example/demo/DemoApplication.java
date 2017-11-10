@@ -37,8 +37,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @SpringBootApplication
-//public class DemoApplication implements CommandLineRunner {
-public class DemoApplication {
+public class DemoApplication implements CommandLineRunner {
+//public class DemoApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
 	@Autowired
@@ -60,8 +60,8 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-//	@Transactional
-//	@Override
+	@Transactional
+	@Override
 	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();

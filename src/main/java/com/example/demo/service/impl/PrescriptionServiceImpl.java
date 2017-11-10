@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.Prescription;
+import com.example.demo.domain.PrescriptionEntry;
 import com.example.demo.repository.PrescriptionEntryRepository;
 import com.example.demo.repository.PrescriptionRepository;
 import com.example.demo.service.PrescriptionService;
@@ -22,10 +23,12 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public Prescription save(Prescription a) {
-//		for (PrescriptionEntry p:a.getPrescriptionEntries()){
-//			prescriptionEntryRepository.save(p);
-//		}
-		return prescriptionRepository.save(a);
+		Prescription prescription = prescriptionRepository.save(a);
+		for (PrescriptionEntry p:a.getPrescriptionEntries()){
+			p.setPrescription(prescription);
+			prescriptionEntryRepository.save(p);
+		}
+		return prescription;
 	}
 
 	@Override
@@ -40,6 +43,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public void delete(long id) {
+		Prescription prescription = prescriptionRepository.findOne(id);
+		for (PrescriptionEntry pe : prescription.getPrescriptionEntries()) {
+			prescriptionEntryRepository.delete(pe.getId());
+		}
 		prescriptionRepository.delete(id);
 	}
 }

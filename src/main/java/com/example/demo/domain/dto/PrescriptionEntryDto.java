@@ -70,14 +70,17 @@ public class PrescriptionEntryDto implements Serializable {
 	public PrescriptionEntryDto(PrescriptionEntry p){
 		setId(p.getId());
 		setMedicationDto(new MedicationDto(p.getMedication()));
-//		setPrescriptionDto(new PrescriptionDto(p.getPrescription()));
 		setBeforeFood(p.isBeforeFood());
+		setMorning(p.getMorning());
+		setNight(p.getNight());
+		setNoOfDays(p.getNoOfDays());
+		setNoon(p.getNoon());
+		setNotes(p.getNotes());
+		setUnit(p.getUnit());
 	}
 	public static PrescriptionEntry dto2Pojo(PrescriptionEntryDto dto){
 		PrescriptionEntry pojo = new PrescriptionEntry();
 		pojo.setId(dto.getId());		
-//		pojo.setMedication(MedicationDto.dto2Pojo(dto.getMedicationDto());
-//		pojo.setPrescription(dto.getPrescriptionDto());
 		pojo.setBeforeFood(dto.isBeforeFood());
 		pojo.setMorning(dto.getMorning());
 		pojo.setNoon(dto.getNoon());

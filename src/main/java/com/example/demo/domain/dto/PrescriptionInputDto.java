@@ -47,4 +47,10 @@ public class PrescriptionInputDto implements Serializable {
 	}
 	public PrescriptionInputDto() {
 	}
+	@Override
+	public String toString() {
+		return "PrescriptionInputDto [id=" + id + ", doctorId=" + doctorId + ", patientId=" + patientId + ", date="
+				+ date + ", prescriptionEntries=" + prescriptionEntries + "]";
+	}
+	
 }

@@ -22,17 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Doctor;
-import com.example.demo.domain.Medication;
 import com.example.demo.domain.Patient;
 import com.example.demo.domain.Prescription;
 import com.example.demo.domain.PrescriptionEntry;
-import com.example.demo.domain.dto.MedicationDto;
 import com.example.demo.domain.dto.PrescriptionDto;
 import com.example.demo.domain.dto.PrescriptionEntryInputDto;
 import com.example.demo.domain.dto.PrescriptionInputDto;
 import com.example.demo.service.DoctorService;
 import com.example.demo.service.MedicationService;
 import com.example.demo.service.PatientService;
+import com.example.demo.service.PrescriptionEntryService;
 import com.example.demo.service.PrescriptionService;
 
 /**
@@ -46,6 +45,8 @@ public class PrescriptionController {
 	private static final Logger logger = LoggerFactory.getLogger(PrescriptionController.class);
 	@Autowired
 	private PrescriptionService prescriptionService;
+	@Autowired
+	private PrescriptionEntryService prescriptionEntryService;
 	@Autowired
 	private PatientService patientService;
 	@Autowired
@@ -115,22 +116,18 @@ public class PrescriptionController {
 	@ResponseBody
 	public PrescriptionDto editPrescription(@RequestBody PrescriptionInputDto prescriptionInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , prescriptionInputDto.toString());
-		Doctor doctor = doctorService.findOne(prescriptionInputDto.getDoctorId());
-		Patient patient = patientService.findOne(prescriptionInputDto.getPatientId());
-		
-		Set<PrescriptionEntry> preEntries = new HashSet<>();
-//		prescriptionInputDto.getPrescriptionEntries().forEach(x->preEntries.add(PrescriptionEntryInputDto.dto2Pojo(x)));
+		Prescription prescription = prescriptionService.findOne(prescriptionInputDto.getId());
+		Set<PrescriptionEntry> oldEntries = prescription.getPrescriptionEntries();
+		for (PrescriptionEntry p : oldEntries){
+			prescriptionEntryService.delete(p.getId());
+		}
 		for (PrescriptionEntryInputDto p : prescriptionInputDto.getPrescriptionEntries()){
 			PrescriptionEntry e = PrescriptionEntryInputDto.dto2Pojo(p);
 			e.setMedication(medicationService.findOne(p.getMedicationDto()));
-			preEntries.add(e);
+			e.setPrescription(prescription);
+			prescriptionEntryService.save(e);
 		}
-		Prescription prescription = new Prescription();
-		prescription.setDoctor(doctor);
-		prescription.setPatient(patient);
-		prescription.setDate(prescriptionInputDto.getDate());
-		prescription.setPrescriptionEntries(preEntries);
-		prescription = this.prescriptionService.save(prescription);
+		prescription = prescriptionService.findOne(prescriptionInputDto.getId());
 		return new PrescriptionDto(prescription);
 	}
 }

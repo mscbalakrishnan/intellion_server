@@ -75,8 +75,6 @@ public class PrescriptionEntryInputDto implements Serializable {
 	public static PrescriptionEntry dto2Pojo(PrescriptionEntryInputDto dto){
 		PrescriptionEntry pojo = new PrescriptionEntry();
 		if (dto.getId()!=null) pojo.setId(dto.getId());
-//		pojo.setMedication(MedicationDto.dto2Pojo(dto.getMedicationDto());
-//		pojo.setPrescription(dto.getPrescriptionDto());
 		pojo.setBeforeFood(dto.isBeforeFood());
 		pojo.setMorning(dto.getMorning());
 		pojo.setNoon(dto.getNoon());
@@ -99,6 +97,12 @@ public class PrescriptionEntryInputDto implements Serializable {
 	}
 	public void setPrescriptionDto(Long prescriptionDto) {
 		this.prescriptionDto = prescriptionDto;
+	}
+	@Override
+	public String toString() {
+		return "PrescriptionEntryInputDto [id=" + id + ", medicationDto=" + medicationDto + ", prescriptionDto="
+				+ prescriptionDto + ", beforeFood=" + beforeFood + ", morning=" + morning + ", noon=" + noon
+				+ ", night=" + night + ", noOfDays=" + noOfDays + ", notes=" + notes + ", unit=" + unit + "]";
 	}
 	
 }
