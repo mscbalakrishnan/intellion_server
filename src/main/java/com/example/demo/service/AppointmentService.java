@@ -24,4 +24,5 @@ public interface AppointmentService {
 	Iterable<Appointment> findByTimeBetween(LocalDate from, LocalDate to);
 	Iterable<Appointment> findByTimeAfter(LocalDate from);
 	Iterable<Appointment> findByTimeBefore(LocalDate upto);
+	public Iterable<Appointment> findByDoctorNameAndPatientName(String doctorName, String patietName);
 }

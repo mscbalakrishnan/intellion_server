@@ -30,7 +30,7 @@ public class Patient implements Serializable {
 	@GeneratedValue(generator = "patient_generator")
 	private Long id;
 	private Title title;
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	private String name;
 	@Column(nullable = false)
 	private String mobile;

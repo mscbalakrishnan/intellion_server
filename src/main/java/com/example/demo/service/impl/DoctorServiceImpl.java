@@ -55,6 +55,6 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	@Override
 	public List<Doctor> findByDoctorName(String name) {
-		return doctorRepository.findByNameContaining(name);
+		return doctorRepository.findByNameContainingIgnoreCase(name);
 	}
 }

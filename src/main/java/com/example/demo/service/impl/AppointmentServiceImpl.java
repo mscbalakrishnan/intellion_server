@@ -2,13 +2,13 @@ package com.example.demo.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
-import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.DoctorRepository;
 import com.example.demo.repository.PatientRepository;
@@ -36,6 +36,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public Appointment save(Appointment a) {
+		List<Appointment> appointments = (List<Appointment>) findByDoctorNameAndPatientName(a.getDoctor().getName(), a.getPatient().getName());
+		if (appointments != null && !appointments.isEmpty()) {
+			for (Appointment appointment: appointments){
+				if (a.getTime().equals(appointment.getTime())){
+					return a;
+				}
+			}
+		}
 		return appointmentRepository.save(a);
 	}
 
@@ -112,5 +120,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	public Iterable<Appointment> findByDoctorName(String name) {
 		return appointmentRepository.findByDoctor_Name(name);
+	}
+	@Override
+	public Iterable<Appointment> findByDoctorNameAndPatientName(String doctorName, String patietName) {
+		return appointmentRepository.findByDoctor_Name_AndPatient_Name(doctorName, patietName);
 	}
 }

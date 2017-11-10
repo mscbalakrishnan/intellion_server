@@ -11,6 +11,6 @@ import com.example.demo.domain.Patient;
 public interface PatientRepository extends CrudRepository<Patient, Long>{
 
 	List<Patient> findByNameContaining(String name);
-	
+	List<Patient> findByNameContainingIgnoreCase(String name);
 //	Page<Patient> findAll(Pageable pageable);
 }

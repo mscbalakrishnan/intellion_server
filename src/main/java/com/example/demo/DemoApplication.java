@@ -77,7 +77,7 @@ public class DemoApplication implements CommandLineRunner {
 		
 		Set<Category> categories = new HashSet<>();
 		categories.add(dentist);
-		categories.add(root_canal_specialist);
+//		categories.add(root_canal_specialist);
 		
 		Doctor d = new Doctor("Kumara");
 		Doctor d1 = new Doctor("Guru");
@@ -94,10 +94,10 @@ public class DemoApplication implements CommandLineRunner {
 		doctors.add(d1);
 		
 		dentist.setDoctors(doctors);
-		root_canal_specialist.setDoctors(doctors);
+//		root_canal_specialist.setDoctors(doctors);
 		
 		categoryRepository.save(dentist);
-		categoryRepository.save(root_canal_specialist);
+//		categoryRepository.save(root_canal_specialist);
 		
 		Patient p = new Patient("Murali Babu");
 		p.setTitle(Title.Mr);

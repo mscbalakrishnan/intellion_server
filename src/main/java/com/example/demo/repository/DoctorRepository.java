@@ -13,6 +13,7 @@ import com.example.demo.domain.Doctor;
 public interface DoctorRepository extends CrudRepository<Doctor, Long>{
 
 	List<Doctor> findByNameContaining(String name);
+	List<Doctor> findByNameContainingIgnoreCase(String name);
 //	@Transactional
 //	List<Doctor> findAll();
 }

@@ -16,6 +16,7 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Long>
 	Iterable<Appointment> findByTimeBetween(LocalDateTime from, LocalDateTime to);
 	Iterable<Appointment> findByTimeAfter(LocalDateTime from);
 	Iterable<Appointment> findByTimeBefore(LocalDateTime upto);
+	Iterable<Appointment> findByDoctor_Name_AndPatient_Name(String doctorName, String patietName);
 //	Page<Appointment> findAll(Pageable pageable);
 	
 

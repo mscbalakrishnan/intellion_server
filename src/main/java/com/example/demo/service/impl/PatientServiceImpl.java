@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.service.PatientService;
@@ -29,7 +30,14 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Patient save(Patient patient) {
-		return patientRepository.save(patient);
+		List<Patient> list = findByName(patient.getName());
+		if (list.size() > 0) {
+			//Alreaady Exists
+			throw new IllegalArgumentException("Patient already present");
+		}
+		Patient p = patientRepository.save(patient);
+		logger.debug("Saved Object is {}",p);
+		return p;
 	}
 
 	@Override
@@ -54,7 +62,7 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public List<Patient> findByName(String name) {
-		return patientRepository.findByNameContaining(name);
+		return patientRepository.findByNameContainingIgnoreCase(name);
 	}
 
 }
