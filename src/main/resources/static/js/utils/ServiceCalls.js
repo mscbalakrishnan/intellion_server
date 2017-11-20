@@ -152,7 +152,7 @@ var ServiceCalls = {
 							}
 						}catch(e){alert(e.message)}*/
 						
-						console.log(data);
+						//console.log(data);
 						
 						resultGlobalObject.response = data;
 						

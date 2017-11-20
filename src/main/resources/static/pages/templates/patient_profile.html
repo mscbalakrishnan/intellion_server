@@ -78,8 +78,10 @@
 						aria-expanded="false">Activity</a></li>
 					<li class=""><a href="#timeline" data-toggle="tab"
 						aria-expanded="false">Timeline</a></li>
-					<li class="active"><a href="#settings" data-toggle="tab"
-						aria-expanded="true">Settings</a></li>
+					<li class=""><a href="#settings" data-toggle="tab"
+						aria-expanded="false">Settings</a></li>
+					<li class="active"><a href="javascript:void(0)" onclick="new Prescriptions().loadPrescriptionForm('prescriptions');" data-toggle="tab"
+						aria-expanded="true">Prescriptions</a></li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane" id="activity">
@@ -290,7 +292,7 @@
 					</div>
 					<!-- /.tab-pane -->
 
-					<div class="tab-pane active" id="settings">
+					<div class="tab-pane" id="settings">
 						<form class="form-horizontal">
 							<div class="form-group">
 								<label for="inputName" class="col-sm-2 control-label">Name</label>
@@ -346,6 +348,11 @@
 									<button type="submit" class="btn btn-danger">Submit</button>
 								</div>
 							</div>
+						</form>
+					</div>
+					<div class="tab-pane active" id="prescriptions">
+						<form class="form-horizontal">
+							
 						</form>
 					</div>
 					<!-- /.tab-pane -->
