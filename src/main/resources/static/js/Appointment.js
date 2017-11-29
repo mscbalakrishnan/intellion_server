@@ -159,7 +159,6 @@ var Appointment = function() {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
 				WsUtils.showPopupWindow(function() {
-
 				});
 				$("#modelData").html(responseObj);
 				$(".activediv").hide();
@@ -175,6 +174,7 @@ var Appointment = function() {
 				}
 				
 				var appointmentDate = $.datepicker.formatDate('dd/mm/yy',dt) + " " + hours	+ ":" + minutes;
+				console.log("appointmentDate-->" + appointmentDate);
 				$("#appointmentDateTime").val(appointmentDate);
 				$("#appointmentDateTime").datetimepicker(
 						{
@@ -186,7 +186,6 @@ var Appointment = function() {
 								})
 							},
 						});
-
 				new Appointment().showDoctorNames("doctor");
 				new Appointment().showPatientNames("patient");
 				$(".addPatient").show();
@@ -197,7 +196,6 @@ var Appointment = function() {
 		});
 		ServiceCalls.loadHtmlPage();
 	};
-
 	self.loadPatientFormInAppointmentPage = function(data) {
 		resultGlobalObject = $
 				.extend(
@@ -649,7 +647,7 @@ var Appointment = function() {
 			      },dayClick: function (date, jsEvent, view) {
 			    	  var check = $.fullCalendar.formatDate(date,'Y/MM/DD HH:mm');
 			    	  var today = moment().format('Y/MM/DD');
-			    	  console.log(check + '<'+ today);
+			    	  console.log("check-->" + check + '<' + "today-->" + today);
 			    	
 			    	  if(check < today)
 			    	    {

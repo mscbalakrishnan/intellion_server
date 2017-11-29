@@ -126,7 +126,7 @@ var ServiceCalls = {
 					}
 				}
 				
-				console.log(param)
+				console.log("param-->"+param)
 				$.ajax({
 					url : url ,
 					type : resultGlobalClass.requestMethod,
