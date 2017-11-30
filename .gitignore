@@ -21,3 +21,5 @@ build/
 nbbuild/
 nbdist/
 .nb-gradle/
+/debug.log
+/archived
