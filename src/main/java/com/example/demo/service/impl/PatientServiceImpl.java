@@ -30,11 +30,11 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Patient save(Patient patient) {
-		List<Patient> list = findByName(patient.getName());
+		/*List<Patient> list = findByName(patient.getName());
 		if (list.size() > 0) {
 			//Alreaady Exists
 			throw new IllegalArgumentException("Patient already present");
-		}
+		}*/
 		Patient p = patientRepository.save(patient);
 		logger.debug("Saved Object is {}",p);
 		return p;

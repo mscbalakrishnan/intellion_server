@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames="name"))
 public class Patient implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +32,7 @@ public class Patient implements Serializable {
 	@SequenceGenerator(name="patient_generator", sequenceName="patient_sequence", initialValue = 23)
 	@GeneratedValue(generator = "patient_generator")
 	private Long id;
-	private Title title;
+	private Title title;	
 	@Column(nullable = false, unique=true)
 	private String name;
 	@Column(nullable = false)
