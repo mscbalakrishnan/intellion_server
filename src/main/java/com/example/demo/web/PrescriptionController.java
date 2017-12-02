@@ -151,6 +151,15 @@ public class PrescriptionController {
 		return toReturn;
 	}
 	
+	@GetMapping(value="/presByDocAndPat")
+	public Iterable<PrescriptionDto> findByDocAndPatId(@RequestParam int doctorId, @RequestParam int patId) {
+		logger.debug("Doctor ID ----> {}",doctorId);
+		logger.debug("Pat ID ----> {}",patId);
+		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_IdAndPatient_Id(doctorId, patId);
+		List<PrescriptionDto> toReturn = new ArrayList<>();
+		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
+		return toReturn;
+	}
 	
 	
 	

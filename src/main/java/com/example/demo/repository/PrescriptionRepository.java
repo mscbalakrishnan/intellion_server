@@ -11,6 +11,7 @@ public interface PrescriptionRepository extends CrudRepository<Prescription, Lon
 	
 	Iterable<Prescription> findByDoctor_Id(int doctorId);
 	Iterable<Prescription> findByPatient_Id(int patId);
+	Iterable<Prescription> findByDoctor_IdAndPatient_Id(int doctorId,int patId);
 //	Page<Appointment> findAll(Pageable pageable);
 //	Page<Appointment> findByNameContainingAndCountryContainingAllIgnoringCase(String name,String country, Pageable pageable);
 //	City findByNameAndCountryAllIgnoringCase(String name, String country);
