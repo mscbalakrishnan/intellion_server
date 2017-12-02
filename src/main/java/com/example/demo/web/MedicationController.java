@@ -1,7 +1,9 @@
 package com.example.demo.web;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,11 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.domain.Appointment;
+import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Medication;
+import com.example.demo.domain.dto.DoctorDto;
 import com.example.demo.domain.dto.MedicationDto;
 import com.example.demo.service.MedicationService;
 
@@ -88,4 +93,19 @@ public class MedicationController {
 		medication = this.medicationService.save(medication);
 		return new MedicationDto(medication);
 	}
+	
+	@GetMapping(value="/find")
+	@ResponseBody
+	public Set<MedicationDto> findByName(@RequestParam("name") String name) {
+		logger.debug("Medication Name ----> {}",name);
+		Set<MedicationDto> medicationDtos = new HashSet<>();
+		List<Medication> medications =  (List<Medication>) this.medicationService.findByMedicationName(name);
+		for (Medication medication:medications) {
+			medicationDtos.add(new MedicationDto(medication));
+		}
+		return medicationDtos;
+	}	
+	
+	
+	
 }

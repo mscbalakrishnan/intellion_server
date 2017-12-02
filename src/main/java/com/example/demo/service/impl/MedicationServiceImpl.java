@@ -37,5 +37,10 @@ public class MedicationServiceImpl implements MedicationService {
 	public void delete(long id) {
 		medicationRepository.delete(id);
 	}
+	
+	@Override
+	public Iterable<Medication> findByMedicationName(String name) {
+		return medicationRepository.findByNameContainingIgnoreCase(name);
+	}
 
 }
