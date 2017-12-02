@@ -135,25 +135,33 @@ public class DemoApplication implements CommandLineRunner {
 		prescription = prescriptionRepository.save(prescription);
 		
 		PrescriptionEntry pe1 = new PrescriptionEntry();
-		pe1.setBeforeFood(true);
+		pe1.setBeforeFood_morning(true);
+		pe1.setBeforeFood_noon(true);
+		pe1.setBeforeFood_night(true);
 		pe1.setMedication(m1);
 		pe1.setMorning(1);
 		pe1.setNoon(0);
 		pe1.setNight((float)0.5);
 		pe1.setNotes("Sleep well");
 		pe1.setNoOfDays(3);
-		pe1.setUnit(MedicationUnit.Number);
+		pe1.setUnit_morning(MedicationUnit.Number);
+		pe1.setUnit_noon(MedicationUnit.Number);
+		pe1.setUnit_night(MedicationUnit.Number);
 		pe1.setPrescription(prescription);
 		
 		PrescriptionEntry pe2 = new PrescriptionEntry();
-		pe2.setBeforeFood(false);
+		pe2.setBeforeFood_morning(false);
+		pe1.setBeforeFood_noon(true);
+		pe1.setBeforeFood_night(true);
 		pe2.setMedication(m2);
 		pe2.setMorning(2);
 		pe2.setNoon(0);
 		pe2.setNight((float)0.5);
 		pe2.setNotes("Work less");
 		pe2.setNoOfDays(3);
-		pe2.setUnit(MedicationUnit.ML);
+		pe2.setUnit_morning(MedicationUnit.ML);
+		pe1.setUnit_noon(MedicationUnit.ML);
+		pe1.setUnit_night(MedicationUnit.ML);
 		pe2.setPrescription(prescription);
 		
 //		Set<PrescriptionEntry> prescriptionEntries = new HashSet<>();

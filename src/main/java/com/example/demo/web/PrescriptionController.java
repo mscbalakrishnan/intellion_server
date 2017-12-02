@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +25,6 @@ import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
 import com.example.demo.domain.Prescription;
 import com.example.demo.domain.PrescriptionEntry;
-import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.dto.PrescriptionDto;
 import com.example.demo.domain.dto.PrescriptionEntryInputDto;
 import com.example.demo.domain.dto.PrescriptionInputDto;
@@ -133,8 +131,8 @@ public class PrescriptionController {
 		return new PrescriptionDto(prescription);
 	}
 	
-	@GetMapping(value="/presByDoc")
-	public Iterable<PrescriptionDto> findByDoctorId(@RequestParam int doctorId) {
+	@GetMapping(value="/doctor/{doctorid}")
+	public Iterable<PrescriptionDto> findByDoctorId(@PathVariable("doctorid") long doctorId, HttpServletRequest request) {
 		logger.debug("Doctor ID ----> {}",doctorId);
 		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_Id(doctorId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
@@ -142,20 +140,19 @@ public class PrescriptionController {
 		return toReturn;
 	}	
 	
-	@GetMapping(value="/presByPat")
-	public Iterable<PrescriptionDto> findByPatId(@RequestParam int patId) {
-		logger.debug("Pat ID ----> {}",patId);
-		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByPatient_Id(patId);
+	@GetMapping(value="/patient/{patientid}")
+	public Iterable<PrescriptionDto> findByPatId(@PathVariable("patientid") long patientId, HttpServletRequest request) {
+		logger.debug("Patient Id ----> {}",patientId);
+		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByPatient_Id(patientId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
 		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
 		return toReturn;
 	}
 	
-	@GetMapping(value="/presByDocAndPat")
-	public Iterable<PrescriptionDto> findByDocAndPatId(@RequestParam int doctorId, @RequestParam int patId) {
-		logger.debug("Doctor ID ----> {}",doctorId);
-		logger.debug("Pat ID ----> {}",patId);
-		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_IdAndPatient_Id(doctorId, patId);
+	@GetMapping(value="/doctorandpatient/{doctorid}/{patientid}")
+	public Iterable<PrescriptionDto> findByDocAndPatId(@PathVariable("doctorid") long doctorId, @PathVariable("patientid") long patientId, HttpServletRequest request) {
+		logger.debug("Doctor ID ----> {}, Patient ID ----> {}",doctorId, patientId);
+		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_IdAndPatient_Id(doctorId, patientId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
 		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
 		return toReturn;

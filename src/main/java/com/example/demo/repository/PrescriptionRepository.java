@@ -9,9 +9,9 @@ import com.example.demo.domain.Prescription;
 @Repository()
 public interface PrescriptionRepository extends CrudRepository<Prescription, Long> {
 	
-	Iterable<Prescription> findByDoctor_Id(int doctorId);
-	Iterable<Prescription> findByPatient_Id(int patId);
-	Iterable<Prescription> findByDoctor_IdAndPatient_Id(int doctorId,int patId);
+	Iterable<Prescription> findByDoctor_Id(long doctorId);
+	Iterable<Prescription> findByPatient_Id(long patientId);
+	Iterable<Prescription> findByDoctor_IdAndPatient_Id(long doctorId, long patientId);
 //	Page<Appointment> findAll(Pageable pageable);
 //	Page<Appointment> findByNameContainingAndCountryContainingAllIgnoringCase(String name,String country, Pageable pageable);
 //	City findByNameAndCountryAllIgnoringCase(String name, String country);
