@@ -136,9 +136,23 @@ public class PrescriptionController {
 	@GetMapping(value="/presByDoc")
 	public Iterable<PrescriptionDto> findByDoctorId(@RequestParam int doctorId) {
 		logger.debug("Doctor ID ----> {}",doctorId);
-		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctorId(doctorId);
+		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_Id(doctorId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
 		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
 		return toReturn;
 	}	
+	
+	@GetMapping(value="/presByPat")
+	public Iterable<PrescriptionDto> findByPatId(@RequestParam int patId) {
+		logger.debug("Pat ID ----> {}",patId);
+		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByPatient_Id(patId);
+		List<PrescriptionDto> toReturn = new ArrayList<>();
+		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
+		return toReturn;
+	}
+	
+	
+	
+	
+	
 }

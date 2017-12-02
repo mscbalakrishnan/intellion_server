@@ -51,8 +51,13 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 	}
 	
 	@Override
-	public Iterable<Prescription> findByDoctorId(int id) {
+	public Iterable<Prescription> findByDoctor_Id(int id) {
 		return prescriptionRepository.findByDoctor_Id(id);
+	}
+	
+	@Override
+	public Iterable<Prescription> findByPatient_Id(int id) {
+		return prescriptionRepository.findByPatient_Id(id);
 	}
 
 }
