@@ -49,4 +49,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 		}
 		prescriptionRepository.delete(id);
 	}
+	
+	@Override
+	public Iterable<Prescription> findByDoctorId(int id) {
+		return prescriptionRepository.findByDoctor_Id(id);
+	}
+
 }

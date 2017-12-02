@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +26,7 @@ import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
 import com.example.demo.domain.Prescription;
 import com.example.demo.domain.PrescriptionEntry;
+import com.example.demo.domain.dto.AppointmentDto;
 import com.example.demo.domain.dto.PrescriptionDto;
 import com.example.demo.domain.dto.PrescriptionEntryInputDto;
 import com.example.demo.domain.dto.PrescriptionInputDto;
@@ -130,4 +132,13 @@ public class PrescriptionController {
 		prescription = prescriptionService.findOne(prescriptionInputDto.getId());
 		return new PrescriptionDto(prescription);
 	}
+	
+	@GetMapping(value="/presByDoc")
+	public Iterable<PrescriptionDto> findByDoctorId(@RequestParam int doctorId) {
+		logger.debug("Doctor ID ----> {}",doctorId);
+		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctorId(doctorId);
+		List<PrescriptionDto> toReturn = new ArrayList<>();
+		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
+		return toReturn;
+	}	
 }
