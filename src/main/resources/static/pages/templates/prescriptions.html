@@ -80,7 +80,18 @@ table th, table td {
 			<tr>
 				<td rowspan="2"><span data-bind="text: $index()+1"></span></td>
 				<td>
-				<input id="prescription" type="text" width="150px" style="width: 150px" value="0" data-bind="value:medicationDto">
+				<table border="0" class="consumptionTimeTable">
+						<tr>
+							<td rowspan="2"><input type="text" disabled="disabled" data-bind="value:medicationName"></input>
+							</td>
+							<td>							
+							<span style="cursor:pointer" class="fa fa-search fa-1 searchBtn" data-bind="event:{click:showPopupForMediationSearch($data)}"
+							data-toggle="popover" title="Search Medications" 
+							data-content='Please search and select Medication.'></span>
+							</td>
+						</tr>
+					</table>
+				
 				<!-- <select class="medications col-sm-12"
 					data-bind="options:medications,optionsText:'name',optionsValue:'id',value:medicationDto,event:{change:showHideUnit},
 					optionsCaption: 'Choose...'"></select> -->
@@ -95,9 +106,9 @@ table th, table td {
 							</td>
 							<td>
 							<select class="foodmode col-sm-12" style="margin:2px"
-								data-bind="visible:show,options:unitValues,optionsText:'name',optionsValue:'id',value:unit"></select>
+								data-bind="visible:show,options:unitValues,optionsText:'name',optionsValue:'id',value:unit_morning"></select>
 							<select class="foodmode col-sm-12" style="margin:2px"
-								data-bind="options:beforeAfter,optionsText:'name',optionsValue:'id',value:beforeFood"></select>
+								data-bind="options:beforeAfter,optionsText:'name',optionsValue:'id',value:beforeFood_morning"></select>
 							</td>
 						</tr>
 					</table>
@@ -109,9 +120,9 @@ table th, table td {
 							<td rowspan="2"><input type="number" width="50px"
 								style="width: 50px" value="0" data-bind="value:noon"></input></td>
 							<td><select class="foodmode col-sm-12" style="margin:2px"
-								data-bind="visible:show,options:unitValues,optionsText:'name',optionsValue:'id',value:unit"></select>
+								data-bind="visible:show,options:unitValues,optionsText:'name',optionsValue:'id',value:unit_noon"></select>
 								<select class="foodmode col-sm-12" style="margin:2px"
-								data-bind="options:beforeAfter,optionsText:'name',optionsValue:'id',value:beforeFood"></select>
+								data-bind="options:beforeAfter,optionsText:'name',optionsValue:'id',value:beforeFood_noon"></select>
 							</td>
 						</tr>
 					</table>
@@ -125,9 +136,9 @@ table th, table td {
 					value="0" data-bind="value:night"></input></td>
 							<td>
 							<select class="foodmode col-sm-12" style="margin:2px"
-								data-bind="visible:show,options:unitValues,optionsText:'name',optionsValue:'id',value:unit"></select>
+								data-bind="visible:show,options:unitValues,optionsText:'name',optionsValue:'id',value:unit_night"></select>
 							<select class="foodmode col-sm-12" style="margin:2px"
-								data-bind="options:beforeAfter,optionsText:'name',optionsValue:'id',value:beforeFood"></select>
+								data-bind="options:beforeAfter,optionsText:'name',optionsValue:'id',value:beforeFood_night"></select>
 							</td>
 						</tr>
 					</table>

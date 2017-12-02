@@ -1,19 +1,18 @@
 <style type="text/css">
 table {
-	width: 100%;
-	margin: 20px 0;
+	width: 100%;	
 	border-collapse: collapse;
 }
 
-table, th, td {
+ .bordererTable {
 	border: 1px solid #cdcdcd;
 	text-align: center;
 }
 
 table th, table td {
-	padding: 5px;
+	padding: 2px;
 	text-align: center;
-}
+} 
 
 .addRow {
 	cursor: pointer;
@@ -22,20 +21,54 @@ table th, table td {
 .delRow {
 	cursor: pointer;
 }
+.consumptionTimeTable {
+	width: 100%;
+	margin: 0px 0;
+	border-collapse: collapse;
+	border: none !important
+}
+.doctorLabel{
+	text-align:left;
+	margin:10px;
+	float:left;
+}
+.patientLabel{
+	text-align:left;
+	margin:10px;
+	float:right;
+}
+.buttons{
+	text-align:left;
+	margin:0px;
+	float:right;
+	clear:both
+}
+.dtLabel{
+	text-align:left;
+	margin:10px;
+	clear:both
+}
+.leftTextAlign{
+	text-align:left;
+}
 </style>
 <div class="box box-primary">
 	<div class="box-body">
 		<div class="form-group">
 			<div class="row">
-				<div class="col-xs-6 doctor">
-					<label>Attending Doctor *</label> <input class="form-control"
-						id="doctor" placeholder="Search Doctor" type="text"
-						validation="required"> <span class="help-block"></span>
+				<div class="col-xs-5 doctor">
+					<label> Doctor *</label> <input class="form-control" id="doctor"
+						placeholder="Search Doctor" type="text" validation="required">
+					<span class="help-block"></span>
 				</div>
-				<div class="col-xs-6 patient">
+				<div class="col-xs-5 patient">
 					<label>Patient *</label> <input class="form-control" id="patient"
 						placeholder="Search Patient" type="text" validation="required">
 					<span class="help-block"></span>
+				</div>
+				<div class="col-md-2"><label></label>
+					<button type="button" class="btn btn-block btn-info"
+						onclick="new Prescriptions().filterPrescription()">Apply</button>
 				</div>
 
 			</div>
@@ -43,27 +76,41 @@ table th, table td {
 	</div>
 	<div data-bind="foreach: { data: prescriptions, as: 'prescription' }">
 
-		<div>
-			<div class="form-group">
-				<div style="float:right" >
-					Date : <span data-bind="text:date"></span>
-				</div>
-				<div >
-					Doctor Name : <span data-bind="text:prescription.doctorName"></span>
-					<button data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}' >Delete</button>
-				</div>
+		<div style="border-bottom: 10px solid #EEEEEE;">
+			<div class="form-group" style="margin-bottom:0px">
+				<table class="consumptionTimeTable">
+					<tr>
+						<td>
+							<div class="doctorLabel">
+								<span data-bind="text: $index()+1">) </span><span> ) </span>Doctor Name : <span data-bind="text:prescription.doctorName"></span>
+							</div>
+							<div class="patientLabel">
+								Patient Name : <span data-bind="text:prescription.patientName"></span>
+							</div>
+							<div class="dtLabel">Date : <span data-bind="text:date"></span>
+							<div class="buttons">
+								<button	data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}'>Delete</button>
+							</div>
+							</div>
+							
+						</td>
+						
+					</tr>
+					
+				</table>
+
 			</div>
-			<table border="1" cellpadding="2px">
+			<table border="1" cellpadding="2px" class="bordererTable">
 				<thead>
 					<tr>
 						<th rowspan="2">No</th>
 						<th rowspan="2">Medication</th>
 						<th rowspan="2">Days</th>
 						<th colspan="4">Consumption Time</th>
-						<th rowspan="2">Units</th>
+
 					</tr>
 					<tr>
-						<th>Before/After</th>
+
 						<th>Morning</th>
 						<th>Noon</th>
 						<th>Night</th>
@@ -77,20 +124,19 @@ table th, table td {
 							data-bind="text:prescriptionEntry.medicationDto.name"></span></td>
 						<td><span class="medications col-sm-12"
 							data-bind="text:noOfDays"></span></td>
-						<td><span class="medications col-sm-12"
-							data-bind="text:(beforeFood==true)?'Before':'After'"></span></td>
+
 
 						<td><span class="medications col-sm-12"
-							data-bind="text:morning"></span></td>
-						<td><span class="medications col-sm-12" data-bind="text:noon"></span></td>
+							data-bind="text: morningTableData(prescriptionEntry)"></span></td>
 						<td><span class="medications col-sm-12"
-							data-bind="text:night"></span></td>
-						<td><span class="medications col-sm-12" data-bind="text:unit"
-							class="unit"></span></td>
+							data-bind="text:noonTableData(prescriptionEntry)""></span></td>
+						<td><span class="medications col-sm-12"
+							data-bind="text:nightTableData(prescriptionEntry)""></span></td>
+
 					</tr>
 					<tr>
 						<td colspan="12">
-							<div class="form-group">
+							<div class="form-group leftTextAlign">
 								<div class="col-sm-12">
 									<span class="medications col-sm-12" data-bind="text:notes"></span>
 								</div>
