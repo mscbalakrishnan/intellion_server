@@ -773,6 +773,63 @@ var WsUtils = {
 					WsUtils.validate(formName);
 				});
 			});
+		},
+		configureAutoComplete:function(textbox, url){
+		
+			var options = {
+	
+					url : function(phrase) {	
+						//../intelhosp/patients/patientname/find
+						return url+"?name=" + phrase;
+					},
+	
+					getValue : function(element) {
+						return element.name;
+					},
+	
+					ajaxSettings : {
+						dataType : "json",
+						method : "get",
+						data : {
+							dataType : "text"
+						}
+					},
+	
+					template : {
+						type : "custom",
+						method : function(value, item) {
+							var html = '<div class="user-panel" style="background:#000">'
+									+ '<div class="pull-left image">'
+									+ '<img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">'
+									+ '</div>'
+									+ '<div class="pull-left info">'
+									+ '<p>'
+									+ item.name
+									+ '</p>'
+									+ '<a href="#"><i class="fa fa-circle text-success"></i> Online</a>'
+									+ '</div>' + '</div>';
+							return html;
+						}
+					},
+	
+					preparePostData : function(data) {
+						data.name = $("#" + textbox).val();
+						return "";
+					},
+	
+					adjustWidth : false,
+					list : {
+	
+						onChooseEvent : function() {
+							var item = $("#" + textbox).getSelectedItemData();
+							$("#" + textbox).data("selectedItem",item);						
+						}
+					},
+	
+					requestDelay : 400,
+				};
+	
+				$("#" + textbox).easyAutocomplete(options);
 		}
 		
 		

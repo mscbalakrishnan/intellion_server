@@ -407,7 +407,7 @@ var Appointment = function() {
 
 				onChooseEvent : function() {
 					var item = $("#" + textbox).getSelectedItemData();
-					console.log(item.id);
+					//console.log(item.id);
 					appointmentVo.doctorId(item.id);
 				}
 			},

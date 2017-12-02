@@ -1,5 +1,12 @@
 .deleteIcon
 {
+	background: transparent url(../img/delete.png) no-repeat center; 
+	cursor: pointer;
+	width:60px;
+    height:30px
+}
+.closeIcon
+{
 	background: transparent url(../img/14.png) no-repeat center; 
 	cursor: pointer;
 	width:60px;

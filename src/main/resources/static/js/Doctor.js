@@ -110,7 +110,7 @@ var Doctor = function() {
 				   WsUtils.showAlert(Language.noData);
 				}	
 			},
-			requestUrl : "/intelhosp/doctors/doctordto",
+			requestUrl : "/intelhosp/doctors",
 			requestMethod: "GET",
 			requestData : {
 				"data" : {},

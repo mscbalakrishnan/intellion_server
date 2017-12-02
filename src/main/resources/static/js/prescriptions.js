@@ -26,8 +26,10 @@ var presModel = function(){
 var item = function(id,beforeFood,morning,noon,night,notes,unit,noOfDays){
 	
 	var self = this;
+	self.show = ko.observable(false),
 	self.medications = ko.observableArray(medications),
 	self.beforeAfter = ko.observableArray([{"id":true,"name":"Before"},{"id":false,"name":"After"}]),
+	self.unitValues = ko.observableArray([{"id":"spoon","name":"spoon"},{"id":"ml","name":"ml"}]),
 	self.days = ko.observableArray([]);
 	self.medicationDto = ko.observable(id);
 	self.beforeFood =  ko.observable(beforeFood);
@@ -43,6 +45,18 @@ var item = function(id,beforeFood,morning,noon,night,notes,unit,noOfDays){
 		days[i-1] = {"id":i,"name":i};
 	}
 	self.days = days;
+	self.showHideUnit = function(selectedItem, event){
+		
+		for(i=0; i<self.medications().length; i++ ){
+			var medications = self.medications()[i];
+			console.log(medications.id + " >>> " + event.target.value + ">>>" + medications.type)
+			selectedItem.show(false);
+			if(medications.id == event.target.value && medications.type == "Syrup"){
+				selectedItem.show(true);
+			}
+		}
+			
+	}
 }
 
 var priscriptionListModel = function(){
@@ -84,19 +98,20 @@ var Prescriptions = function() {
 	
 	self.loadPrescriptionForm = function(divToLoad) {		
 		
-		loadMedicationsAndInitPresVo();
+		//loadMedicationsAndInitPresVo();
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				var responseObj = resultGlobalClass.response;
 				$("#"+divToLoad).html(responseObj);	
 				
-				new Appointment().showDoctorNames("doctor");
-				new Appointment().showPatientNames("patient");
-
-				
 				ko.cleanNode($("#"+divToLoad)[0]);
 				ko.applyBindings(new presModel(), $("#"+divToLoad)[0]);
+				
+				new Appointment().showDoctorNames("doctor");
+				//new Appointment().showPatientNames("patient");
+				WsUtils.configureAutoComplete("patient","../intelhosp/patients/patientname/find");
+				WsUtils.configureAutoComplete("prescription","../intelhosp/patients/patientname/find");
 				
 			},
 			requestUrl : "../pages/templates/prescriptions.html",			
@@ -120,7 +135,7 @@ var Prescriptions = function() {
 			delete data[i]["days"];
 			
 			data[i].beforeFood = data[i]["beforeFood"]["id"];
-			data[i].unit = "Number";
+			data[i].unit = data[i]["unit"];
 			
 		}
 		dataToSave.prescriptionEntries = data;
@@ -165,7 +180,7 @@ var Prescriptions = function() {
 		});
 		ServiceCalls.call();
 	};
-	self.loadPrescriptionListGrid = function(divToLoad) {		
+	self.loadPrescriptionListGrid = function(divToLoad, patientId) {		
 		
 		initPresVo();
 		//loadMedicationsAndInitPresVo();
@@ -175,7 +190,7 @@ var Prescriptions = function() {
 				var responseObj = resultGlobalClass.response;
 				$("#"+divToLoad).html(responseObj);				
 				
-				self.loadPrescriptionsList();
+				self.loadPrescriptionsList(patientId);
 				
 			},
 			requestUrl : "../pages/templates/prescriptions_list.html",			
@@ -185,10 +200,14 @@ var Prescriptions = function() {
 		ServiceCalls.loadHtmlPage();
 		
 	};
-	self.loadPrescriptionsList = function(){
+	self.loadPrescriptionsList = function(patientId){
 
 		var model = new priscriptionListModel();
 		var methodType = "GET";	
+		var url = "/intelhosp/prescription";
+		if(patientId){
+			url = "/intelhosp/prescription/presByPat?patId="+patientId;
+		}
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){				
 				var result = resultGlobalClass.response;				
@@ -201,7 +220,7 @@ var Prescriptions = function() {
 				ko.applyBindings(model, $("#content")[0]);
 
 			},
-			requestUrl : "/intelhosp/prescription",
+			requestUrl : url,
 			requestMethod: methodType,
 			isAsyncCall:false,
 			requestData : {
