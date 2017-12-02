@@ -145,10 +145,14 @@ var Patient = function() {
 							gridHeaders : {"title":"Title","name":"Name","gender":"Gender","profileId":"Profile","mobile":"Mobile","email" : "Email","label":"Label/Grp"},
 							hiddenColumns : ["id","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments"],
 							isDeleteButton : true,
+							isViewButton : true,
 							isSearchVisible:true,
 							isCustomPagination : false,
 							callbackFunction : function(data,event,type){
-								if(type == 'delete')
+								if(type == 'view'){
+									new Prescriptions().loadPrescriptionListGrid('content',data.id);
+								}
+								else if(type == 'delete')
 								{	
 									var requestUrl = "/intelhosp/patients/"+data.id;
 									console.log(requestUrl)
