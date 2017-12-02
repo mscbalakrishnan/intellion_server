@@ -1,7 +1,7 @@
 package com.example.demo.domain;
 
 public enum MedicationUnit {
-	Number("Number"), Teaspoon("Teaspoon"), Milliliter ("Milliliter");
+	Number("Number"), spoon("Spoon"), ML ("ML");
 
 	private final String medicationUnit;
 

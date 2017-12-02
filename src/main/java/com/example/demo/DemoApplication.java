@@ -153,7 +153,7 @@ public class DemoApplication implements CommandLineRunner {
 		pe2.setNight((float)0.5);
 		pe2.setNotes("Work less");
 		pe2.setNoOfDays(3);
-		pe2.setUnit(MedicationUnit.Milliliter);
+		pe2.setUnit(MedicationUnit.ML);
 		pe2.setPrescription(prescription);
 		
 //		Set<PrescriptionEntry> prescriptionEntries = new HashSet<>();
