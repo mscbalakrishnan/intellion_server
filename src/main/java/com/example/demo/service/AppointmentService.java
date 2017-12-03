@@ -2,8 +2,10 @@ package com.example.demo.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import com.example.demo.domain.Appointment;
+import com.example.demo.domain.Doctor;
 
 public interface AppointmentService {
 	Appointment getAppointment(String name);
@@ -12,7 +14,7 @@ public interface AppointmentService {
 	Appointment save(Long id, LocalDateTime time,Long doctor,Long patient);
 	Iterable<Appointment> findAll();
 
-	Appointment findOne(long id);
+	Optional<Appointment> findOne(long id);
 
 	void delete(long id);
 

@@ -1,29 +1,19 @@
 package com.example.demo.domain;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 
+import com.example.demo.domain.base.EntityWithSurrogatePK;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Category implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@SequenceGenerator(name="category_generator", sequenceName="category_sequence", initialValue = 23)
-	@GeneratedValue(generator = "category_generator")
-	private Long id;
+public class Category extends EntityWithSurrogatePK {
 
 	@Column(nullable = false)
 	private String name;
@@ -53,16 +43,9 @@ public class Category implements Serializable {
 	public void setDoctors(Set<Doctor> doctors) {
 		this.doctors = doctors;
 	}
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", doctors=" + doctors + "]";
+		return "Category [name=" + name + ", doctors=" + doctors + "]";
 	}
 	
 }

@@ -8,6 +8,5 @@ import com.example.demo.domain.User;
 
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
-	 User findByEmail(String email);
 	 User findByName(String name);
 }

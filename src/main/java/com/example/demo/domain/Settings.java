@@ -6,20 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-@Entity
-public class Settings {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue
-//	@SequenceGenerator(name = "settings_generator",sequenceName="settings_sequence", initialValue = 23)
-//	@GeneratedValue(generator = "settings_generator")
-	private Long id;
+import com.example.demo.domain.base.EntityWithSurrogatePK;
+@Entity
+public class Settings extends EntityWithSurrogatePK{
 
 	private String type;
 	private String category;
@@ -27,14 +19,6 @@ public class Settings {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@JoinColumn(name="settings_id")
 	private List<SettingsParams> settingsParams = new ArrayList<>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public List<SettingsParams> getSettingsParams() {
 		return settingsParams;
@@ -62,8 +46,9 @@ public class Settings {
 
 	@Override
 	public String toString() {
-		return "Settings [id=" + id + ", type=" + type + ", category=" + category + ", settingsParams=" + settingsParams
-				+ "]";
+		return "Settings [type=" + type + ", category=" + category + ", settingsParams=" + settingsParams + "]";
 	}
+
+	
 
 }

@@ -1,21 +1,18 @@
 package com.example.demo.domain;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.demo.domain.base.EntityWithSurrogatePK;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -24,14 +21,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 @Entity
 @Table(uniqueConstraints=@UniqueConstraint(columnNames="name"))
-public class Patient implements Serializable {
+public class Patient extends EntityWithSurrogatePK {
 
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@SequenceGenerator(name="patient_generator", sequenceName="patient_sequence", initialValue = 23)
-	@GeneratedValue(generator = "patient_generator")
-	private Long id;
 	private Title title;	
 	@Column(nullable = false, unique=true)
 	private String name;
@@ -66,12 +57,7 @@ public class Patient implements Serializable {
 		super();
 		this.name = name;
 	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public Title getTitle() {
 		return title;
 	}
@@ -215,13 +201,12 @@ public class Patient implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Patient [id=" + id + ", title=" + title + ", name=" + name + ", mobile=" + mobile + ", address1="
-				+ address1 + ", address2=" + address2 + ", city=" + city + ", pincode=" + pincode + ", profileId="
-				+ profileId + ", label=" + label + ", landline=" + landline + ", bloodGroup=" + bloodGroup + ", gender="
-				+ gender + ", Occupation=" + Occupation + ", email=" + email + ", dob=" + dob + ", age=" + age
+		return "Patient [title=" + title + ", name=" + name + ", mobile=" + mobile + ", address1=" + address1
+				+ ", address2=" + address2 + ", city=" + city + ", pincode=" + pincode + ", profileId=" + profileId
+				+ ", label=" + label + ", landline=" + landline + ", bloodGroup=" + bloodGroup + ", gender=" + gender
+				+ ", Occupation=" + Occupation + ", email=" + email + ", dob=" + dob + ", age=" + age
 				+ ", medicalHistory=" + medicalHistory + ", medicalAlert=" + medicalAlert + ", allergies=" + allergies
 				+ ", needWelcomeMessage=" + needWelcomeMessage + ", birthdayWish=" + birthdayWish + ", remainder="
 				+ remainder + ", appointments=" + appointments + "]";
 	}
-	
 }

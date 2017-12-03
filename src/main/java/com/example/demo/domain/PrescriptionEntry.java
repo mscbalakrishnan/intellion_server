@@ -1,26 +1,16 @@
 package com.example.demo.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+
+import com.example.demo.domain.base.EntityWithSurrogatePK;
 
 @Entity
-public class PrescriptionEntry implements Serializable {
+public class PrescriptionEntry extends EntityWithSurrogatePK {
 
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@SequenceGenerator(name = "prescriptionentry_generator", sequenceName = "prescriptionentry_sequence", initialValue = 23)
-	@GeneratedValue(generator = "prescriptionentry_generator")
-	private Long id;
-	
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "medication_id")
 	private Medication medication;
@@ -42,13 +32,7 @@ public class PrescriptionEntry implements Serializable {
 	private MedicationUnit unit_night; // numbers or milliliters (teaspoons)
 
 	public PrescriptionEntry() {}
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	public Medication getMedication() {
 		return medication;
 	}
@@ -127,9 +111,10 @@ public class PrescriptionEntry implements Serializable {
 	public void setUnit_night(MedicationUnit unit_night) {
 		this.unit_night = unit_night;
 	}
+
 	@Override
 	public String toString() {
-		return "PrescriptionEntry [id=" + id + ", medication=" + medication + ", prescription=" + prescription
+		return "PrescriptionEntry [medication=" + medication + ", prescription=" + prescription
 				+ ", beforeFood_morning=" + beforeFood_morning + ", beforeFood_noon=" + beforeFood_noon
 				+ ", beforeFood_night=" + beforeFood_night + ", morning=" + morning + ", noon=" + noon + ", night="
 				+ night + ", noOfDays=" + noOfDays + ", notes=" + notes + ", unit_morning=" + unit_morning

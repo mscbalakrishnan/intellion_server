@@ -74,7 +74,9 @@ public class MedicationController {
 	@ResponseBody
 	public MedicationDto addMedication(@RequestBody MedicationDto medicationDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , medicationDto.toString());
-		Medication medication = new Medication(medicationDto.getId(),medicationDto.getName(),medicationDto.getType());
+		Medication medication = new Medication();
+		medication.setName(medicationDto.getName());
+		medication.setType(medicationDto.getType());
 		medication = this.medicationService.save(medication);
 		return new MedicationDto(medication);
 		
@@ -89,7 +91,9 @@ public class MedicationController {
 	@ResponseBody
 	public MedicationDto editMedication(@RequestBody MedicationDto medicationDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , medicationDto.toString());
-		Medication medication = new Medication(medicationDto.getId(),medicationDto.getName(),medicationDto.getType());
+		Medication medication = medicationService.findOne(medicationDto.getId());
+		medication.setName(medicationDto.getName());
+		medication.setType(medicationDto.getType());
 		medication = this.medicationService.save(medication);
 		return new MedicationDto(medication);
 	}

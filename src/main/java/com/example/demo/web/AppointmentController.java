@@ -3,6 +3,7 @@ package com.example.demo.web;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -136,7 +137,7 @@ public class AppointmentController {
 	@GetMapping(value="/{appointmentid}")
 	@ResponseBody
 	public AppointmentDto getAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
-		return new AppointmentDto(this.appointmentService.findOne(appointmentId));
+		return new AppointmentDto(this.appointmentService.findOne(appointmentId).get());
 	}
 
 	/**
@@ -149,7 +150,7 @@ public class AppointmentController {
 	public void deleteAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
 				
 		logger.debug("*********** deleteAppointment Inside");
-		AppointmentDto appointmentDto =  new AppointmentDto(this.appointmentService.findOne(appointmentId));
+		AppointmentDto appointmentDto =  new AppointmentDto(this.appointmentService.findOne(appointmentId).get());
 		
 		String doctorPhoneNumber = appointmentDto.getDoctor().getMobile();
 		String patientPhoneNumber = appointmentDto.getPatient().getMobile();
@@ -213,11 +214,18 @@ public class AppointmentController {
 	@PutMapping
 	@ResponseBody
 	public AppointmentDto editAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
-		
+		Appointment appointment = null;
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
-		
-		Appointment appointment = new Appointment(appointmentInputDto.getId(),appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()).get(),patientService.findOne(appointmentInputDto.getPatientId()));
-		appointment = this.appointmentService.save(appointment);
+		Optional<Appointment> optional = appointmentService.findOne(appointmentInputDto.getId());
+		if(optional.isPresent()) {
+			appointment = optional.get();
+			appointment.setTime(appointmentInputDto.getTime());
+			appointment.setDoctor(doctorService.findOne(appointmentInputDto.getDoctorId()).get());
+			appointment.setPatient(patientService.findOne(appointmentInputDto.getPatientId()));
+			appointment = this.appointmentService.save(appointment);
+		} else {
+//			return null;
+		}
 		
 		if (appointment != null) {
 			// Success process sms

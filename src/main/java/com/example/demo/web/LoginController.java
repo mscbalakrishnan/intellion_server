@@ -73,7 +73,6 @@ public class LoginController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findUserByName(auth.getName());
 		modelAndView.addObject("userName", user.getName());
-		modelAndView.addObject("userNameAndEmail", user.getName() + " (" + user.getEmail() + ")");
 		modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
 		logger.debug("redirecting calendar");
 		modelAndView.setViewName("calendar");

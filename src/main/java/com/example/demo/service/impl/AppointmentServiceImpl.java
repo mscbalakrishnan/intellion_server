@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -53,8 +54,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public Appointment findOne(long id) {
-		return appointmentRepository.findOne(id);
+	public Optional<Appointment> findOne(long id) {
+		return Optional.ofNullable(appointmentRepository.findOne(id));
 	}
 
 	@Override

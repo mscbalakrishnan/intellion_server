@@ -1,29 +1,19 @@
 package com.example.demo.domain;
 
-import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 
+import com.example.demo.domain.base.EntityWithSurrogatePK;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Doctor implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@SequenceGenerator(name="doctor_generator", sequenceName="doctor_sequence", initialValue = 23)
-	@GeneratedValue(generator = "doctor_generator")
-	private Long id;
+public class Doctor extends EntityWithSurrogatePK {
 
 	@Column(nullable = false, unique=true)
 	private String name;
@@ -97,14 +87,6 @@ public class Doctor implements Serializable {
 		this.email = email;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public Title getTitle() {
 		return title;
 	}
@@ -131,9 +113,9 @@ public class Doctor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Doctor [id=" + id + ", name=" + name + ", title=" + title + ", email=" + email + ", qualification="
-				+ qualification + ", fees=" + fees + ", mobile=" + mobile + ", categories=" + categories
-				+ ", appointments=" + appointments + "]";
+		return "Doctor [name=" + name + ", title=" + title + ", email=" + email + ", qualification=" + qualification
+				+ ", fees=" + fees + ", mobile=" + mobile + ", categories=" + categories + ", appointments="
+				+ appointments + "]";
 	}
 
 }

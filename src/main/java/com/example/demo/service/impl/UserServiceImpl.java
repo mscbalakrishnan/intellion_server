@@ -34,10 +34,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Override
-	public User findUserByEmail(String email) {
-		return userRepository.findByEmail(email);
-	}
-	@Override
 	public User findUserByName(String name) {
 		return userRepository.findByName(name);
 	}
