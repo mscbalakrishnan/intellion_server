@@ -150,7 +150,8 @@ var Patient = function() {
 							isCustomPagination : false,
 							callbackFunction : function(data,event,type){
 								if(type == 'view'){
-									new Prescriptions().loadPrescriptionListGrid('content',data.id);
+									new Profile().loadPatientProfilePage(data);
+									//new Prescriptions().loadPrescriptionListGrid('content',data.id);
 								}
 								else if(type == 'delete')
 								{	

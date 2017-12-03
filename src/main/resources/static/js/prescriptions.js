@@ -163,7 +163,7 @@ var Prescriptions = function() {
 
 	var self = this;
 	
-	self.loadPrescriptionForm = function(divToLoad) {		
+	self.loadPrescriptionForm = function(divToLoad,pageType) {		
 		
 		//loadMedicationsAndInitPresVo();
 		
@@ -186,6 +186,11 @@ var Prescriptions = function() {
 					patientId = selectedItem.id;
 				});
 				
+				
+				if(pageType == 'profile'){
+					$('.tab-pane').removeClass('active');
+					$('#prescriptions').addClass("active");
+				}
 				
 			},
 			requestUrl : "../pages/templates/prescriptions.html",			
@@ -286,7 +291,7 @@ var Prescriptions = function() {
 		});
 		ServiceCalls.call();
 	};
-	self.loadPrescriptionListGrid = function(divToLoad,patId,docId) {		
+	self.loadPrescriptionListGrid = function(divToLoad,patId,docId,pagetype) {		
 		
 		initPresVo();
 		//loadMedicationsAndInitPresVo();
@@ -297,7 +302,15 @@ var Prescriptions = function() {
 				var responseObj = resultGlobalClass.response;
 				$("#"+divToLoad).html(responseObj);				
 				
-				self.loadPrescriptionsList(patId,docId);
+				if(pagetype == 'profile'){
+					$(".tab-pane").removeClass("active");
+					$("#prescriptionList").addClass("active");
+					if(selectedPatientProfile) { patId = selectedPatientProfile.id; } // selectedPatientProfile declared in profile.js 
+					self.loadPrescriptionsList(patId,docId,divToLoad);
+					$(".prescriptionListFilter").html("");
+				}else{
+					self.loadPrescriptionsList(patId,docId,divToLoad);
+				}
 				
 			},
 			requestUrl : "../pages/templates/prescriptions_list.html",			
@@ -307,8 +320,11 @@ var Prescriptions = function() {
 		ServiceCalls.loadHtmlPage();
 		
 	};
-	self.loadPrescriptionsList = function(patId,docId){
+	self.loadPrescriptionsList = function(patId,docId,divId){
 
+		if(!divId){
+			divId = "content";
+		}
 		
 		var methodType = "GET";	
 		var url = "/intelhosp/prescription";
@@ -334,8 +350,8 @@ var Prescriptions = function() {
 					model.addPrescriptions(presciptionVOObj);
 				}
 				//console.log(result);
-				ko.cleanNode($("#content")[0]);
-				ko.applyBindings(model, $("#content")[0]);
+				ko.cleanNode($("#"+divId)[0]);
+				ko.applyBindings(model, $("#"+divId)[0]);
 				WsUtils.configureAutoComplete("doctor","../intelhosp/doctors/doctorname/find",function(selectedItem){
 					//alert(selectedItem.id);
 					doctorId = selectedItem.id;
@@ -384,7 +400,7 @@ var Prescriptions = function() {
 		
 	},
 	self.filterPrescription = function(){
-		alert(patientId + " >> " + doctorId)
+		//alert(patientId + " >> " + doctorId)
 		self.loadPrescriptionListGrid("content",patientId,doctorId);
 	}
 	
