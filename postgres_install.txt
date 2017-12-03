@@ -1,0 +1,18 @@
+# intellion_server
+
+1. Download and install PosgreSQL from https://www.postgresql.org/
+
+Assume the admin credential for PostgreSQL is postgres/postgres.
+Execute following commands to create 'cms' user and 'cms' database. 
+Provide postgres user user password when it is prompted. 
+
+2. psql -Upostgres -c "create user cms with password 'cms';"
+3. psql -Upostgres -c "create database cms owner cms;"
+
+if the postgres db server is not started automatically use the following commands to init/start/stop database
+
+pg_ctl -D <data_directory> init/start/stop
+
+pg_ctl -D c:\\cms\\data init
+pg_ctl -D c:\\cms\\data start
+pg_ctl -D c:\\cms\\data stop

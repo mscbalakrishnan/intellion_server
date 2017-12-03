@@ -44,8 +44,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootApplication
 @EnableScheduling
-public class DemoApplication implements CommandLineRunner {
-//public class DemoApplication {
+//public class DemoApplication implements CommandLineRunner {
+public class DemoApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
 	@Autowired
@@ -71,7 +71,7 @@ public class DemoApplication implements CommandLineRunner {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Transactional
+	/*@Transactional
 	@Override
 	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
@@ -255,5 +255,5 @@ public class DemoApplication implements CommandLineRunner {
 		settings1 = settingsRepository.save(settings1);
 		
 		logger.debug(""+settingsRepository.findAll());
-	}
+	}*/
 }
