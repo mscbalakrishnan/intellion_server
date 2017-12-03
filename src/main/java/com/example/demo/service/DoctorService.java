@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.example.demo.domain.Doctor;
 
@@ -11,7 +12,7 @@ public interface DoctorService {
 
 	Iterable<Doctor> findAll();
 
-	Doctor findOne(long id);
+	Optional<Doctor> findOne(long id);
 
 	void delete(long id);
 

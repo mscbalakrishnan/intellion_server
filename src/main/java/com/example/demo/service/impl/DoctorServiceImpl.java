@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,8 +43,8 @@ public class DoctorServiceImpl implements DoctorService{
 		return doctorRepository.findAll();
 	}
 	@Override
-	public Doctor findOne(long id) {
-		return doctorRepository.findOne(id);
+	public Optional<Doctor> findOne(long id) {
+		return Optional.ofNullable(doctorRepository.findOne(id));
 	}
 	@Override
 	public void delete(long id) {

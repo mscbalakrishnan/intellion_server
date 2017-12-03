@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Medication;
 
-@Repository()
+@Repository("medicationRepository")
 public interface MedicationRepository extends CrudRepository<Medication, Long> {
 	
 	List<Medication> findByNameContainingIgnoreCase(String name);

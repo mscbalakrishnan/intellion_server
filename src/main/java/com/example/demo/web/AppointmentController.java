@@ -179,7 +179,7 @@ public class AppointmentController {
 	@ResponseBody
 	public AppointmentDto addAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , appointmentInputDto.toString());
-		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
+		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()).get(),patientService.findOne(appointmentInputDto.getPatientId()));
 		appointment = this.appointmentService.save(appointment);
 		if (appointment != null) {
 			// Success process sms
@@ -216,7 +216,7 @@ public class AppointmentController {
 		
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
 		
-		Appointment appointment = new Appointment(appointmentInputDto.getId(),appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
+		Appointment appointment = new Appointment(appointmentInputDto.getId(),appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()).get(),patientService.findOne(appointmentInputDto.getPatientId()));
 		appointment = this.appointmentService.save(appointment);
 		
 		if (appointment != null) {

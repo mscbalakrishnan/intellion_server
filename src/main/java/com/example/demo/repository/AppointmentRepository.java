@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.domain.Appointment;
 
-@Repository()
+@Repository("appointmentRepository")
 public interface AppointmentRepository extends CrudRepository<Appointment, Long> {
 	
 	Iterable<Appointment> findByDoctor_Id(Long doctorId);

@@ -3,6 +3,7 @@ package com.example.demo.web;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -79,7 +80,8 @@ public class DoctorController {
 	@GetMapping(value="/{doctorid}")
 	@ResponseBody
 	public Doctor getDoctor(@PathVariable("doctorid") long doctorId, HttpServletRequest request) {
-		return this.doctorService.findOne(doctorId);
+		Optional<Doctor> optional = this.doctorService.findOne(doctorId);
+		return optional.isPresent() ? optional.get() : null;
 	}
 	
 	@GetMapping(value="/doctorname/find")

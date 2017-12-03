@@ -3,10 +3,9 @@ package com.example.demo.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Prescription;
 
-@Repository()
+@Repository("prescriptionRepository")
 public interface PrescriptionRepository extends CrudRepository<Prescription, Long> {
 	
 	Iterable<Prescription> findByDoctor_Id(long doctorId);

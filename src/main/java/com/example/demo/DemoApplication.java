@@ -2,6 +2,7 @@ package com.example.demo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.BloodGroup;
@@ -25,6 +27,8 @@ import com.example.demo.domain.MedicationUnit;
 import com.example.demo.domain.Patient;
 import com.example.demo.domain.Prescription;
 import com.example.demo.domain.PrescriptionEntry;
+import com.example.demo.domain.Settings;
+import com.example.demo.domain.SettingsParams;
 import com.example.demo.domain.Title;
 import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.CategoryRepository;
@@ -33,10 +37,13 @@ import com.example.demo.repository.MedicationRepository;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.repository.PrescriptionEntryRepository;
 import com.example.demo.repository.PrescriptionRepository;
+import com.example.demo.repository.SettingsParamsRepository;
+import com.example.demo.repository.SettingsRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @SpringBootApplication
+@EnableScheduling
 public class DemoApplication implements CommandLineRunner {
 //public class DemoApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
@@ -55,6 +62,10 @@ public class DemoApplication implements CommandLineRunner {
     private PrescriptionRepository prescriptionRepository;
 	@Autowired
     private PrescriptionEntryRepository prescriptionEntryRepository;
+	@Autowired
+    private SettingsRepository settingsRepository;
+	@Autowired
+    private SettingsParamsRepository settingsParamsRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -171,5 +182,25 @@ public class DemoApplication implements CommandLineRunner {
 		prescriptionEntryRepository.save(pe1);
 		prescriptionEntryRepository.save(pe2);
 		
+		Settings settings = new Settings();
+		settings.setType("GLOBAL");
+		settings.setCategory("SMS");
+//		settings = settingsRepository.save(settings);
+		
+		SettingsParams settingsParams = new SettingsParams();
+		settingsParams.setParamName("ENABLED");
+		settingsParams.setParamValue("TRUE");
+		settingsParams = settingsParamsRepository.save(settingsParams);
+
+		SettingsParams settingsParams1 = new SettingsParams();
+		settingsParams1.setParamName("REQUIRED");
+		settingsParams1.setParamValue("TRUE");
+		settingsParams1 = settingsParamsRepository.save(settingsParams1);
+		
+		settings.getSettingsParams().add(settingsParams);
+		settings.getSettingsParams().add(settingsParams1);
+
+		settings = settingsRepository.save(settings);
+		logger.debug(""+settingsRepository.findAll());
 	}
 }

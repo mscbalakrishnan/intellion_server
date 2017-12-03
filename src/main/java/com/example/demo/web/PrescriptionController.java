@@ -3,6 +3,7 @@ package com.example.demo.web;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -87,7 +88,8 @@ public class PrescriptionController {
 	@ResponseBody
 	public PrescriptionDto addPrescription(@RequestBody PrescriptionInputDto prescriptionInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , prescriptionInputDto.toString());
-		Doctor doctor = doctorService.findOne(prescriptionInputDto.getDoctorId());
+		Optional<Doctor> optional = doctorService.findOne(prescriptionInputDto.getDoctorId());
+		Doctor doctor = optional.get();
 		Patient patient = patientService.findOne(prescriptionInputDto.getPatientId());
 		
 		Set<PrescriptionEntry> preEntries = new HashSet<>();
