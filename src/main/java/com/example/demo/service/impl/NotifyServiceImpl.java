@@ -42,25 +42,25 @@ public class NotifyServiceImpl implements NotifyService {
 	@Autowired
 	private AppointmentService appointmentService;
 	
-	@Value("${sms.enable}")
+	@Value("${sms.enable:false}")
 	private String enableSMS;
 	
-	@Value("${clinic.name}")
+	@Value("${clinic.name: not set}")
 	private String hospital;
 	
-	@Value("${clinic.mobile}")
+	@Value("${clinic.mobile: not set}")
 	private String mobile;
 	
-	@Value("${clinic.address}")
+	@Value("${clinic.address: not set}")
 	private String address;
 	
-	@Value("${sms.user}")
+	@Value("${sms.user: not set}")
 	private String smsUser;
 	
-	@Value("${sms.password}")
+	@Value("${sms.password:not set}")
 	private String smsPassword;
 	
-	@Value("${sms.sender}")
+	@Value("${sms.sender:not set}")
 	private String smsSender;
 	
 	@PostConstruct

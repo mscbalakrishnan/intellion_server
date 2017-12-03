@@ -2,14 +2,14 @@ package com.example.demo.domain;
 
 public interface SettingsEnum {
 	public static enum TYPE {
-		GLOBAL, APPLICATION
+		GLOBAL
 	}
 
 	public static enum CATEGORY {
-		SMS
+		SMS, CLINIC
 	}
 
 	public static enum PROPERTY {
-		ENABLED, REQUIRED
+		ENABLED, USERNAME, PASSWORD, SENDER, NAME, ADDRESS, PHONENO, MOBILENO, URL, TYPE, PRIORITY
 	}
 }

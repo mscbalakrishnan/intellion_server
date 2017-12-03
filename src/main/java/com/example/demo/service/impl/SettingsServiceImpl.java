@@ -34,8 +34,7 @@ public class SettingsServiceImpl implements SettingsService {
 
 	@Override
 	public Iterable<Settings> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return settingsRepository.findAll();
 	}
 
 	@Override

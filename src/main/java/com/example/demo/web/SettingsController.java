@@ -1,6 +1,5 @@
 package com.example.demo.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +25,9 @@ public class SettingsController {
 	@GetMapping
 	@ResponseBody
 	public List<Settings> getAllSettings(HttpServletRequest request) {
-		List<Settings> toReturn = new ArrayList<>();
-		List<Settings> settings = (List<Settings>) this.settingsService.findAll();
-		return settings;
+		logger.debug("getAllSettings ------------------ ");
+		List<Settings> toReturn = (List<Settings>) this.settingsService.findAll();
+		logger.debug("toReturn -->"+toReturn);
+		return toReturn;
 	}
 }

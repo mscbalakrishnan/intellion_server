@@ -182,25 +182,78 @@ public class DemoApplication implements CommandLineRunner {
 		prescriptionEntryRepository.save(pe1);
 		prescriptionEntryRepository.save(pe2);
 		
-		Settings settings = new Settings();
-		settings.setType("GLOBAL");
-		settings.setCategory("SMS");
-//		settings = settingsRepository.save(settings);
+		
 		
 		SettingsParams settingsParams = new SettingsParams();
 		settingsParams.setParamName("ENABLED");
-		settingsParams.setParamValue("TRUE");
+		settingsParams.setParamValue("FALSE");
 		settingsParams = settingsParamsRepository.save(settingsParams);
 
 		SettingsParams settingsParams1 = new SettingsParams();
-		settingsParams1.setParamName("REQUIRED");
-		settingsParams1.setParamValue("TRUE");
+		settingsParams1.setParamName("USERNAME");
+		settingsParams1.setParamValue("success");
 		settingsParams1 = settingsParamsRepository.save(settingsParams1);
 		
+		SettingsParams settingsParams11 = new SettingsParams();
+		settingsParams11.setParamName("PASSWORD");
+		settingsParams11.setParamValue("123456");
+		settingsParams11 = settingsParamsRepository.save(settingsParams11);
+		
+		SettingsParams settingsParams12 = new SettingsParams();
+		settingsParams12.setParamName("SENDER");
+		settingsParams12.setParamValue("SPPURT");
+		settingsParams12 = settingsParamsRepository.save(settingsParams12);
+		
+		SettingsParams settingsParams13 = new SettingsParams();
+		settingsParams13.setParamName("URL");
+		settingsParams13.setParamValue("http://bhashsms.com/api/sendmsg.php");
+		settingsParams13 = settingsParamsRepository.save(settingsParams13);
+		
+		SettingsParams settingsParams14 = new SettingsParams();
+		settingsParams14.setParamName("TYPE");
+		settingsParams14.setParamValue("normal");
+		settingsParams14 = settingsParamsRepository.save(settingsParams13);
+		
+		SettingsParams settingsParams15 = new SettingsParams();
+		settingsParams15.setParamName("PRIORITY");
+		settingsParams15.setParamValue("ndnd");
+		settingsParams15 = settingsParamsRepository.save(settingsParams15);
+		
+		Settings settings = new Settings();
+		settings.setType("GLOBAL");
+		settings.setCategory("SMS");
 		settings.getSettingsParams().add(settingsParams);
 		settings.getSettingsParams().add(settingsParams1);
-
+		settings.getSettingsParams().add(settingsParams11);
+		settings.getSettingsParams().add(settingsParams12);
+		settings.getSettingsParams().add(settingsParams13);
+		settings.getSettingsParams().add(settingsParams14);
+		settings.getSettingsParams().add(settingsParams15);
 		settings = settingsRepository.save(settings);
+		
+		SettingsParams settingsParams2 = new SettingsParams();
+		settingsParams2.setParamName("NAME");
+		settingsParams2.setParamValue("Sree Balaji Dental Clinic");
+		settingsParams2 = settingsParamsRepository.save(settingsParams2);
+		
+		SettingsParams settingsParams3 = new SettingsParams();
+		settingsParams3.setParamName("ADDRESS");
+		settingsParams3.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
+		settingsParams3 = settingsParamsRepository.save(settingsParams3);
+		
+		SettingsParams settingsParams4 = new SettingsParams();
+		settingsParams4.setParamName("MOBILENO");
+		settingsParams4.setParamValue("+91 44 43559921");
+		settingsParams4 = settingsParamsRepository.save(settingsParams4);
+		
+		Settings settings1 = new Settings();
+		settings1.setType("GLOBAL");
+		settings1.setCategory("CLINIC");
+		settings1.getSettingsParams().add(settingsParams2);
+		settings1.getSettingsParams().add(settingsParams3);
+		settings1.getSettingsParams().add(settingsParams4);
+		settings1 = settingsRepository.save(settings1);
+		
 		logger.debug(""+settingsRepository.findAll());
 	}
 }
