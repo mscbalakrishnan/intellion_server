@@ -4,33 +4,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.example.demo.domain.base.EntityWithSurrogatePK;
-@Entity
-public class SettingsParams extends EntityWithSurrogatePK {
 
+import lombok.Data;
+@Entity
+@Data
+public class SettingsParams extends EntityWithSurrogatePK {
 	@Column(nullable = false)
 	private String paramName;
 	
 	@Column(nullable = false)
 	private String paramValue;
-	
-	public String getParamName() {
-		return paramName;
-	}
-
-	public void setParamName(String paramName) {
-		this.paramName = paramName;
-	}
-
-	public String getParamValue() {
-		return paramValue;
-	}
-
-	public void setParamValue(String paramValue) {
-		this.paramValue = paramValue;
-	}
-
-	@Override
-	public String toString() {
-		return "SettingsParams [paramName=" + paramName + ", paramValue=" + paramValue + "]";
-	}
 }

@@ -2,12 +2,9 @@ package com.example.demo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +36,12 @@ import com.example.demo.repository.PrescriptionEntryRepository;
 import com.example.demo.repository.PrescriptionRepository;
 import com.example.demo.repository.SettingsParamsRepository;
 import com.example.demo.repository.SettingsRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 @SpringBootApplication
 @EnableScheduling
-//public class DemoApplication implements CommandLineRunner {
-public class DemoApplication {
+public class DemoApplication implements CommandLineRunner {
+//public class DemoApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
 	@Autowired
@@ -71,20 +67,39 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	/*@Transactional
+	/*@Override
+	@PostConstruct
+	public void run(String... arg0) throws Exception {
+		Thread.sleep(5000);
+		Role _adminRole = new Role();
+		_adminRole.setRole("ADMIN");
+		roleRepository.save(_adminRole);
+		Role _userRole = new Role();
+		_userRole.setRole("USER");
+		roleRepository.save(_userRole);
+		User user = new User();
+		user.setName("admine");
+		Role userRole = roleRepository.findByRole("ADMIN");
+		Set<Role> roles = new HashSet<>();
+		roles.add(userRole);
+		user.setRoles(roles);
+		user.setActive(true);
+		user.setPassword(bCryptPasswordEncoder.encode("admin"));
+		userRepository.save(user);
+	}*/
 	@Override
 	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
 		doctor.setTitle(Title.Prof);
-		doctorRepository.save(doctor);
+		doctor = doctorRepository.save(doctor);
 		logger.info("Added a Doctor ...");
 		
 		Category dentist = new Category("dentist");
 		Category root_canal_specialist = new Category("root canal specialist");
-		categoryRepository.save(dentist);
-		categoryRepository.save(root_canal_specialist);
+		dentist = categoryRepository.save(dentist);
+		root_canal_specialist = categoryRepository.save(root_canal_specialist);
 		
 		Set<Category> categories = new HashSet<>();
 		categories.add(dentist);
@@ -97,8 +112,8 @@ public class DemoApplication {
 		d.setCategories(categories);
 		d1.setTitle(Title.Dr);
 		d1.setCategories(categories);
-		doctorRepository.save(d);
-		doctorRepository.save(d1);
+		d = doctorRepository.save(d);
+		d1 = doctorRepository.save(d1);
 		
 		Set<Doctor> doctors = new HashSet<>();
 		doctors.add(d);
@@ -115,20 +130,20 @@ public class DemoApplication {
 		p.setBloodGroup(BloodGroup.BPositive);
 		p.setMobile("9600194696");
 		p.setDob(LocalDate.of(1989, 1, 15));
-		patientRepository.save(p);
+		p = patientRepository.save(p);
 		
 		Appointment a = new Appointment(LocalDateTime.now(), d, p);
-		appointmentRepository.save(a);
+		a = appointmentRepository.save(a);
 		Appointment a1 = new Appointment(LocalDateTime.now().plusDays(1), d, p);
-		appointmentRepository.save(a1);
+		a1 = appointmentRepository.save(a1);
 		Appointment a2 = new Appointment(LocalDateTime.now().plusDays(2), d, p);
-		appointmentRepository.save(a2);
+		a2 = appointmentRepository.save(a2);
 		
 //		logger.debug(""+doctorRepository.findAll());
 		List<Doctor> all = (List<Doctor>) doctorRepository.findAll();
-		ObjectMapper objectMapper = new ObjectMapper();
-		String json = objectMapper.writeValueAsString(all);
-		logger.debug(""+json);
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		String json = objectMapper.writeValueAsString(all);
+//		logger.debug(""+json);
 
 		Medication m1 = new Medication();
 		m1.setName("Crosin");
@@ -136,8 +151,8 @@ public class DemoApplication {
 		Medication m2 = new Medication();
 		m2.setName("benadryl");
 		m2.setType(MedicationType.Syrup);
-		medicationRepository.save(m1);
-		medicationRepository.save(m2);
+		m1 = medicationRepository.save(m1);
+		m2 = medicationRepository.save(m2);
 		
 		Prescription prescription = new Prescription();
 		prescription.setDoctor(d);
@@ -162,8 +177,8 @@ public class DemoApplication {
 		
 		PrescriptionEntry pe2 = new PrescriptionEntry();
 		pe2.setBeforeFood_morning(false);
-		pe1.setBeforeFood_noon(true);
-		pe1.setBeforeFood_night(true);
+		pe2.setBeforeFood_noon(true);
+		pe2.setBeforeFood_night(true);
 		pe2.setMedication(m2);
 		pe2.setMorning(2);
 		pe2.setNoon(0);
@@ -171,16 +186,16 @@ public class DemoApplication {
 		pe2.setNotes("Work less");
 		pe2.setNoOfDays(3);
 		pe2.setUnit_morning(MedicationUnit.ML);
-		pe1.setUnit_noon(MedicationUnit.ML);
-		pe1.setUnit_night(MedicationUnit.ML);
+		pe2.setUnit_noon(MedicationUnit.ML);
+		pe2.setUnit_night(MedicationUnit.ML);
 		pe2.setPrescription(prescription);
 		
 //		Set<PrescriptionEntry> prescriptionEntries = new HashSet<>();
 //		prescriptionEntries.add(pe1);
 //		prescriptionEntries.add(pe2);
 //		prescription.setPrescriptionEntries(prescriptionEntries);
-		prescriptionEntryRepository.save(pe1);
-		prescriptionEntryRepository.save(pe2);
+		pe1 = prescriptionEntryRepository.save(pe1);
+		pe2 = prescriptionEntryRepository.save(pe2);
 		
 		
 		
@@ -254,6 +269,6 @@ public class DemoApplication {
 		settings1.getSettingsParams().add(settingsParams4);
 		settings1 = settingsRepository.save(settings1);
 		
-		logger.debug(""+settingsRepository.findAll());
-	}*/
+		logger.debug("All Settings "+settingsRepository.findAll());
+	}
 }

@@ -22,7 +22,10 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import lombok.ToString;
+
 @Entity
+@ToString(exclude="id")
 public class Appointment extends EntityWithSurrogatePK {
 
 	@Column(nullable = false)
@@ -70,9 +73,5 @@ public class Appointment extends EntityWithSurrogatePK {
 		this.time = time;
 		this.doctor = doctor;
 		this.patient = patient;
-	}
-	@Override
-	public String toString() {
-		return "Appointment [time=" + time + ", doctor=" + doctor + ", patient=" + patient + "]";
 	}
 }
