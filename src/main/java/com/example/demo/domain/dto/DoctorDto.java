@@ -1,13 +1,13 @@
 package com.example.demo.domain.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-import com.example.demo.domain.Appointment;
 import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Title;
 
+import lombok.Data;
+@Data
 public class DoctorDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,43 +20,9 @@ public class DoctorDto implements Serializable {
 	private float fees;
 	private String mobile;
     private Set<CategoryDto> categories;
-	
+	private Set<AppointmentDto> appointments;
 	protected DoctorDto() {
 	}
-	
-	public Set<CategoryDto> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<CategoryDto> categories) {
-		this.categories = categories;
-	}
-	
-	private Set<AppointmentDto> appointments;
-	
-	public Set<AppointmentDto> getAppointment() {
-		return appointments;
-	}
-
-	public void setAppointments(Set<AppointmentDto> appointments) {
-		this.appointments = appointments;
-	}
-
-	public DoctorDto(String name) {
-		super();
-		this.name = name;
-	}
-	
-	public DoctorDto(String name, Title title, String email, String qualification, float fees, String mobile) {
-		super();
-		this.name = name;
-		this.title = title;
-		this.email = email;
-		this.qualification = qualification;
-		this.fees = fees;
-		this.mobile = mobile;
-	}
-
 	public DoctorDto(Doctor doctor) {
 		setId(doctor.getId());
 		setName(doctor.getName());
@@ -64,8 +30,7 @@ public class DoctorDto implements Serializable {
 		setEmail(doctor.getEmail());
 		setQualification(doctor.getQualification());
 		setFees(doctor.getFees());
-		setMobile(doctor.getMobile());
-		
+		setMobile(doctor.getMobile1());
 	}
 	public static Doctor Dto2Pojo(DoctorDto doctor){
 		Doctor d = new Doctor();
@@ -76,63 +41,7 @@ public class DoctorDto implements Serializable {
 		d.setEmail(doctor.getEmail());
 		d.setQualification(doctor.getQualification());
 		d.setFees(doctor.getFees());
-		d.setMobile(doctor.getMobile());
+		d.setMobile1(doctor.getMobile());
 		return d;
 	}
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Title getTitle() {
-		return title;
-	}
-
-	public void setTitle(Title title) {
-		this.title = title;
-	}
-
-	public String getQualification() {
-		return qualification;
-	}
-
-	public void setQualification(String qualification) {
-		this.qualification = qualification;
-	}
-
-	public float getFees() {
-		return fees;
-	}
-
-	public void setFees(float fees) {
-		this.fees = fees;
-	}
-
 }

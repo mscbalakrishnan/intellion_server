@@ -10,7 +10,7 @@ public class PrescriptionInputDto implements Serializable {
 
 	private Long id;
 	private Long doctorId;
-	private Long patientId;
+	private String patientId;
 	private LocalDate date;
 	private Set<PrescriptionEntryInputDto> prescriptionEntries;
 	public Long getId() {
@@ -26,10 +26,10 @@ public class PrescriptionInputDto implements Serializable {
 	public void setDoctorId(Long doctorId) {
 		this.doctorId = doctorId;
 	}
-	public Long getPatientId() {
+	public String getPatientId() {
 		return patientId;
 	}
-	public void setPatientId(Long patientId) {
+	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
 	public LocalDate getDate() {

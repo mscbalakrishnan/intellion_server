@@ -11,9 +11,9 @@ public interface PatientService {
 
 	Iterable<Patient> findAll();
 
-	Patient findOne(long id);
+	Patient findOne(String id);
 
-	void delete(long id);
+	void delete(String id);
 
 	void delete(Patient patient);
 

@@ -3,6 +3,9 @@ package com.example.demo.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +32,28 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	@Override
 	public Doctor save(Doctor d) {
-		List<Doctor> list = findByDoctorName(d.getName());
+		/*List<Doctor> list = findByDoctorName(d.getName());
 		if (list.size() > 0) {
 			//Alreaady Exists
 			throw new IllegalArgumentException("Doctor already present");
+		}*/
+		Doctor d1 = null;
+		try {
+			d1 = doctorRepository.save(d);
+		} catch (Exception e1) {
+			Exception e = (Exception)e1.getCause();
+			e = (Exception)e.getCause();
+			if (e instanceof ConstraintViolationException){
+				ConstraintViolationException e2 = (ConstraintViolationException) e;
+				String errMsg = "";
+				for (ConstraintViolation cv : e2.getConstraintViolations()){
+					errMsg += cv.getMessageTemplate();
+				}
+				throw new IllegalArgumentException(errMsg);
+			} else {
+				throw e1;
+			}
 		}
-		Doctor d1 = doctorRepository.save(d);
 		logger.debug("Saved Object is {}",d1);
 		return d1;
 	}

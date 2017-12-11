@@ -12,7 +12,7 @@ public interface AppointmentRepository extends CrudRepository<Appointment, Long>
 	
 	Iterable<Appointment> findByDoctor_Id(Long doctorId);
 	Iterable<Appointment> findByDoctor_Name(String name);
-	Iterable<Appointment> findByPatient_Id(Long patientId);
+	Iterable<Appointment> findByPatient_Id(String patientId);
 	Iterable<Appointment> findByTimeBetween(LocalDateTime from, LocalDateTime to);
 	Iterable<Appointment> findByTimeAfter(LocalDateTime from);
 	Iterable<Appointment> findByTimeBefore(LocalDateTime upto);

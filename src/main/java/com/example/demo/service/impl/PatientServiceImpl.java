@@ -2,12 +2,13 @@ package com.example.demo.service.impl;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.domain.Doctor;
 import com.example.demo.domain.Patient;
 import com.example.demo.repository.PatientRepository;
 import com.example.demo.service.PatientService;
@@ -35,7 +36,24 @@ public class PatientServiceImpl implements PatientService {
 			//Alreaady Exists
 			throw new IllegalArgumentException("Patient already present");
 		}*/
-		Patient p = patientRepository.save(patient);
+		Patient p = null;
+		try {
+			p = patientRepository.save(patient);
+		} catch (Exception e1) {
+			Exception e = (Exception)e1.getCause();
+			e = (Exception)e.getCause();
+			if (e instanceof ConstraintViolationException){
+				ConstraintViolationException e2 = (ConstraintViolationException) e;
+				String errMsg = "";
+				for (ConstraintViolation cv : e2.getConstraintViolations()){
+					errMsg += cv.getMessageTemplate();
+				}
+				throw new IllegalArgumentException(errMsg);
+			} else {
+				throw e1;
+			}
+			
+		}
 		logger.debug("Saved Object is {}",p);
 		return p;
 	}
@@ -46,12 +64,12 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public Patient findOne(long id) {
+	public Patient findOne(String id) {
 		return patientRepository.findOne(id);
 	}
 
 	@Override
-	public void delete(long id) {
+	public void delete(String id) {
 		patientRepository.delete(id);
 	}
 

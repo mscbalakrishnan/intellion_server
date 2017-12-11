@@ -85,7 +85,7 @@ public class AppointmentController {
 		return appointmentDtos;
 	}
 	@GetMapping(value="/patient")
-	public Iterable<AppointmentDto> findByPatientId(@RequestParam int patientId) {
+	public Iterable<AppointmentDto> findByPatientId(@RequestParam String patientId) {
 		logger.debug("Patient ID ----> {}",patientId);
 		Set<AppointmentDto> appointmentDtos = new HashSet<>();
 		List<Appointment> appointments =  (List<Appointment>) this.appointmentService.findByPatientId(patientId);
@@ -186,7 +186,7 @@ public class AppointmentController {
 			// Success process sms
 			
 			if (appointmentInputDto.isSmsToDoctor()) {
-				String doctorPhoneNumber = appointment.getDoctor().getMobile();
+				String doctorPhoneNumber = appointment.getDoctor().getMobile1();
 				String msg = notifyService.getMsgForApp("app_confirm.vm",appointment,"Dr "+appointment.getDoctor().getName());
 				logger.debug("*********** APPOINTMENT BOOKING SMS CONTENT FOR DOCTOR: "+msg);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
@@ -194,7 +194,7 @@ public class AppointmentController {
 				}
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
-				String patientPhoneNumber = appointment.getPatient().getMobile();
+				String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
 				String msg = notifyService.getMsgForApp("app_confirm.vm",appointment,appointment.getPatient().getName());
 				logger.debug("*********** APPOINTMENT BOOKING SMS CONTENT FOR PAT: "+msg);
 				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
@@ -231,7 +231,7 @@ public class AppointmentController {
 			// Success process sms
 			
 			if (appointmentInputDto.isSmsToDoctor()) {
-				String doctorPhoneNumber = appointment.getDoctor().getMobile();
+				String doctorPhoneNumber = appointment.getDoctor().getMobile1();
 				String msg = notifyService.getMsgForApp("app_reschedule.vm",appointment,"Dr "+appointment.getDoctor().getName());
 				logger.debug("*********** RESCHEDULE SMS CONTENT FOR DOCTOR:"+msg);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
@@ -239,7 +239,7 @@ public class AppointmentController {
 				}
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
-				String patientPhoneNumber = appointment.getPatient().getMobile();
+				String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
 
 				String msg = notifyService.getMsgForApp("app_reschedule.vm",appointment,appointment.getPatient().getName());
 				logger.debug("*********** RESCHEDULE SMS CONTENT FOR PAT:"+msg);

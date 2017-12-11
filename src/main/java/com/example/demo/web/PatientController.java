@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.demo.domain.Doctor;
+import com.example.demo.domain.Address;
 import com.example.demo.domain.Patient;
-import com.example.demo.domain.dto.DoctorDto;
+import com.example.demo.domain.dto.AddressDto;
 import com.example.demo.domain.dto.PatientDto;
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.service.AppointmentService;
 import com.example.demo.service.DoctorService;
 import com.example.demo.service.NotifyService;
@@ -48,7 +48,8 @@ public class PatientController {
 	private AppointmentService appointmentService;
 	@Autowired
 	private NotifyService notifyService;
-
+	@Autowired
+    private AddressRepository addressRepository;
 
 	/**
 	 * List All Patients
@@ -72,7 +73,7 @@ public class PatientController {
 	 */
 	@GetMapping(value="/{patientid}")
 	@ResponseBody
-	public PatientDto getPatient(@PathVariable("patientid") long patientId, HttpServletRequest request) {
+	public PatientDto getPatient(@PathVariable("patientid") String patientId, HttpServletRequest request) {
 		return new PatientDto(this.patientService.findOne(patientId));
 	}
 	@GetMapping(value="/patientname/find")
@@ -93,7 +94,7 @@ public class PatientController {
 	 */
 	@DeleteMapping(value="/{patientid}")
 	@ResponseBody
-	public void deletePatient(@PathVariable("patientid") long patientId, HttpServletRequest request) {
+	public void deletePatient(@PathVariable("patientid") String patientId, HttpServletRequest request) {
 		this.patientService.delete(patientId);
 	}
 
@@ -106,11 +107,19 @@ public class PatientController {
 	@ResponseBody
 	public PatientDto addPatient(@RequestBody PatientDto patientDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , patientDto.toString());
+		
+		AddressDto addressDto = getAddress(patientDto);
+		Address address = null;
+		if (addressDto != null) {
+			address = this.addressRepository.save(AddressDto.Dto2Pojo(addressDto));
+		}
+		
 		Patient patient = PatientDto.Dto2Pojo(patientDto);
+		if (address != null) {patient.getAddressList().add(address);}
 		patient = this.patientService.save(patient);
 		
 		if(null != patient){
-			String patientPhoneNumber = patient.getMobile();
+			String patientPhoneNumber = patient.getMobileNumber1();
 			if(patientDto.isNeedWelcomeMessage() && patientPhoneNumber !=null && patientPhoneNumber.trim().length() > 0){
 				//send sms
 				String msg = notifyService.getWelcomeMessage("welcome.vm",patient.getName());
@@ -131,8 +140,110 @@ public class PatientController {
 	@ResponseBody
 	public PatientDto editPatient(@RequestBody PatientDto patientDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , patientDto.toString());
+		AddressDto addressDto = getAddress(patientDto);
+		Patient existingPatient = this.patientService.findOne(patientDto.getId());
+		Patient patient = null;
+		Address address = null;
+		if(existingPatient.getAddressList()!=null&&existingPatient.getAddressList().size()>0){
+			address = existingPatient.getAddressList().get(0);
+			if (addressDto == null) {
+//				this.addressRepository.delete(address);
+//				patient.getAddressList().remove(0);
+//				patient = this.patientService.save(patient);
+				patient = PatientDto.Dto2Pojo(patientDto);
+				updateModifiedParams(existingPatient, patient);
+				existingPatient.getAddressList().remove(0);
+//				patient.getAddressList().add(address);
+				patient = this.patientService.save(existingPatient);
+			} else {
+				address.setApprtmentName(patientDto.getAddress1());
+				address.setArea(patientDto.getAddress2());
+				address.setCity(patientDto.getCity());
+				address.setPincode(patientDto.getPincode());
+				address.setLandLine1(patientDto.getLandline());
+				address = addressRepository.save(address);
+				patient = PatientDto.Dto2Pojo(patientDto);
+				updateModifiedParams(existingPatient, patient);
+//				patient.getAddressList().add(address);
+				patient = this.patientService.save(existingPatient);
+			}
+		} else if (addressDto !=null){
+			address = addressRepository.save(AddressDto.Dto2Pojo(addressDto));
+			patient = PatientDto.Dto2Pojo(patientDto);
+			updateModifiedParams(existingPatient, patient);
+			existingPatient.getAddressList().add(address);
+			patient = this.patientService.save(existingPatient);
+		} else if (addressDto == null){
+			patient = PatientDto.Dto2Pojo(patientDto);
+			updateModifiedParams(existingPatient, patient);
+//			patient.getAddressList().add(address);
+			patient = this.patientService.save(existingPatient);
+		}
+		
+		/*if (addressDto != null) {
+			address = addressRepository.save(AddressDto.Dto2Pojo(addressDto));
+		}
+		
 		Patient patient = PatientDto.Dto2Pojo(patientDto);
+
+		if (address != null) {patient.getAddressList().add(address);}
+		
 		patient = this.patientService.save(patient);
+		if ( patient.getAddressList() != null && patient.getAddressList().size() >0) {
+			Address address = patient.getAddressList().get(0);
+			address.setApprtmentName(patientDto.getAddress1());
+			address.setArea(patientDto.getAddress2());
+			address.setCity(patientDto.getCity());
+			address.setPincode(patientDto.getPincode());
+			address.setLandLine1(patientDto.getLandline());
+			addressRepository.save(address);
+		}*/
+				
 		return new PatientDto(patient);
+	}
+	private void updateModifiedParams(Patient p, Patient patient) {
+		p.setId(patient.getId());
+		p.setTitle(patient.getTitle());
+		p.setName(patient.getName());
+		p.setMobileNumber1(patient.getMobileNumber1());
+		p.setProfileId(patient.getProfileId());
+		p.setLabel(patient.getLabel());
+		p.setBloodGroup(patient.getBloodGroup());
+		p.setGender(patient.getGender());
+		p.setOccupation(patient.getOccupation());
+		p.setEmail(patient.getEmail());
+		p.setDob(patient.getDob());
+		p.setAge(patient.getAge());		
+		p.setMedicalHistory(patient.getMedicalHistory());
+		p.setMedicalAlert(patient.getMedicalAlert());
+		p.setAllergies(patient.getAllergies());
+		p.setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
+		p.setBirthdayWish(patient.isBirthdayWish());
+		p.setRemainder(patient.getRemainder());
+	}
+
+	private AddressDto getAddress(PatientDto patientDto){
+		AddressDto addressDto = null;
+		if (patientDto.getAddress1() != null && !patientDto.getAddress1().trim().isEmpty()) {
+			if (addressDto == null) { addressDto = new AddressDto(); }
+			addressDto.setApprtmentName(patientDto.getAddress1());
+		} 
+		if (patientDto.getAddress2() != null&& !patientDto.getAddress2().trim().isEmpty()) {
+			if (addressDto == null) { addressDto = new AddressDto(); }
+			addressDto.setArea(patientDto.getAddress2());
+		} 
+		if (patientDto.getCity() != null&& !patientDto.getCity().trim().isEmpty()) {
+			if (addressDto == null) { addressDto = new AddressDto(); }
+			addressDto.setCity(patientDto.getCity());
+		} 
+		if (patientDto.getPincode() != null&& !patientDto.getPincode().trim().isEmpty()) {
+			if (addressDto == null) { addressDto = new AddressDto(); }
+			addressDto.setPincode(patientDto.getPincode());
+		} 
+		if (patientDto.getLandline() != null&& !patientDto.getLandline().trim().isEmpty()) {
+			if (addressDto == null) { addressDto = new AddressDto(); }
+			addressDto.setLandLine1(patientDto.getLandline());
+		}
+		return addressDto;
 	}
 }

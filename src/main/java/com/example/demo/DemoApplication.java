@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.example.demo.domain.Address;
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.BloodGroup;
 import com.example.demo.domain.Category;
@@ -27,6 +28,7 @@ import com.example.demo.domain.PrescriptionEntry;
 import com.example.demo.domain.Settings;
 import com.example.demo.domain.SettingsParams;
 import com.example.demo.domain.Title;
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.DoctorRepository;
@@ -40,8 +42,8 @@ import com.example.demo.repository.SettingsRepository;
 
 @SpringBootApplication
 @EnableScheduling
-public class DemoApplication implements CommandLineRunner {
-//public class DemoApplication {
+//public class DemoApplication implements CommandLineRunner {
+public class DemoApplication {
 	private static final Logger logger = LoggerFactory.getLogger(DemoApplication.class);
 
 	@Autowired
@@ -62,6 +64,8 @@ public class DemoApplication implements CommandLineRunner {
     private SettingsRepository settingsRepository;
 	@Autowired
     private SettingsParamsRepository settingsParamsRepository;
+	@Autowired
+    private AddressRepository addressRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -87,12 +91,14 @@ public class DemoApplication implements CommandLineRunner {
 		user.setPassword(bCryptPasswordEncoder.encode("admin"));
 		userRepository.save(user);
 	}*/
-	@Override
+//	@Override
 	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
+		doctor.setMobile1("9876543321");
 		doctor.setTitle(Title.Prof);
+		doctor.setEmail("kumara@guru.com");
 		doctor = doctorRepository.save(doctor);
 		logger.info("Added a Doctor ...");
 		
@@ -105,14 +111,19 @@ public class DemoApplication implements CommandLineRunner {
 		categories.add(dentist);
 //		categories.add(root_canal_specialist);
 		
-		Doctor d = new Doctor("Kumara");
-		Doctor d1 = new Doctor("Guru");
+		Doctor d = new Doctor();
+		d.setName("Kumara");
+		Doctor d1 = new Doctor();
 		d.setTitle(Title.Dr);
-		d.setMobile("9171415876");
+		d.setEmail("abc@xyz.com");
+		d.setMobile1("9171415876");
 		d.setCategories(categories);
-		d1.setTitle(Title.Dr);
-		d1.setCategories(categories);
 		d = doctorRepository.save(d);
+		d1.setName("Guru");
+		d1.setTitle(Title.Dr);
+		d1.setEmail("xyz@abc.com");
+		d1.setCategories(categories);
+		d1.setMobile1("9971415876");
 		d1 = doctorRepository.save(d1);
 		
 		Set<Doctor> doctors = new HashSet<>();
@@ -125,11 +136,19 @@ public class DemoApplication implements CommandLineRunner {
 		categoryRepository.save(dentist);
 //		categoryRepository.save(root_canal_specialist);
 		
-		Patient p = new Patient("Murali Babu");
+		Address address1 = new Address();
+		address1.setApprtmentName("33, Abc Apts");
+		address1.setArea("Velachery");
+		address1.setCity("Chennai");
+		address1.setCountry("India");
+		address1 = addressRepository.save(address1);
+		Patient p = new Patient();
+		p.setName("Murali Babu");
+		p.setMobileNumber1("9600194696");
 		p.setTitle(Title.Mr);
 		p.setBloodGroup(BloodGroup.BPositive);
-		p.setMobile("9600194696");
 		p.setDob(LocalDate.of(1989, 1, 15));
+		p.getAddressList().add(address1);
 		p = patientRepository.save(p);
 		
 		Appointment a = new Appointment(LocalDateTime.now(), d, p);

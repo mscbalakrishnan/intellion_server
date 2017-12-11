@@ -69,7 +69,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public Appointment save(Long id, LocalDateTime time, Long doctorId, Long patientId) {
+	public Appointment save(Long id, LocalDateTime time, Long doctorId, String patientId) {
 		Doctor doctor = doctorRepository.findOne(doctorId);
 		Patient patient = patientRepository.findOne(patientId);
 		if (doctor == null) {
@@ -99,8 +99,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return appointmentRepository.findByDoctor_Id(Long.valueOf(doctorId));
 	}
 	@Override
-	public Iterable<Appointment> findByPatientId(int patientId) {
-		return appointmentRepository.findByPatient_Id(Long.valueOf(patientId));
+	public Iterable<Appointment> findByPatientId(String patientId) {
+		return appointmentRepository.findByPatient_Id(patientId);
 	}
 
 	@Override

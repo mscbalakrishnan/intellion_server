@@ -10,7 +10,7 @@ public class AppointmentInputDto implements Serializable {
 	private Long id;
 	private LocalDateTime time;
 	private Long doctorId;
-	private Long patientId;
+	private String patientId;
 	private boolean smsToPatient;
 	private boolean smsToDoctor;
 	
@@ -33,10 +33,10 @@ public class AppointmentInputDto implements Serializable {
 	public void setDoctorId(Long doctorId) {
 		this.doctorId = doctorId;
 	}
-	public Long getPatientId() {
+	public String getPatientId() {
 		return patientId;
 	}
-	public void setPatientId(Long patientId) {
+	public void setPatientId(String patientId) {
 		this.patientId = patientId;
 	}
 	public boolean isSmsToPatient() {
@@ -53,7 +53,7 @@ public class AppointmentInputDto implements Serializable {
 	}
 	protected AppointmentInputDto() {
 	}
-	public AppointmentInputDto(Long id, LocalDateTime time, Long doctorId, Long patientId, boolean smsToDoctor, boolean smsToPatient) {
+	public AppointmentInputDto(Long id, LocalDateTime time, Long doctorId, String patientId, boolean smsToDoctor, boolean smsToPatient) {
 		super();
 		this.id = id;
 		this.time = time;

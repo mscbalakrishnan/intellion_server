@@ -11,7 +11,7 @@ public interface AppointmentService {
 	Appointment getAppointment(String name);
 
 	Appointment save(Appointment a);
-	Appointment save(Long id, LocalDateTime time,Long doctor,Long patient);
+	Appointment save(Long id, LocalDateTime time,Long doctor,String patient);
 	Iterable<Appointment> findAll();
 
 	Optional<Appointment> findOne(long id);
@@ -22,7 +22,7 @@ public interface AppointmentService {
 
 	Iterable<Appointment> findByDoctorId(int doctorId);
 	Iterable<Appointment> findByDoctorName(String name);
-	Iterable<Appointment> findByPatientId(int patientId);
+	Iterable<Appointment> findByPatientId(String patientId);
 	Iterable<Appointment> findByTimeBetween(LocalDate from, LocalDate to);
 	Iterable<Appointment> findByTimeAfter(LocalDate from);
 	Iterable<Appointment> findByTimeBefore(LocalDate upto);

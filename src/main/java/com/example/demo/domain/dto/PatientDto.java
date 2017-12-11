@@ -3,9 +3,14 @@ package com.example.demo.domain.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.HashSet;
 import java.util.Set;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import com.example.demo.domain.Address;
 import com.example.demo.domain.Appointment;
 import com.example.demo.domain.BloodGroup;
 import com.example.demo.domain.Gender;
@@ -13,13 +18,18 @@ import com.example.demo.domain.Patient;
 import com.example.demo.domain.PeriodicRemainder;
 import com.example.demo.domain.Title;
 
+import lombok.Data;
+@Data
 public class PatientDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
+	private String id;
 	private Title title;
 	private String name;
+	@NotNull(message="Primary Mobile number can not be empty")
+	@Size(min=10, max=10, message="Should be 10 digits")
+	@Pattern(regexp="(^$|[0-9]{10})")
 	private String mobile;
 	private String address1;
 	private String address2;
@@ -31,6 +41,7 @@ public class PatientDto implements Serializable {
 	private BloodGroup bloodGroup;
 	private Gender gender;
 	private String Occupation;
+	@Email(message = "Email should be valid")
 	private String email;
 	/*@JsonFormat(pattern = "dd/MM/yyyy")
 	@JsonDeserialize(using = LocalDateDeserializer.class)
@@ -53,14 +64,9 @@ public class PatientDto implements Serializable {
 		setId(patient.getId());
 		setTitle(patient.getTitle());
 		setName(patient.getName());
-		setMobile(patient.getMobile());
-		setAddress1(patient.getAddress1());
-		setAddress2(patient.getAddress2());
-		setCity(patient.getCity());
-		setPincode(patient.getPincode());
+		setMobile(patient.getMobileNumber1());
 		setProfileId(patient.getProfileId());
 		setLabel(patient.getLabel());
-		setLandline(patient.getLandline());
 		setBloodGroup(patient.getBloodGroup());
 		setGender(patient.getGender());
 		setOccupation(patient.getOccupation());
@@ -77,6 +83,15 @@ public class PatientDto implements Serializable {
 		setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
 		setBirthdayWish(patient.isBirthdayWish());
 		setRemainder(patient.getRemainder());
+		if (patient.getAddressList() != null && patient.getAddressList().size()>0){
+			Address address = patient.getAddressList().get(0);
+			AddressDto addressDto = new AddressDto(address);
+			setCity(addressDto.getCity());
+			setPincode(addressDto.getPincode());
+			setAddress1(addressDto.getApprtmentName());
+			setAddress2(addressDto.getArea());
+			setLandline(addressDto.getLandLine1());
+		}
 		Set<Appointment> appointments = patient.getAppointments();
 		/*Set<AppointmentDto> appointmentDtos = new HashSet<>();
 		for (Appointment appointment:appointments){
@@ -84,166 +99,15 @@ public class PatientDto implements Serializable {
 		}
 		setAppointments(appointmentDtos);*/
 	}
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Title getTitle() {
-		return title;
-	}
-	public void setTitle(Title title) {
-		this.title = title;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getMobile() {
-		return mobile;
-	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	public String getAddress1() {
-		return address1;
-	}
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-	public String getAddress2() {
-		return address2;
-	}
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getPincode() {
-		return pincode;
-	}
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
-	}
-	public String getProfileId() {
-		return profileId;
-	}
-	public void setProfileId(String profileId) {
-		this.profileId = profileId;
-	}
-	public String getLabel() {
-		return label;
-	}
-	public void setLabel(String label) {
-		this.label = label;
-	}
-	public String getLandline() {
-		return landline;
-	}
-	public void setLandline(String landline) {
-		this.landline = landline;
-	}
-	public BloodGroup getBloodGroup() {
-		return bloodGroup;
-	}
-	public void setBloodGroup(BloodGroup bloodGroup) {
-		this.bloodGroup = bloodGroup;
-	}
-	public Gender getGender() {
-		return gender;
-	}
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
-	public String getOccupation() {
-		return Occupation;
-	}
-	public void setOccupation(String occupation) {
-		Occupation = occupation;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public LocalDate getDob() {
-		return dob;
-	}
-	public void setDob(LocalDate dob) {
-		this.dob = dob;
-	}
-	public int getAge() {
-		return age;
-	}
-	public void setAge(int age) {
-		this.age = age;
-	}
-	public String getMedicalHistory() {
-		return medicalHistory;
-	}
-	public void setMedicalHistory(String medicalHistory) {
-		this.medicalHistory = medicalHistory;
-	}
-	public String getMedicalAlert() {
-		return medicalAlert;
-	}
-	public void setMedicalAlert(String medicalAlert) {
-		this.medicalAlert = medicalAlert;
-	}
-	public String getAllergies() {
-		return allergies;
-	}
-	public void setAllergies(String allergies) {
-		this.allergies = allergies;
-	}
-	public boolean isNeedWelcomeMessage() {
-		return needWelcomeMessage;
-	}
-	public void setNeedWelcomeMessage(boolean needWelcomeMessage) {
-		this.needWelcomeMessage = needWelcomeMessage;
-	}
-	public boolean isBirthdayWish() {
-		return birthdayWish;
-	}
-	public void setBirthdayWish(boolean birthdayWish) {
-		this.birthdayWish = birthdayWish;
-	}
-	public PeriodicRemainder getRemainder() {
-		return remainder;
-	}
-	public void setRemainder(PeriodicRemainder remainder) {
-		this.remainder = remainder;
-	}
 	
-	private Set<AppointmentDto> appointments;
-	
-	public Set<AppointmentDto> getAppointments() {
-		return appointments;
-	}
-	public void setAppointments(Set<AppointmentDto> appointments) {
-		this.appointments = appointments;
-	}
 	public static Patient Dto2Pojo(PatientDto patient){
 		Patient p = new Patient();
 		p.setId(patient.getId());
 		p.setTitle(patient.getTitle());
 		p.setName(patient.getName());
-		p.setMobile(patient.getMobile());
-		p.setAddress1(patient.getAddress1());
-		p.setAddress2(patient.getAddress2());
-		p.setCity(patient.getCity());
-		p.setPincode(patient.getPincode());
+		p.setMobileNumber1(patient.getMobile());
 		p.setProfileId(patient.getProfileId());
 		p.setLabel(patient.getLabel());
-		p.setLandline(patient.getLandline());
 		p.setBloodGroup(patient.getBloodGroup());
 		p.setGender(patient.getGender());
 		p.setOccupation(patient.getOccupation());
@@ -256,16 +120,8 @@ public class PatientDto implements Serializable {
 		p.setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
 		p.setBirthdayWish(patient.isBirthdayWish());
 		p.setRemainder(patient.getRemainder());
+		
 		return p;
 	}
-	@Override
-	public String toString() {
-		return "Patient [id=" + id + ", title=" + title + ", name=" + name + ", mobile=" + mobile + ", address1="
-				+ address1 + ", address2=" + address2 + ", city=" + city + ", pincode=" + pincode + ", profileId="
-				+ profileId + ", label=" + label + ", landline=" + landline + ", bloodGroup=" + bloodGroup + ", gender="
-				+ gender + ", Occupation=" + Occupation + ", email=" + email + ", dob=" + dob + ", age=" + age
-				+ ", medicalHistory=" + medicalHistory + ", medicalAlert=" + medicalAlert + ", allergies=" + allergies
-				+ ", needWelcomeMessage=" + needWelcomeMessage + ", birthdayWish=" + birthdayWish + ", remainder="
-				+ remainder + "]";
-	}
+	
 }

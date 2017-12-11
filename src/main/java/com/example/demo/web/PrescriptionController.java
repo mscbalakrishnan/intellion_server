@@ -143,7 +143,7 @@ public class PrescriptionController {
 	}	
 	
 	@GetMapping(value="/patient/{patientid}")
-	public Iterable<PrescriptionDto> findByPatId(@PathVariable("patientid") long patientId, HttpServletRequest request) {
+	public Iterable<PrescriptionDto> findByPatId(@PathVariable("patientid") String patientId, HttpServletRequest request) {
 		logger.debug("Patient Id ----> {}",patientId);
 		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByPatient_Id(patientId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
@@ -152,7 +152,7 @@ public class PrescriptionController {
 	}
 	
 	@GetMapping(value="/doctorandpatient/{doctorid}/{patientid}")
-	public Iterable<PrescriptionDto> findByDocAndPatId(@PathVariable("doctorid") long doctorId, @PathVariable("patientid") long patientId, HttpServletRequest request) {
+	public Iterable<PrescriptionDto> findByDocAndPatId(@PathVariable("doctorid") long doctorId, @PathVariable("patientid") String patientId, HttpServletRequest request) {
 		logger.debug("Doctor ID ----> {}, Patient ID ----> {}",doctorId, patientId);
 		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_IdAndPatient_Id(doctorId, patientId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
