@@ -167,18 +167,6 @@ public class PatientIdGenerator implements IdentifierGenerator/*, Configurable*/
         return retId;
     }
     
-    public static void main(String[] args) {
-    	PatientIdGenerator gen = new PatientIdGenerator();
-    	//System.out.println(gen.temp(15040001L));
-    	Long notAId = 15049998L;
-		System.out.println(gen.parseYear(notAId));
-		System.out.println(gen.parseMonth(notAId));
-		System.out.println(gen.parseId(notAId));
-		System.out.println("month : " + gen.getCurrentMonth() );
-		System.out.println("year : " + gen.getCurrentYear() );
-		System.out.println("ret Id : " + gen.generateId(notAId,1));
-	}
-
     // getter & setter for the configurable parameters
     public String getTableName() {
         return tableName;

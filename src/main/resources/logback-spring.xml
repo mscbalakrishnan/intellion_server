@@ -21,7 +21,7 @@
 			</timeBasedFileNamingAndTriggeringPolicy>
 		</rollingPolicy>
 	</appender>
-	<logger name="com.example.demo" level="debug">
+	<logger name="com.intellion.cms" level="debug" additivity="false">
 		<appender-ref ref="FILE-AUDIT" />
 	</logger>
 	<root level="error">

@@ -27,8 +27,7 @@ import org.springframework.stereotype.Component;
 
 import com.intellion.cms.domain.Appointment;
 import com.intellion.cms.domain.dto.AppointmentDto;
-import com.intellion.cms.domain.template.App_Confirm;
-import com.intellion.cms.domain.template.App_Confirm_Doc;
+import com.intellion.cms.domain.template.SmsTemplateData;
 import com.intellion.cms.service.AppointmentService;
 import com.intellion.cms.service.NotifyService;
 
@@ -83,11 +82,11 @@ public class NotifyServiceImpl implements NotifyService {
 		Template t = ve.getTemplate(template);
 		VelocityContext context = new VelocityContext();
 		
-		App_Confirm app_Confirm = new App_Confirm();
-		app_Confirm.setHospital(hospital);
-		app_Confirm.setUserName(userName);
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setPatientName(userName);
+		smsTemplateData.setHospitalName(hospital);
 		
-		context.put("data", app_Confirm);
+		context.put("data", smsTemplateData);
 		StringWriter writer = new StringWriter();
 		t.merge(context, writer);
 		return writer.toString();
@@ -100,13 +99,13 @@ public class NotifyServiceImpl implements NotifyService {
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
 		
-		App_Confirm app_Confirm = new App_Confirm();
-		app_Confirm.setHospital(hospital);
-		app_Confirm.setUserName(appointment.getPatient().getName());
-		app_Confirm.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
-		
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setPatientName(appointment.getPatient().getName());
+		smsTemplateData.setHospitalName(hospital);
+		smsTemplateData.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+
 		VelocityContext context = new VelocityContext();
-		context.put("data", app_Confirm);
+		context.put("data", smsTemplateData);
 		
 		Template t = ve.getTemplate(template);
 		StringWriter writer = new StringWriter();
@@ -117,20 +116,19 @@ public class NotifyServiceImpl implements NotifyService {
 	
 	
 	@Override
-	public String getMsgForApp(String template, Appointment appointment, String toUser) {
+	public String getMsgForApp(String template, Appointment appointment, String doctorName) {
 		VelocityEngine ve = new VelocityEngine();
 		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
-		App_Confirm app_Confirm = new App_Confirm();
-		app_Confirm.setHospital(hospital);
-		app_Confirm.setUserName(toUser);
-		app_Confirm.setDocName(appointment.getDoctor().getName());
-		app_Confirm.setPatName(appointment.getPatient().getName());
-		app_Confirm.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setDoctorName(doctorName);
+		smsTemplateData.setPatientName(appointment.getPatient().getName());
+		smsTemplateData.setHospitalName(hospital);
+		smsTemplateData.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
 		
 		VelocityContext context = new VelocityContext();
-		context.put("data", app_Confirm);
+		context.put("data", smsTemplateData);
 		
 		Template t = ve.getTemplate(template);
 		StringWriter writer = new StringWriter();
@@ -139,20 +137,21 @@ public class NotifyServiceImpl implements NotifyService {
 	}
 	
 	@Override
-	public String getMsgForDelApp(String template, AppointmentDto appointmentDto, String toUser) {
+	public String getMsgForDelApp(String template, AppointmentDto appointmentDto, String patientName) {
 		VelocityEngine ve = new VelocityEngine();
 		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
-		App_Confirm app_Confirm = new App_Confirm();
-		app_Confirm.setHospital(hospital);
-		app_Confirm.setUserName(toUser);
-		app_Confirm.setDocName(appointmentDto.getDoctor().getName());
-		app_Confirm.setPatName(appointmentDto.getPatient().getName());
-		app_Confirm.setDateTime(appointmentDto.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setDoctorName(appointmentDto.getDoctor().getName());
+		smsTemplateData.setPatientName(appointmentDto.getPatient().getName());
+		smsTemplateData.setHospitalName(hospital);
+		smsTemplateData.setDateTime(appointmentDto.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		
 		
 		VelocityContext context = new VelocityContext();
-		context.put("data", app_Confirm);
+		context.put("data", smsTemplateData);
 		
 		Template t = ve.getTemplate(template);
 		StringWriter writer = new StringWriter();
@@ -167,14 +166,14 @@ public class NotifyServiceImpl implements NotifyService {
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
 		
-		App_Confirm_Doc app_Confirm_Doc = new App_Confirm_Doc();
-		app_Confirm_Doc.setHospital(hospital);
-		app_Confirm_Doc.setPatientName(appointment.getPatient().getName());
-		app_Confirm_Doc.setDocName(appointment.getDoctor().getName());
-		app_Confirm_Doc.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setDoctorName(appointment.getDoctor().getName());
+		smsTemplateData.setPatientName(appointment.getPatient().getName());
+		smsTemplateData.setHospitalName(hospital);
+		smsTemplateData.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
 		
 		VelocityContext context = new VelocityContext();
-		context.put("data", app_Confirm_Doc);
+		context.put("data", smsTemplateData);
 		
 		Template t = ve.getTemplate(template);
 		StringWriter writer = new StringWriter();

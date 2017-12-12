@@ -120,7 +120,7 @@ public class PatientController {
 		
 		if(null != patient){
 			String patientPhoneNumber = patient.getMobileNumber1();
-			if(patientDto.isNeedWelcomeMessage() && patientPhoneNumber !=null && patientPhoneNumber.trim().length() > 0){
+			if(patientDto.isNeedWelcomeMessage() && patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
 				//send sms
 				String msg = notifyService.getWelcomeMessage("welcome.vm",patient.getName());
 				logger.debug("*********** PATIENT REG WELCOME SMS CONTENT: "+msg);		
