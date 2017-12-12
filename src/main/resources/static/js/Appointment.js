@@ -36,6 +36,21 @@ var Appointment = function() {
 			resultType : "text",
 		});
 		ServiceCalls.call();
+		
+		/*var tour = new Tour({
+			  steps: [
+			  {
+			    element: ".user-panel",
+			    title: "Title of my step",
+			    content: "Content of my step"
+			  }
+			]});
+
+			// Initialize the tour
+			tour.init();
+
+			// Start the tour
+			tour.start();*/
 
 	};
 	

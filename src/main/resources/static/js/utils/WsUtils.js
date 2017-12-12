@@ -60,7 +60,9 @@ var WsUtils = {
 										'<h3 class="box-title" style="color:#FFF">'+title+'</h3>'+
 										' </div>' +
 									'</div>' + 
-									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="addNewBtn" >'+buttonName+'</button></div> ' + 
+									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="addNewBtn"'+
+									//' data-toggle="popover" data-content="Please search and select Medication." data-placement="left" title="Add/Update"' +
+									'>'+buttonName+'</button></div> ' + 
 									'</div>'+
 									'<div class="table-responsive row" id="gridContainer" style="padding:0px 10px 0px 10px"></div>';
 			

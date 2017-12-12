@@ -1,5 +1,8 @@
 var doctorVo;
 function initDoctorVo() {
+	if(doctorVo){
+		var categoryList = doctorVo.categoryList();
+	}
 	doctorVo = {
 		id : ko.observable(""),
 		name : ko.observable(""),
@@ -9,10 +12,13 @@ function initDoctorVo() {
 		fees : ko.observable(""),
 		mobile : ko.observable(""),
 		category : ko.observable(""),
-		categoryList:ko.observableArray([{"id":1,"name":"dentist","doctors":null},{"id":2,"name":"root canal specialist","doctors":null}]),
+		//categoryList:ko.observableArray([{"id":1,"name":"dentist","doctors":null},{"id":2,"name":"root canal specialist","doctors":null}]),
+		categoryList:ko.observableArray([]),
 		title : ko.observable(""),
 		titleList:ko.observableArray([{"id":1,"name":"Mr"},{"id":2,"name":"Ms/Mrs"}])
 	};
+	
+	doctorVo.categoryList(categoryList);
 };
 initDoctorVo();
 var Doctor = function() {
@@ -49,6 +55,8 @@ var Doctor = function() {
 	};
 	self.loadDoctorPageList = function(selectionMode) {
 		
+		self.loadCategories();
+		
 		$("#content").html(WsUtils.getGridFilterContainer('Doctors List', 'Add New Doctor'));
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
@@ -66,7 +74,7 @@ var Doctor = function() {
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
 							gridHeaders : {"title":"Title","name":"Name","qualification":"Qualification","email" : "Email","mobile":"Mobile"},
-							hiddenColumns : ["id","categoryid","categories","appointment","fees"],
+							hiddenColumns : ["id","categoryid","categories","appointments","fees"],
 							isDeleteButton : true,
 							isCustomPagination : false,
 							isSearchVisible:true,
@@ -160,6 +168,23 @@ var Doctor = function() {
 				"queryParamArray" : {}
 			},resultType : "json",
 		});
+		ServiceCalls.call();
+	};
+	
+	self.loadCategories = function(){
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				var dataArr = resultGlobalClass.response;			
+				console.log(dataArr);
+				doctorVo.categoryList(dataArr);
+			},
+			requestUrl : "/intelhosp/categories/categorydto",
+			requestMethod: "GET",
+			isAsyncCall:false,
+			requestData : {
+			},resultType : "json",
+		});
+		
 		ServiceCalls.call();
 	};
 	

@@ -54,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		logger.debug("SecurityConfiguration configure... web");
-		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+		web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**","/bower_components/**","/dist/**","/plugins/**");
 	}
 
 	/*private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {

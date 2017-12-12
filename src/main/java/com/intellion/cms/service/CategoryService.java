@@ -10,7 +10,7 @@ public interface CategoryService {
 
 	//Optional<Category> findOne(long id);
 
-	//void delete(long id);
+	void delete(long id);
 
 	//void delete(Category Category);
 

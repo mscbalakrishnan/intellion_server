@@ -9,6 +9,7 @@
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
 <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+<!-- <link rel="stylesheet"	href="../css/tour/bootstrap-tour.css"> -->
 <link rel="stylesheet" type="text/css" href="/bower_components/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/bower_components/Ionicons/css/ionicons.min.css">
 <link rel="stylesheet" type="text/css" href="/bower_components/fullcalendar/dist/fullcalendar.css">
@@ -437,7 +438,7 @@
 				<ul class="sidebar-menu" data-widget="tree">
 					<li class="header">MAIN NAVIGATION</li>
 
-					<li><a href="/calendar" onclick=""> <i
+					<li><a id="appointment" href="/calendar" onclick=""> <i
 							class="fa fa-calendar"></i> <span>Appointment</span>
 					</a></li>
 
@@ -470,6 +471,10 @@
 					
 					<li><a href="javascript:void(0)" onclick="new Prescriptions().loadPrescriptionListGrid('content')"> <i
 							class="fa fa-envelope"></i> <span>Prescriptions List</span>
+					</a></li>
+					
+					<li><a href="javascript:void(0)" onclick="new Category().loadCategoryList()"> <i
+							class="fa fa-envelope"></i> <span>Category</span>
 					</a></li>
 
 				</ul>
@@ -723,6 +728,7 @@
 	
 	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- <script src="../js/tour/bootstrap-tour.js"></script> -->
 	<script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/bower_components/knockout/dist/knockout.js"></script>
 	<script type="text/javascript" src="/bower_components/jquery-touchswipe/jquery.touchSwipe.min.js"></script>
@@ -747,6 +753,7 @@
 	<script src="/js/Appointment.js"></script>
 	<script src="/js/prescriptions.js"></script>
 	<script src="/js/login.js"></script>
+	<script src="/js/Category.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="/bower_components/admin-lte/dist/js/demo.js"></script>
 	

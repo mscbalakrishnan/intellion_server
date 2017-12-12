@@ -30,5 +30,11 @@ public class CategoryServiceImpl implements CategoryService{
 	public Iterable<Category> findAll() {
 		return categoryRepository.findAll();
 	}
+
+	@Override
+	public void delete(long id) {
+		categoryRepository.delete(id);
+		
+	}
 	
 }
