@@ -35,7 +35,7 @@ var Doctor = function() {
 					doctorVo.fees(data["fees"]);
 					doctorVo.mobile(data["mobile"]);
 					//doctorVo.category(data["categoryid"]);
-					doctorVo.categoryList(data["categories"])
+					//doctorVo.categoryList(data["categories"])
 				}
 				ko.cleanNode($("#doctorForm")[0]);
 				ko.applyBindings(doctorVo, $("#doctorForm")[0]);
