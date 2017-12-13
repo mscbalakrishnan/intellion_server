@@ -2,11 +2,15 @@ package com.intellion.cms.service.impl;
 
 import java.util.List;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.Settings;
 import com.intellion.cms.repository.SettingsRepository;
 import com.intellion.cms.service.SettingsService;
@@ -28,8 +32,26 @@ public class SettingsServiceImpl implements SettingsService {
 
 	@Override
 	public Settings save(Settings settings) {
-		// TODO Auto-generated method stub
-		return null;
+		Settings s = null;
+		try {
+			s = settingsRepository.save(settings);
+		} catch (Exception e1) {
+			Exception e = (Exception)e1.getCause();
+			e = (Exception)e.getCause();
+			if (e instanceof ConstraintViolationException){
+				ConstraintViolationException e2 = (ConstraintViolationException) e;
+				String errMsg = "";
+				for (ConstraintViolation cv : e2.getConstraintViolations()){
+					errMsg += cv.getMessageTemplate();
+				}
+				throw new IllegalArgumentException(errMsg);
+			} else {
+				throw e1;
+			}
+			
+		}
+		logger.debug("Saved Object is {}",s);
+		return s;
 	}
 
 	@Override
@@ -39,26 +61,22 @@ public class SettingsServiceImpl implements SettingsService {
 
 	@Override
 	public Settings findOne(long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return settingsRepository.findOne(id);
 	}
 
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
-		
+		settingsRepository.delete(id);
 	}
 
 	@Override
 	public void delete(Settings settings) {
-		// TODO Auto-generated method stub
-		
+		settingsRepository.delete(settings);
 	}
 
 	@Override
 	public List<Settings> findByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		return settingsRepository.findByNameContainingIgnoreCase(name);
 	}
 
 }
