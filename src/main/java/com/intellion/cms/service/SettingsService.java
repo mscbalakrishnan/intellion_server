@@ -5,8 +5,8 @@ import java.util.List;
 import com.intellion.cms.domain.Settings;
 
 public interface SettingsService {
-	Settings getSettings(String name);
-
+	Settings getSettings(String type, String category);
+	Settings getSettings(String category);
 	Settings save(Settings settings);
 
 	Iterable<Settings> findAll();

@@ -157,13 +157,13 @@ public class AppointmentController {
 		this.appointmentService.delete(appointmentId);
 		
 		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-			String msg = notifyService.getMsgForDelApp("app_cancel.vm",appointmentDto,appointmentDto.getPatient().getName());
+			String msg = null;//notifyService.getMsgForDelApp("app_cancel.vm",appointmentDto,appointmentDto.getPatient().getName());
 			logger.debug("*********** CANCEL Appointment SMS MESSAGE TO PATIENT: "+msg);
 			notifyService.sendSMS(patientPhoneNumber, msg);
 		}
 		
 		if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() != 0) {
-			String msg = notifyService.getMsgForDelApp("app_cancel.vm",appointmentDto,"Dr "+appointmentDto.getDoctor().getName());
+			String msg = null;//notifyService.getMsgForDelApp("app_cancel.vm",appointmentDto,"Dr "+appointmentDto.getDoctor().getName());
 			logger.debug("*********** CANCEL Appointment SMS MESSAGE TO DOCTOR: "+msg);
 			notifyService.sendSMS(doctorPhoneNumber, msg);
 		}
@@ -186,7 +186,7 @@ public class AppointmentController {
 			
 			if (appointmentInputDto.isSmsToDoctor()) {
 				String doctorPhoneNumber = appointment.getDoctor().getMobile1();
-				String msg = notifyService.getMsgForApp("app_confirm.vm",appointment,"Dr "+appointment.getDoctor().getName());
+				String msg = null;//notifyService.getMsgForApp("app_confirm.vm",appointment,"Dr "+appointment.getDoctor().getName());
 				logger.debug("*********** APPOINTMENT BOOKING SMS CONTENT FOR DOCTOR: "+msg);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
 					notifyService.sendSMS(doctorPhoneNumber, msg);
@@ -194,7 +194,7 @@ public class AppointmentController {
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
 				String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
-				String msg = notifyService.getMsgForApp("app_confirm.vm",appointment,appointment.getPatient().getName());
+				String msg = null;//notifyService.getMsgForApp("app_confirm.vm",appointment,appointment.getPatient().getName());
 				logger.debug("*********** APPOINTMENT BOOKING SMS CONTENT FOR PAT: "+msg);
 				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
 					notifyService.sendSMS(patientPhoneNumber, msg);
@@ -225,7 +225,7 @@ public class AppointmentController {
 			
 			if (appointmentInputDto.isSmsToDoctor()) {
 				String doctorPhoneNumber = appointment.getDoctor().getMobile1();
-				String msg = notifyService.getMsgForApp("app_reschedule.vm",appointment,"Dr "+appointment.getDoctor().getName());
+				String msg = null;//notifyService.getMsgForApp("app_reschedule.vm",appointment,"Dr "+appointment.getDoctor().getName());
 				logger.debug("*********** RESCHEDULE SMS CONTENT FOR DOCTOR:"+msg);
 				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
 					notifyService.sendSMS(doctorPhoneNumber, msg);
@@ -234,7 +234,7 @@ public class AppointmentController {
 			if (appointmentInputDto.isSmsToPatient()) {
 				String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
 
-				String msg = notifyService.getMsgForApp("app_reschedule.vm",appointment,appointment.getPatient().getName());
+				String msg = null;//notifyService.getMsgForApp("app_reschedule.vm",appointment,appointment.getPatient().getName());
 				logger.debug("*********** RESCHEDULE SMS CONTENT FOR PAT:"+msg);
 				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
 					notifyService.sendSMS(patientPhoneNumber, msg);

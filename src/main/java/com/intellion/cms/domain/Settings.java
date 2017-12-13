@@ -8,11 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 
 import lombok.Data;
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "type", "category" }))
 public class Settings extends EntityWithSurrogatePK{
 	private String type;
 	private String category;

@@ -1,1 +1,1 @@
-Dear Dr $data.docName, You have an appointment with $data.patientName at $data.hospital, on $data.dateTime
+Dear Dr $data.docName, You have an appointment with $data.patientName at $data.hospital, on $data.dateTime. For any assistance, kindly contact - $data.hospitalPhone

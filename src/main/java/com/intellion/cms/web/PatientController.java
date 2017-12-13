@@ -1,6 +1,7 @@
 package com.intellion.cms.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,13 +24,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.intellion.cms.domain.Address;
 import com.intellion.cms.domain.Patient;
+import com.intellion.cms.domain.SmsDetails;
+import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.domain.dto.AddressDto;
 import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.repository.AddressRepository;
+import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.AppointmentService;
 import com.intellion.cms.service.DoctorService;
 import com.intellion.cms.service.NotifyService;
 import com.intellion.cms.service.PatientService;
+import com.intellion.cms.util.SmsContentUtil;
 
 /**
  * Main Controller class
@@ -39,7 +44,7 @@ import com.intellion.cms.service.PatientService;
 @Controller
 @RequestMapping(value="/intelhosp/patients")
 public class PatientController {
-	private static final Logger logger = LoggerFactory.getLogger(PatientController.class);
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
 	private PatientService patientService;
 	@Autowired
@@ -50,7 +55,8 @@ public class PatientController {
 	private NotifyService notifyService;
 	@Autowired
     private AddressRepository addressRepository;
-
+	@Autowired
+	private SmsDetailsRepository smsDetailsRepository;
 	/**
 	 * List All Patients
 	 * @param request
@@ -122,9 +128,18 @@ public class PatientController {
 			String patientPhoneNumber = patient.getMobileNumber1();
 			if(patientDto.isNeedWelcomeMessage() && patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
 				//send sms
-				String msg = notifyService.getWelcomeMessage("welcome.vm",patient.getName());
-				logger.debug("*********** PATIENT REG WELCOME SMS CONTENT: "+msg);		
-				notifyService.sendSMS(patientPhoneNumber, msg);
+//				String msg = notifyService.getWelcomeMessage("welcome.vm",patient.getName());
+				String msg = SmsContentUtil.getInstance().getWelcomeMessage("welcome.vm", patient.getName());
+				logger.debug("*********** PATIENT REG WELCOME SMS CONTENT: "+msg);
+				
+				SmsDetails smsDetails = new SmsDetails();
+				smsDetails.setContactList(patientPhoneNumber);
+				smsDetails.setDetail(msg);
+				smsDetails.setDate(new Date().getTime());
+				smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + patient.getId());
+				smsDetails.setStatus(SmsStatus.PENDING.name());
+				smsDetailsRepository.save(smsDetails);
+				//notifyService.sendSMS(patientPhoneNumber, msg);
 			}
 		}
 		

@@ -1,1 +1,1 @@
-Dear $data.userName, Your appointment at $data.hospital, on $data.dateTime cancelled.
+Dear $data.userName, Your appointment at $data.hospital, on $data.dateTime has been cancelled.

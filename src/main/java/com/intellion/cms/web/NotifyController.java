@@ -22,7 +22,8 @@ public class NotifyController {
 	@GetMapping(value = "/welcome")
 	@ResponseBody
 	public String getWelcomeMessage(HttpServletRequest request) {
-		return notifyService.getWelcomeMessage("app_confirm.vm","Kumaraguru");
+//		return notifyService.getWelcomeMessage("app_confirm.vm","Kumaraguru");
+		return null;
 	}
 
 }

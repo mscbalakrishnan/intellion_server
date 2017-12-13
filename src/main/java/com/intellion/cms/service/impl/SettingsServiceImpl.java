@@ -76,7 +76,14 @@ public class SettingsServiceImpl implements SettingsService {
 
 	@Override
 	public List<Settings> findByName(String name) {
-		return settingsRepository.findByNameContainingIgnoreCase(name);
+//		return settingsRepository.findByNameContainingIgnoreCase(name);
+		return null;
+	}
+
+	@Override
+	public Settings getSettings(String type, String category) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
