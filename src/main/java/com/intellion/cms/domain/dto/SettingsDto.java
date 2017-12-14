@@ -1,9 +1,11 @@
 package com.intellion.cms.domain.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.intellion.cms.domain.Settings;
+import com.intellion.cms.domain.SettingsParams;
 
 
 public class SettingsDto implements Serializable {
@@ -53,8 +55,38 @@ public class SettingsDto implements Serializable {
 		setId(settings.getId());
 		setType(settings.getType());
 		setCategory(settings.getCategory());
+		List<SettingsParamsDto> settingsParamsDtoList = new ArrayList<SettingsParamsDto>();
+		List<SettingsParams> settingsParamsList = settings.getSettingsParams();
+
+		if(null != settingsParamsList && settingsParamsList.size() > 0){
+			
+			for(SettingsParams settingsParams:settingsParamsList){
+				SettingsParamsDto settingsParamsDto = new SettingsParamsDto(settingsParams);
+				settingsParamsDtoList.add(settingsParamsDto);
+			}
+		}		
 		
+		setSettingsParamsDtos(settingsParamsDtoList);
 	}
 	
+	public static Settings Dto2Pojo(SettingsDto settingsDto){
+		
+		Settings settings = new Settings();
+		List<SettingsParams> settingsParamsList = new ArrayList<SettingsParams>();
+		
+		settings.setId(settingsDto.getId());
+		settings.setType(settingsDto.getType());
+		settings.setCategory(settingsDto.getCategory());
+		List<SettingsParamsDto> settingsParamsDtos = settingsDto.getSettingsParamsDtos();
+		if(null != settingsParamsDtos && settingsParamsDtos.size() > 0){
+			
+			for(SettingsParamsDto settingsParamsDto:settingsParamsDtos){
+				SettingsParams settingsParams = SettingsParamsDto.Dto2Pojo(settingsParamsDto);
+				settingsParamsList.add(settingsParams);
+			}
+		}
+		settings.setSettingsParams(settingsParamsList);
+		return settings;
+	}
 
 }

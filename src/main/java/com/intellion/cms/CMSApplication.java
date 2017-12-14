@@ -245,7 +245,7 @@ public class CMSApplication implements CommandLineRunner {
 		SettingsParams settingsParams14 = new SettingsParams();
 		settingsParams14.setParamName("TYPE");
 		settingsParams14.setParamValue("normal");
-		settingsParams14 = settingsParamsRepository.save(settingsParams13);
+		settingsParams14 = settingsParamsRepository.save(settingsParams14);
 		
 		SettingsParams settingsParams15 = new SettingsParams();
 		settingsParams15.setParamName("PRIORITY");

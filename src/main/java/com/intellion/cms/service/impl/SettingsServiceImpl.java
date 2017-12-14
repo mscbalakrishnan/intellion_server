@@ -75,9 +75,9 @@ public class SettingsServiceImpl implements SettingsService {
 	}
 
 	@Override
-	public List<Settings> findByName(String name) {
-//		return settingsRepository.findByNameContainingIgnoreCase(name);
-		return null;
+	public Iterable<Settings> findByCategory(String catName) {
+		return settingsRepository.findByCategory(catName);
+	
 	}
 
 	@Override

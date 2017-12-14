@@ -17,5 +17,6 @@ public interface SettingsService {
 
 	void delete(Settings settings);
 
-	List<Settings> findByName(String name);
+	Iterable<Settings> findByCategory(String catName);
+	
 }

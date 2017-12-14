@@ -36,7 +36,6 @@ public class DoctorDto implements Serializable {
 		Doctor d = new Doctor();
 		d.setName(doctor.getName());
 		d.setId(doctor.getId());
-		d.setName(doctor.getName());
 		d.setTitle(doctor.getTitle());
 		d.setEmail(doctor.getEmail());
 		d.setQualification(doctor.getQualification());
