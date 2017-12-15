@@ -1,42 +1,37 @@
 <section class="content">
 
 
-	
-	<div class="row activediv" id="addAppointment">
-		
+
+	<div class="row activediv">
+
 		<div class="col-md-12">
 			<!-- general form elements -->
-			
+
 			<!-- form start -->
-			<form role="form" id="appointmentForm">
+			<form role="form" id="medicationForm">
 				<div class="box-body">
 					<div id="left">
 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-xs-6">
-									<label>Medication Name</label> <input class="form-control"
+								<div class="col-xs-12">
+									<label>Medication Name</label> <input class="form-control" data-bind="value:name"
 										id="medication" placeholder="Medication Name" type="text"
 										validation="required"> <span class="help-block"></span>
 								</div>
-								<div class="col-xs-3">
+								
+							</div>
+							<div class="row">
+								<div class="col-xs-12">
 									<label>Medication Type</label> <select
-									data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title"
-									class="form-control" id="medtype" required>
-									<option value="">Tablet</option>
-									<option value="">Syrup</option>
-									<option value="">Capsule</option>
-									
+										data-bind="options:types,optionsText:'name',optionsValue:'id',value:type"
+										class="form-control" id="medtype" required>
 									</select>
 								</div>
 
 							</div>
-							
+
 						</div>
-						
-
-						
-
 					</div>
 				</div>
 			</form>
@@ -44,8 +39,7 @@
 			<!-- /.box -->
 			<div class="box-footer">
 				<div class="col-md-5">
-					<button type="button" class="btn btn-block btn-info"
-						onclick="">Submit</button>
+					<button type="button" class="btn btn-block btn-info" onclick="new Medications().saveMedication()">Submit</button>
 				</div>
 				<div class="col-md-5">
 					<button type="button" class="btn btn-block btn-danger btn-flat"

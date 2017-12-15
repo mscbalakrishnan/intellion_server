@@ -35,27 +35,39 @@
 					<div class="form-group">
 						<label for="exampleInputEmail1">Email address *</label> <input
 							data-bind="value:email" class="form-control" id="email"
-							placeholder="Enter doctor email" validation="required" type="email">
-						<span class="help-block"></span>
+							placeholder="Enter doctor email" validation="required"
+							type="email"> <span class="help-block"></span>
 					</div>
 					<div class="form-group">
 						<label>Mobile Number *</label> <input class="form-control"
 							data-bind="value:mobile" id="mobileNo"
-							placeholder="Doctor mobile number (#10 digit only)" validation="required"
-							type="mobile"> <span class="help-block"></span>
+							placeholder="Doctor mobile number (#10 digit only)"
+							validation="required" type="mobile"> <span
+							class="help-block"></span>
 					</div>
 
 					<div class="form-group">
 
-						<label>Select Category *</label> <select
-							data-bind="options:categoryList,optionsText:'name',optionsValue:'id',value:category"
-							class="form-control" id="category" validation="required"></select>
+						<label>Select Category *</label>
+
+						<div class="row">
+							<div class="col-xs-9">
+								<select
+									data-bind="options:categoryList,optionsText:'name',optionsValue:'id',value:category"
+									class="form-control" id="category" validation="required">
+								</select>
+							</div>
+							<div class="col-xs-3">
+								<button type="button" class="btn btn-primary"
+									onclick="new Category().loadCategoryPage()">Add</button>
+							</div>
+						</div>
 					</div>
 					<div class="form-group">
 						<label>Qualification</label> <input class="form-control"
 							data-bind="value:qualification" id="qualification"
-							placeholder="Qualifications" type="text" >
-						<span class="help-block"></span>
+							placeholder="Qualifications" type="text"> <span
+							class="help-block"></span>
 					</div>
 					<div class="form-group">
 						<label>Consulting Fees *</label> <input class="form-control"

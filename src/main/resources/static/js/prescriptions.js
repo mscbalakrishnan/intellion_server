@@ -51,7 +51,7 @@ var item = function(id,name,beforeFoodMorning,morning,beforeFoodNoon,noon,before
 	
 	
 	self.medications = ko.observableArray(medications),
-	self.beforeAfter = ko.observableArray([{"id":false,"name":"After Food"},{"id":true,"name":"Before Food"}]),
+	self.beforeAfter = ko.observableArray([{"id":false,"name":"AF"},{"id":true,"name":"BF"}]),
 	self.unitValues = ko.observableArray([{"id":"Number","name":"Number"},{"id":"spoon","name":"spoon"},{"id":"ML","name":"ML"}]),
 	self.days = ko.observableArray([]);
 	

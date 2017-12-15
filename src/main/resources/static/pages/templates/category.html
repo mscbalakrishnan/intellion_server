@@ -1,23 +1,19 @@
-<div class="box-header well" data-original-title="">
-        <h2><i class="glyphicon glyphicon-user"></i> Datatable + Responsive</h2>
-
-        <div class="box-icon">
-            <a href="#" class="btn btn-setting btn-round btn-default"><i class="glyphicon glyphicon-cog"></i></a>
-            <a href="#" class="btn btn-minimize btn-round btn-default"><i
-                    class="glyphicon glyphicon-chevron-up"></i></a>
-            <a href="#" class="btn btn-close btn-round btn-default"><i class="glyphicon glyphicon-remove"></i></a>
-        </div>
-    </div>
-    <div class="box-content">
-   
-    <table class="table table-striped table-bordered bootstrap-datatable datatable responsive">
-    <thead>
-    <tr>
-        <th>Username</th>
-        <th>Date registered</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    </thead></table>
+<form name="category">
+<div class="form-group" id="categoryForm">
+	<label >Category Name *</label> <input
+		data-bind="value:name" class="form-control" id="category"
+		placeholder="Enter Category Name" validation="required" type="empty">
+	<span class="help-block"></span>
 </div>
+
+<div class="box-footer">
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<button type="button" class="btn btn-block btn-info" onclick="new Category().saveCategory()">Submit</button>
+		</div>
+		<div class="col-md-4">
+			<button type="button" class="btn btn-block btn-danger btn-flat" onclick="WsUtils.hidePopup()">Cancel</button>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</form>

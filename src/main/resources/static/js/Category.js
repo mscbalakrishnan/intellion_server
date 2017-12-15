@@ -1,25 +1,21 @@
+var categoryVo;
+
+function initCategoryVo() {
+	categoryVo = {
+		name : ko.observable(""),
+		id : ""
+	}
+}
+
+initCategoryVo();
+
 var Category = function() {
 	
 	var self = this;
-	self.loadCategoryList111 = function(){
-		
-		resultGlobalObject = $.extend(resultGlobalClass, {
-			callback : function(){
-				var responseObj = resultGlobalClass.response;
-				$(".content").html(responseObj);
-				
-				//ko.cleanNode($("#category")[0]);
-				//ko.applyBindings(patientVo, $("#category")[0]);
 
-			},
-			requestUrl : "../pages/templates/category.html",			
-			requestData : {},
-			resultType : "text",
-		});
-		ServiceCalls.loadHtmlPage();
-	};
-	
 	self.loadCategoryList = function(selectionMode) {
+		
+		initCategoryVo();
 		
 		$("#content").html(WsUtils.getGridFilterContainer("Category", "Add Category"));
 		
@@ -29,7 +25,7 @@ var Category = function() {
 				var dataArr=resultGlobalClass.response;			
 						
 				$("#addNewBtn").bind("click",function(){
-					
+					self.loadCategoryPage();
 				});
 				
 				var dataArray =  dataArr;
@@ -71,7 +67,7 @@ var Category = function() {
 								}
 								else if(type = "rowSelect")
 								{
-									
+									self.loadCategoryPage(data);
 									
 								}	
 							},
@@ -91,4 +87,60 @@ var Category = function() {
 		
 		ServiceCalls.call();
 	};
+	self.loadCategoryPage = function(data){
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function() {
+				var responseObj = resultGlobalClass.response;
+				WsUtils.showPopupWindow(function() {
+
+				});
+				$("#modelData").html(responseObj);
+				$(".modal-footer").html("");
+				ko.cleanNode($("#categoryForm")[0]);
+				ko.applyBindings(categoryVo, $("#categoryForm")[0]);
+				
+				if(data && data.id){
+					categoryVo.id = data.id;					
+				}
+				categoryVo.name(data.name);
+			},
+			requestUrl : "../pages/templates/category.html",
+			requestData : {},
+			resultType : "text",
+		});
+		ServiceCalls.loadHtmlPage();
+	};
+	self.saveCategory = function(){
+		
+		if(WsUtils.validate("categoryForm"))
+			return;
+		
+		var methodType = "POST";
+		
+		
+		var data = {name : categoryVo.name(),id : categoryVo.id};
+		
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				WsUtils.showAlert('Saved Successfully.');
+				WsUtils.hidePopup();
+				
+				if($("#category")){ //CAlling from doctor page
+					new Doctor().loadCategories();
+					initCategoryVo();
+				}else{
+					self.loadCategoryList();
+				}
+				
+			},
+			requestUrl : "/intelhosp/categories",
+			requestMethod: methodType,
+			requestData : {
+				"data" : data ,
+				"queryName" : "",
+				"queryParamArray" : {}
+			},resultType : "json",
+		});
+		ServiceCalls.call();
+	}
 }

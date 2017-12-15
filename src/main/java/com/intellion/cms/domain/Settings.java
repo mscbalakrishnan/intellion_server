@@ -15,6 +15,11 @@ import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "category" ))
 public class Settings extends EntityWithSurrogatePK{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9111448468913840865L;
+
 	private String category;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -40,6 +45,16 @@ public class Settings extends EntityWithSurrogatePK{
 	@Override
 	public String toString() {
 		return "Settings [category=" + category + ", settingsParams=" + settingsParams + "]";
+	}
+
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setType(String type) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

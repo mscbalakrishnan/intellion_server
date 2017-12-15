@@ -49,6 +49,9 @@ public class CategoryController {
 	public CategoryDto addCategory(@RequestBody CategoryDto categoryDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , categoryDto.toString());
 		Category category = new Category();
+		if(categoryDto.getId() != null && categoryDto.getId() > 0){
+			category.setId(categoryDto.getId());
+		}
 		category.setName(categoryDto.getName());
 		category = this.categoryService.save(category);
 		return new CategoryDto(category);
