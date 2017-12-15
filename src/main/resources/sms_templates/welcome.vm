@@ -1,2 +1,1 @@
-#* Welcome $data.userName *#
 Welcome $data.patientName. Your profile has been successfully registered at $data.hospitalName. We wish you a speedy recovery. For any assistance, kindly contact - $data.hospitalPhone

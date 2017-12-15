@@ -1,10 +1,6 @@
 package com.intellion.cms.domain;
 
 public interface SettingsEnum {
-	public static enum TYPE {
-		GLOBAL
-	}
-
 	public static enum CATEGORY {
 		SMS, CLINIC
 	}

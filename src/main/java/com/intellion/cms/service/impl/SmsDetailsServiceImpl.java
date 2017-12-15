@@ -1,8 +1,11 @@
 package com.intellion.cms.service.impl;
 
+import java.time.Instant;
+
 import org.springframework.stereotype.Service;
 
 import com.intellion.cms.domain.SmsDetails;
+import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.SmsDetailsService;
 
@@ -19,5 +22,8 @@ public class SmsDetailsServiceImpl implements SmsDetailsService {
 	public SmsDetails save(SmsDetails smsDetails) {
 		return smsDetailsRepository.save(smsDetails);
 	}
-
+	@Override
+	public Iterable<SmsDetails> getPendingSms(){
+		return smsDetailsRepository.findByDateAndStatusNotAndRetryCountLessThan(Instant.now().toEpochMilli(), SmsStatus.SUCCESS.name(), 5);
+	}
 }

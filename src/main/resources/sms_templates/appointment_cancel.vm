@@ -1,1 +1,12 @@
-Dear $data.userName, Your appointment at $data.hospital, on $data.dateTime has been cancelled.
+Dear 
+#if ($data.doctorName)
+Dr $data.doctorName, 
+#else
+$data.patientName, 
+#end
+Your appointment 
+#if ($data.doctorName)
+with $data.patientName 
+#end
+at $data.hospital, on $data.dateTime has been cancelled.
+For any assistance, kindly contact - $data.hospitalPhone

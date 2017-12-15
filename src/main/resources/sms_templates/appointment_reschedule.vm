@@ -1,1 +1,12 @@
-Dear $data.userName, Your appointment at $data.hospital, rescheduled on $data.dateTime. For any assistance, kindly contact - $data.hospitalPhone
+Dear 
+#if ($data.doctorName)
+Dr $data.docName,
+#else
+$data.patientName,
+#end
+Your appointment 
+#if ($data.doctorName) 
+with $data.patientName 
+#end
+at $data.hospital, rescheduled on $data.dateTime.
+For any assistance, kindly contact - $data.hospitalPhone

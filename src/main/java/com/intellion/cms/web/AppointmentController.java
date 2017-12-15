@@ -1,6 +1,7 @@
 package com.intellion.cms.web;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,12 +24,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intellion.cms.domain.Appointment;
+import com.intellion.cms.domain.SmsDetails;
+import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.domain.dto.AppointmentDto;
 import com.intellion.cms.domain.dto.AppointmentInputDto;
+import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.AppointmentService;
 import com.intellion.cms.service.DoctorService;
-import com.intellion.cms.service.NotifyService;
 import com.intellion.cms.service.PatientService;
+import com.intellion.cms.util.DateUtil;
+import com.intellion.cms.util.SmsContentUtil;
 
 /**
  * Main Controller class
@@ -46,8 +51,7 @@ public class AppointmentController {
 	@Autowired
 	private AppointmentService appointmentService;
 	@Autowired
-	private NotifyService notifyService;
-
+	private SmsDetailsRepository smsDetailsRepository;
 	/**
 	 * @param request
 	 * @return
@@ -147,25 +151,19 @@ public class AppointmentController {
 	@DeleteMapping(value="/{appointmentid}")
 	@ResponseBody
 	public void deleteAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
-				
 		logger.debug("*********** deleteAppointment Inside");
-		AppointmentDto appointmentDto =  new AppointmentDto(this.appointmentService.findOne(appointmentId));
-		
+		Appointment appointment = this.appointmentService.findOne(appointmentId);
+		AppointmentDto appointmentDto =  new AppointmentDto(appointment);
 		String doctorPhoneNumber = appointmentDto.getDoctor().getMobile();
 		String patientPhoneNumber = appointmentDto.getPatient().getMobile();
 		
 		this.appointmentService.delete(appointmentId);
 		
-		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-			String msg = null;//notifyService.getMsgForDelApp("app_cancel.vm",appointmentDto,appointmentDto.getPatient().getName());
-			logger.debug("*********** CANCEL Appointment SMS MESSAGE TO PATIENT: "+msg);
-			notifyService.sendSMS(patientPhoneNumber, msg);
-		}
-		
 		if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() != 0) {
-			String msg = null;//notifyService.getMsgForDelApp("app_cancel.vm",appointmentDto,"Dr "+appointmentDto.getDoctor().getName());
-			logger.debug("*********** CANCEL Appointment SMS MESSAGE TO DOCTOR: "+msg);
-			notifyService.sendSMS(doctorPhoneNumber, msg);
+			sendSmsToDoctor(appointment, "app_cancel.vm");
+		}
+		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
+			sendSmsToPatient(appointment, "app_cancel.vm");
 		}
 	}
 
@@ -183,22 +181,11 @@ public class AppointmentController {
 		appointment = this.appointmentService.save(appointment);
 		if (appointment != null) {
 			// Success process sms
-			
 			if (appointmentInputDto.isSmsToDoctor()) {
-				String doctorPhoneNumber = appointment.getDoctor().getMobile1();
-				String msg = null;//notifyService.getMsgForApp("app_confirm.vm",appointment,"Dr "+appointment.getDoctor().getName());
-				logger.debug("*********** APPOINTMENT BOOKING SMS CONTENT FOR DOCTOR: "+msg);
-				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
-					notifyService.sendSMS(doctorPhoneNumber, msg);
-				}
+				sendSmsToDoctor(appointment, "appointment_confirm.vm");
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
-				String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
-				String msg = null;//notifyService.getMsgForApp("app_confirm.vm",appointment,appointment.getPatient().getName());
-				logger.debug("*********** APPOINTMENT BOOKING SMS CONTENT FOR PAT: "+msg);
-				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-					notifyService.sendSMS(patientPhoneNumber, msg);
-				}
+				sendSmsToPatient(appointment, "appointment_confirm.vm");
 			}
 		}
 		return new AppointmentDto(appointment);
@@ -222,26 +209,53 @@ public class AppointmentController {
 		
 		if (appointment != null) {
 			// Success process sms
-			
 			if (appointmentInputDto.isSmsToDoctor()) {
-				String doctorPhoneNumber = appointment.getDoctor().getMobile1();
-				String msg = null;//notifyService.getMsgForApp("app_reschedule.vm",appointment,"Dr "+appointment.getDoctor().getName());
-				logger.debug("*********** RESCHEDULE SMS CONTENT FOR DOCTOR:"+msg);
-				if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() !=0) {
-					notifyService.sendSMS(doctorPhoneNumber, msg);
-				}
+				sendSmsToDoctor(appointment, "appointment_reschedule.vm");
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
-				String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
-
-				String msg = null;//notifyService.getMsgForApp("app_reschedule.vm",appointment,appointment.getPatient().getName());
-				logger.debug("*********** RESCHEDULE SMS CONTENT FOR PAT:"+msg);
-				if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-					notifyService.sendSMS(patientPhoneNumber, msg);
-				}
+				sendSmsToPatient(appointment, "appointment_reschedule.vm");
 			}
 		}
 		logger.debug("edited successfully...");
 		return new AppointmentDto(appointment);
+	}
+
+	private void sendSmsToDoctor(Appointment appointment, String templateName) {
+		String doctorPhoneNumber = appointment.getDoctor().getMobile1();
+		String doctorName = appointment.getDoctor().getName();
+		Long doctorId = appointment.getDoctor().getId();
+		String patientName = appointment.getPatient().getName();
+		String time = DateUtil.getShortDateTime(appointment.getTime());
+		String msg = SmsContentUtil.getInstance().getMsgForSms(templateName, patientName, doctorName, time);
+		logger.debug("*********** SMS CONTENT FOR DOCTOR:"+msg);
+		if (doctorPhoneNumber != null && !doctorPhoneNumber.trim().isEmpty()) {
+			SmsDetails smsDetails = new SmsDetails();
+			smsDetails.setContactList(doctorPhoneNumber);
+			smsDetails.setRetryCount(5);
+			smsDetails.setDetail(msg);
+			smsDetails.setDate(new Date().getTime());
+			smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + doctorId.toString());
+			smsDetails.setStatus(SmsStatus.PENDING.name());
+			smsDetailsRepository.save(smsDetails);
+		}
+	}
+
+	private void sendSmsToPatient(Appointment appointment, String templateName) {
+		String patientId = appointment.getPatient().getId();
+		String patientName = appointment.getPatient().getName();
+		String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
+		String time = DateUtil.getShortDateTime(appointment.getTime());
+		String msg = SmsContentUtil.getInstance().getMsgForSms(templateName, patientName, null, time);
+		logger.debug("*********** SMS CONTENT FOR PATIENT:"+msg);
+		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
+			SmsDetails smsDetails = new SmsDetails();
+			smsDetails.setContactList(patientPhoneNumber);
+			smsDetails.setDetail(msg);
+			smsDetails.setRetryCount(5);
+			smsDetails.setDate(new Date().getTime());
+			smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + patientId);
+			smsDetails.setStatus(SmsStatus.PENDING.name());
+			smsDetailsRepository.save(smsDetails);
+		}
 	}
 }

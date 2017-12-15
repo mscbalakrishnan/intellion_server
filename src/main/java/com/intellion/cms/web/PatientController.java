@@ -135,6 +135,7 @@ public class PatientController {
 				SmsDetails smsDetails = new SmsDetails();
 				smsDetails.setContactList(patientPhoneNumber);
 				smsDetails.setDetail(msg);
+				smsDetails.setRetryCount(5);
 				smsDetails.setDate(new Date().getTime());
 				smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + patient.getId());
 				smsDetails.setStatus(SmsStatus.PENDING.name());

@@ -3,44 +3,99 @@ package com.intellion.cms.service.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.util.List;
+import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.intellion.cms.domain.Appointment;
-import com.intellion.cms.domain.dto.AppointmentDto;
-import com.intellion.cms.domain.template.SmsTemplateData;
-import com.intellion.cms.service.AppointmentService;
+import com.intellion.cms.domain.Settings;
+import com.intellion.cms.domain.SettingsParams;
+import com.intellion.cms.domain.SmsDetails;
 import com.intellion.cms.service.NotifyService;
+import com.intellion.cms.service.SettingsService;
+import com.intellion.cms.service.SmsDetailsService;
 
 @Component("notifyService")
 public class NotifyServiceImpl implements NotifyService {
-	private static final Logger logger = LoggerFactory.getLogger(NotifyServiceImpl.class);
-	private String urlStr = "http://bhashsms.com/api/sendmsg.php";
-	private String priority = "ndnd";
-	private String type = "normal";
-	
 	@Autowired
-	private AppointmentService appointmentService;
+    private SettingsService settingsService;
+	@Autowired
+    private SmsDetailsService smsDetailsService;
+	private static final Logger logger = LoggerFactory.getLogger(NotifyServiceImpl.class);
+//	private String urlStr = "http://bhashsms.com/api/sendmsg.php";
+//	private String priority = "ndnd";
+//	private String type = "normal";
 	
+	public Properties getSmsParams() {
+		Properties properties = new Properties();
+		for (Settings settings : settingsService.findByCategory("SMS")) {
+			for (SettingsParams params : settings.getSettingsParams()) {
+				properties.setProperty(params.getParamName(), params.getParamValue());
+			}
+		}
+		logger.debug("properties: {}", properties);
+		return properties;
+	}
+	
+	//minute (0 - 59) / hour (0 - 23) / day of month (1 - 31) / month (1 - 12) / day of week (0 - 6)
+	@Scheduled(cron="0 0 9-18 * * *")
+	@Override
+	public void sendSMS(){
+		for (SmsDetails smsDetails:smsDetailsService.getPendingSms()) {
+			Properties properties =  getSmsParams();
+	//		phoneNumber should be 10 digit Number.class validation should be doen in UI
+			String urlStr = properties.getProperty("URL");
+			urlStr += "?user=" + properties.getProperty("USERNAME");
+			urlStr += "&pass=" + properties.getProperty("PASSWORD");
+			urlStr += "&sender=" + properties.getProperty("SENDER");
+			urlStr += "&phone=" + smsDetails.getContactList();
+			try {
+				urlStr += "&text=" + URLEncoder.encode(smsDetails.getDetail(), "UTF-8");
+			} catch (UnsupportedEncodingException e1) {
+				logger.error("Unable to encode the sms text message.", e1);
+			}
+			urlStr += "&priority=" + properties.getProperty("PRIORITY");
+			urlStr += "&stype=" + properties.getProperty("TYPE");
+			logger.debug("urlStr : {}",urlStr);
+			
+			if (!Boolean.parseBoolean(properties.getProperty("ENABLED"))){
+				logger.debug("SMS DISABLED !!! ");
+				return;
+			}
+			try {
+				URL url = new URL(urlStr);
+				URLConnection urlConnection = url.openConnection();
+		        HttpURLConnection connection = null;
+		        if(urlConnection instanceof HttpURLConnection) {
+		        	connection = (HttpURLConnection) urlConnection;
+		        }
+		        
+		        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		        String urlString = "";
+		        String current;
+		        while((current = in.readLine()) != null) {
+		        	urlString += current;
+		        }
+		        logger.debug("output of sms is {}", urlString);
+	
+			} catch (IOException  e) {
+				logger.error("Unable to send sms", e);
+				smsDetails.setRetryCount(smsDetails.getRetryCount()-1);
+				smsDetailsService.save(smsDetails);
+			}
+		}
+	}
+	
+	/*
 	@Value("${sms.enable:false}")
 	private String enableSMS;
 	
@@ -70,52 +125,5 @@ public class NotifyServiceImpl implements NotifyService {
         logger.debug("sms.user : {}",smsUser);
         logger.debug("sms.password : {}",smsPassword);
         logger.debug("sms.sender : {}",smsSender);
-    }
-	
-
-	
-	
-	
-	
-	
-	@Override
-	public void sendSMS(String phoneNumber, String text){
-//		phoneNumber shoule be 10 digit Number.class validation should be doen in UI
-		urlStr += "?user=" + smsUser;
-		urlStr += "&pass=" + smsPassword;
-		urlStr += "&sender=" + smsSender;
-		urlStr += "&phone=" + phoneNumber;
-		try {
-			urlStr += "&text=" + URLEncoder.encode(text, "UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-			logger.error("Unable to encode the sms text message.", e1);
-		}
-		urlStr += "&priority=" + priority;
-		urlStr += "&stype=" + type;
-		logger.debug("urlStr : {}",urlStr);
-		
-		if (!Boolean.parseBoolean(enableSMS)){
-			logger.debug("SMS DISABLED !!! ");
-			return;
-		}
-		try {
-			URL url = new URL(urlStr);
-			URLConnection urlConnection = url.openConnection();
-	        HttpURLConnection connection = null;
-	        if(urlConnection instanceof HttpURLConnection) {
-	        	connection = (HttpURLConnection) urlConnection;
-	        }
-	        
-	        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	        String urlString = "";
-	        String current;
-	        while((current = in.readLine()) != null) {
-	        	urlString += current;
-	        }
-	        logger.debug("output of sms is {}", urlString);
-
-		} catch (IOException  e) {
-			logger.error("Unable to send sms", e);
-		}
-	}
+    }*/
 }

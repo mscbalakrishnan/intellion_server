@@ -1,25 +1,23 @@
 package com.intellion.cms.util;
 
 import java.io.StringWriter;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
-import org.hibernate.validator.internal.util.privilegedactions.GetInstancesFromServiceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.intellion.cms.domain.Appointment;
-import com.intellion.cms.domain.dto.AppointmentDto;
+import com.intellion.cms.domain.Settings;
+import com.intellion.cms.domain.SettingsParams;
 import com.intellion.cms.domain.template.SmsTemplateData;
-import com.intellion.cms.service.impl.DoctorServiceImpl;
+import com.intellion.cms.service.SettingsService;
 
 public class SmsContentUtil {
-	
+    private SettingsService settingsService;
 	private static final SmsContentUtil smsContentUtil = new SmsContentUtil();
 	private static final Logger logger = LoggerFactory.getLogger(SmsContentUtil.class);
 	VelocityEngine ve = null;
@@ -48,6 +46,7 @@ public class SmsContentUtil {
 		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		ve.init();
+		settingsService = SpringContextBridge.services().getSettingsService();
 	}
 	public static SmsContentUtil getInstance(){
 		return smsContentUtil;
@@ -59,7 +58,6 @@ public class SmsContentUtil {
 		sb.append(BOOSTERDATE).append(dueDate).append(EOL);
 		sb.append(APPOINTMENT).append(EOL);
 		sb.append(IGNORE).append(EOL);
-		
 		return sb;
 	}
 	
@@ -81,98 +79,57 @@ public class SmsContentUtil {
 				
 		return sb;
 	}
+
+	public Properties getClinicParams() {
+		Properties properties = new Properties();
+		for (Settings settings : settingsService.findByCategory("CLINIC")) {
+			for (SettingsParams params : settings.getSettingsParams()) {
+				properties.setProperty(params.getParamName(), params.getParamValue());
+			}
+		}
+		logger.debug("properties: {}", properties);
+		return properties;
+	}
+	
 	public synchronized String getWelcomeMessage(String template, String patientName) {
+		Properties properties =  getClinicParams();
 		template = BASE_DIR + "/" + template;
 		Template t = ve.getTemplate(template);
+		
 		SmsTemplateData smsTemplateData = new SmsTemplateData();
 		smsTemplateData.setPatientName(patientName);
-		smsTemplateData.setHospitalName("HOSPITALNAME");
-		smsTemplateData.setHospitalPhone("HOSPITALPHONE");
+		smsTemplateData.setHospitalName(properties.getProperty("NAME"));
+		smsTemplateData.setHospitalPhone(properties.getProperty("MOBILENO"));
 		context.put("data", smsTemplateData);
+		
 		StringWriter writer = new StringWriter();
 		t.merge(context, writer);
 		return writer.toString();
 	}
-	/*public String getMsgForAppConfirm(String template, Appointment appointment) {
-		VelocityEngine ve = new VelocityEngine();
-		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		ve.init();
-		
-		SmsTemplateData smsTemplateData = new SmsTemplateData();
-		smsTemplateData.setPatientName(appointment.getPatient().getName());
-		smsTemplateData.setHospitalName(hospital);
-		smsTemplateData.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
-
-		VelocityContext context = new VelocityContext();
-		context.put("data", smsTemplateData);
-		
+	
+	/**
+	 * Method will return sms message for patient as well as doctor if the doctorName parameter is not none
+	 * @param template
+	 * @param patientName
+	 * @param doctorName
+	 * @param time
+	 * @return
+	 */
+	public String getMsgForSms(String template, String patientName, String doctorName, String time) {
+		Properties properties =  getClinicParams();
+		template = BASE_DIR + "/" + template;
 		Template t = ve.getTemplate(template);
-		StringWriter writer = new StringWriter();
-		t.merge(context, writer);
-		return writer.toString();
-	}
-	public String getMsgForApp(String template, Appointment appointment, String doctorName) {
-		VelocityEngine ve = new VelocityEngine();
-		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		ve.init();
+		
 		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setDateTime(time);
+		smsTemplateData.setPatientName(patientName);
 		smsTemplateData.setDoctorName(doctorName);
-		smsTemplateData.setPatientName(appointment.getPatient().getName());
-		smsTemplateData.setHospitalName(hospital);
-		smsTemplateData.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
-		
-		VelocityContext context = new VelocityContext();
+		smsTemplateData.setHospitalName(properties.getProperty("NAME"));
+		smsTemplateData.setHospitalPhone(properties.getProperty("MOBILENO"));
 		context.put("data", smsTemplateData);
 		
-		Template t = ve.getTemplate(template);
 		StringWriter writer = new StringWriter();
 		t.merge(context, writer);
 		return writer.toString();
 	}
-	
-	@Override
-	public String getMsgForDelApp(String template, AppointmentDto appointmentDto, String patientName) {
-		VelocityEngine ve = new VelocityEngine();
-		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		ve.init();
-		
-		SmsTemplateData smsTemplateData = new SmsTemplateData();
-		smsTemplateData.setDoctorName(appointmentDto.getDoctor().getName());
-		smsTemplateData.setPatientName(appointmentDto.getPatient().getName());
-		smsTemplateData.setHospitalName(hospital);
-		smsTemplateData.setDateTime(appointmentDto.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
-		
-		
-		VelocityContext context = new VelocityContext();
-		context.put("data", smsTemplateData);
-		
-		Template t = ve.getTemplate(template);
-		StringWriter writer = new StringWriter();
-		t.merge(context, writer);
-		return writer.toString();
-	}	
-	
-	public String getMsgForAppConfirmForDoc(String template, Appointment appointment) {
-		VelocityEngine ve = new VelocityEngine();
-		ve.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		ve.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		ve.init();
-		
-		SmsTemplateData smsTemplateData = new SmsTemplateData();
-		smsTemplateData.setDoctorName(appointment.getDoctor().getName());
-		smsTemplateData.setPatientName(appointment.getPatient().getName());
-		smsTemplateData.setHospitalName(hospital);
-		smsTemplateData.setDateTime(appointment.getTime().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM,FormatStyle.SHORT)));
-		
-		VelocityContext context = new VelocityContext();
-		context.put("data", smsTemplateData);
-		
-		Template t = ve.getTemplate(template);
-		StringWriter writer = new StringWriter();
-		t.merge(context, writer);
-		return writer.toString();
-	}*/
 }

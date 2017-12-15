@@ -12,25 +12,14 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
-
-import lombok.Data;
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "type", "category" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "category" ))
 public class Settings extends EntityWithSurrogatePK{
-	private String type;
 	private String category;
 	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JoinColumn(name="settings_id")
 	private List<SettingsParams> settingsParams = new ArrayList<>();
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public String getCategory() {
 		return category;
@@ -50,7 +39,7 @@ public class Settings extends EntityWithSurrogatePK{
 
 	@Override
 	public String toString() {
-		return "Settings [type=" + type + ", category=" + category + ", settingsParams=" + settingsParams + "]";
+		return "Settings [category=" + category + ", settingsParams=" + settingsParams + "]";
 	}
-	
+
 }

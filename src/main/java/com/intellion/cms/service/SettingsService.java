@@ -1,7 +1,5 @@
 package com.intellion.cms.service;
 
-import java.util.List;
-
 import com.intellion.cms.domain.Settings;
 
 public interface SettingsService {

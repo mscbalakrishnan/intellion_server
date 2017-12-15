@@ -215,8 +215,6 @@ public class CMSApplication implements CommandLineRunner {
 		pe1 = prescriptionEntryRepository.save(pe1);
 		pe2 = prescriptionEntryRepository.save(pe2);
 		
-		
-		
 		SettingsParams settingsParams = new SettingsParams();
 		settingsParams.setParamName("ENABLED");
 		settingsParams.setParamValue("FALSE");
@@ -253,7 +251,6 @@ public class CMSApplication implements CommandLineRunner {
 		settingsParams15 = settingsParamsRepository.save(settingsParams15);
 		
 		Settings settings = new Settings();
-		settings.setType("GLOBAL");
 		settings.setCategory("SMS");
 		settings.getSettingsParams().add(settingsParams);
 		settings.getSettingsParams().add(settingsParams1);
@@ -280,7 +277,6 @@ public class CMSApplication implements CommandLineRunner {
 		settingsParams4 = settingsParamsRepository.save(settingsParams4);
 		
 		Settings settings1 = new Settings();
-		settings1.setType("GLOBAL");
 		settings1.setCategory("CLINIC");
 		settings1.getSettingsParams().add(settingsParams2);
 		settings1.getSettingsParams().add(settingsParams3);
