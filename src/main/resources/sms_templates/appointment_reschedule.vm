@@ -1,6 +1,6 @@
 Dear 
 #if ($data.doctorName)
-Dr $data.docName,
+Dr $data.doctorName,
 #else
 $data.patientName,
 #end
@@ -8,5 +8,5 @@ Your appointment
 #if ($data.doctorName) 
 with $data.patientName 
 #end
-at $data.hospital, rescheduled on $data.dateTime.
+at $data.hospitalName, rescheduled on $data.dateTime.
 For any assistance, kindly contact - $data.hospitalPhone

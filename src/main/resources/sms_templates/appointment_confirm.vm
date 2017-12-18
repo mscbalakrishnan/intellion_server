@@ -8,5 +8,5 @@ You have an appointment
 #if ($data.doctorName)
 with $data.patientName 
 #end
-at $data.hospital, on $data.dateTime.
+at $data.hospitalName, on $data.dateTime.
 For any assistance, kindly contact - $data.hospitalPhone

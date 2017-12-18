@@ -160,10 +160,10 @@ public class AppointmentController {
 		this.appointmentService.delete(appointmentId);
 		
 		if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() != 0) {
-			sendSmsToDoctor(appointment, "app_cancel.vm");
+			sendSmsToDoctor(appointment, "appointment_cancel.vm");
 		}
 		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-			sendSmsToPatient(appointment, "app_cancel.vm");
+			sendSmsToPatient(appointment, "appointment_cancel.vm");
 		}
 	}
 

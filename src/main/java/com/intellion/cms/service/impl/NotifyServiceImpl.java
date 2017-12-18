@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -20,17 +19,19 @@ import org.springframework.stereotype.Component;
 import com.intellion.cms.domain.Settings;
 import com.intellion.cms.domain.SettingsParams;
 import com.intellion.cms.domain.SmsDetails;
+import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.service.NotifyService;
 import com.intellion.cms.service.SettingsService;
 import com.intellion.cms.service.SmsDetailsService;
 
 @Component("notifyService")
 public class NotifyServiceImpl implements NotifyService {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired
     private SettingsService settingsService;
 	@Autowired
     private SmsDetailsService smsDetailsService;
-	private static final Logger logger = LoggerFactory.getLogger(NotifyServiceImpl.class);
+//	private static final Logger logger = LoggerFactory.getLogger(NotifyServiceImpl.class);
 //	private String urlStr = "http://bhashsms.com/api/sendmsg.php";
 //	private String priority = "ndnd";
 //	private String type = "normal";
@@ -46,10 +47,13 @@ public class NotifyServiceImpl implements NotifyService {
 		return properties;
 	}
 	
-	//minute (0 - 59) / hour (0 - 23) / day of month (1 - 31) / month (1 - 12) / day of week (0 - 6)
+//	second (0-59) / minute (0-59) / hour (0-23) / day of month (1-31) / month (1-12) / day of week (0-6)
+//	Testing every twenty  seconds...
+//	@Scheduled(cron="*/20 * * * * *")
 	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void sendSMS(){
+		logger.debug("sendSMS() called...");
 		for (SmsDetails smsDetails:smsDetailsService.getPendingSms()) {
 			Properties properties =  getSmsParams();
 	//		phoneNumber should be 10 digit Number.class validation should be doen in UI
@@ -65,7 +69,7 @@ public class NotifyServiceImpl implements NotifyService {
 			}
 			urlStr += "&priority=" + properties.getProperty("PRIORITY");
 			urlStr += "&stype=" + properties.getProperty("TYPE");
-			logger.debug("urlStr : {}",urlStr);
+			logger.debug("urlStr for SMS : {}",urlStr);
 			
 			if (!Boolean.parseBoolean(properties.getProperty("ENABLED"))){
 				logger.debug("SMS DISABLED !!! ");
@@ -86,7 +90,8 @@ public class NotifyServiceImpl implements NotifyService {
 		        	urlString += current;
 		        }
 		        logger.debug("output of sms is {}", urlString);
-	
+		        smsDetails.setStatus(SmsStatus.SUCCESS.name());
+				smsDetailsService.save(smsDetails);
 			} catch (IOException  e) {
 				logger.error("Unable to send sms", e);
 				smsDetails.setRetryCount(smsDetails.getRetryCount()-1);

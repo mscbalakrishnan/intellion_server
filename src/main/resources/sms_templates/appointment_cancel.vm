@@ -8,5 +8,5 @@ Your appointment
 #if ($data.doctorName)
 with $data.patientName 
 #end
-at $data.hospital, on $data.dateTime has been cancelled.
+at $data.hospitalName, on $data.dateTime has been cancelled.
 For any assistance, kindly contact - $data.hospitalPhone
