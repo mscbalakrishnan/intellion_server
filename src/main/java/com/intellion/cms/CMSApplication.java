@@ -2,6 +2,7 @@ package com.intellion.cms;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import com.intellion.cms.domain.Appointment;
 import com.intellion.cms.domain.BloodGroup;
 import com.intellion.cms.domain.Category;
 import com.intellion.cms.domain.Doctor;
+import com.intellion.cms.domain.Label;
 import com.intellion.cms.domain.Medication;
 import com.intellion.cms.domain.MedicationType;
 import com.intellion.cms.domain.MedicationUnit;
@@ -32,6 +34,7 @@ import com.intellion.cms.repository.AddressRepository;
 import com.intellion.cms.repository.AppointmentRepository;
 import com.intellion.cms.repository.CategoryRepository;
 import com.intellion.cms.repository.DoctorRepository;
+import com.intellion.cms.repository.LabelRepository;
 import com.intellion.cms.repository.MedicationRepository;
 import com.intellion.cms.repository.PatientRepository;
 import com.intellion.cms.repository.PrescriptionEntryRepository;
@@ -65,6 +68,9 @@ public class CMSApplication implements CommandLineRunner {
     private SettingsParamsRepository settingsParamsRepository;
 	@Autowired
     private AddressRepository addressRepository;
+	
+	@Autowired
+    private LabelRepository labelRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CMSApplication.class, args);
@@ -150,6 +156,15 @@ public class CMSApplication implements CommandLineRunner {
 		p.getAddressList().add(address1);
 		p = patientRepository.save(p);
 		
+		Patient p1 = new Patient();
+		p1.setName("pandian Babu");
+		p1.setMobileNumber1("9600194696");
+		p1.setTitle(Title.Mr);
+		p1.setBloodGroup(BloodGroup.BPositive);
+		p1.setDob(LocalDate.of(1989, 1, 15));
+		p1.getAddressList().add(address1);
+		p1 = patientRepository.save(p1);
+		
 		Appointment a = new Appointment(LocalDateTime.now(), d, p);
 		a = appointmentRepository.save(a);
 		Appointment a1 = new Appointment(LocalDateTime.now().plusDays(1), d, p);
@@ -171,6 +186,15 @@ public class CMSApplication implements CommandLineRunner {
 		m2.setType(MedicationType.Syrup);
 		m1 = medicationRepository.save(m1);
 		m2 = medicationRepository.save(m2);
+		
+		
+		Label l = new Label();
+		l.setLabelname("POOR");
+		List<Patient> patList = new ArrayList<Patient>();
+		patList.add(p); patList.add(p1);
+		l.setPatientList(patList);
+		l = labelRepository.save(l);
+		
 		
 		Prescription prescription = new Prescription();
 		prescription.setDoctor(d);
