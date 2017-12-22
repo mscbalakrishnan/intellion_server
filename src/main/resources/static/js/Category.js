@@ -17,7 +17,8 @@ var Category = function() {
 		
 		initCategoryVo();
 		
-		$("#content").html(WsUtils.getGridFilterContainer("Category", "Add Category"));
+		$("#categoryContainer").html(WsUtils.getGridFilterContainer("Category", "Add Category","categoryGrid"));
+		$("#categoryContainer").addClass("active");
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
@@ -72,7 +73,7 @@ var Category = function() {
 								}	
 							},
 					});
-					dataGridController.showDataGrid(dgm, "gridContainer", "categorygrid",false);
+					dataGridController.showDataGrid(dgm, "categoryGrid", "categorygrid",false);
 				}
 				else
 				{
@@ -81,6 +82,7 @@ var Category = function() {
 			},
 			requestUrl : "/intelhosp/categories/categorydto",
 			requestMethod: "GET",
+			isAsyncCall:false,
 			requestData : {
 			},resultType : "json",
 		});
@@ -102,7 +104,10 @@ var Category = function() {
 				if(data && data.id){
 					categoryVo.id = data.id;					
 				}
-				categoryVo.name(data.name);
+				if(data)
+					categoryVo.name(data.name);
+				else
+					categoryVo.name("");
 			},
 			requestUrl : "../pages/templates/category.html",
 			requestData : {},
@@ -110,7 +115,7 @@ var Category = function() {
 		});
 		ServiceCalls.loadHtmlPage();
 	};
-	self.saveCategory = function(){
+	self.saveCategory = function(callingFrom){
 		
 		if(WsUtils.validate("categoryForm"))
 			return;
@@ -125,11 +130,12 @@ var Category = function() {
 				WsUtils.showAlert('Saved Successfully.');
 				WsUtils.hidePopup();
 				
-				if($("#category")){ //CAlling from doctor page
+				if($("#categoryContainer").hasClass("active")){ //CAlling from doctor page
+					self.loadCategoryList();
+				
+				}else{
 					new Doctor().loadCategories();
 					initCategoryVo();
-				}else{
-					self.loadCategoryList();
 				}
 				
 			},

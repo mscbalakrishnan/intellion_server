@@ -90,6 +90,7 @@ table th, table td {
 							<div class="dtLabel">Date : <span data-bind="text:date"></span>
 							<div class="buttons">
 								<button	data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}'>Delete</button>
+								<button	data-bind='click:function(){new Prescriptions().editPrescription(prescription,"content")}'>Edit</button>
 							</div>
 							</div>
 							

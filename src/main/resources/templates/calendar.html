@@ -477,7 +477,7 @@
 							class="fa fa-envelope"></i> <span>Inventory</span>
 					</a></li>
 
-					<li><a href="javascript:void(0)" onclick="#"> <i
+					<li><a href="javascript:void(0)" onclick="new Settings().loadSettingsPage('content')"> <i
 							class="fa fa-envelope"></i> <span>Settings</span>
 					</a></li>
 
@@ -491,23 +491,7 @@
 							<i class="fa fa-envelope"></i> <span>Prescriptions List</span>
 					</a></li>
 
-					<li class="treeview"><a href="#"> <i class="fa fa-files-o"></i>
-							<span>Master</span> <span class="pull-right-container"> </span><span
-							class="pull-right-container"> <i
-								class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-						<ul class="treeview-menu">
-							<li><a href="javascript:void(0)"
-								onclick="new Category().loadCategoryList()"> <i
-									class="fa fa-envelope"></i> <span>Category</span>
-							</a></li>
-							<li><a href="javascript:void(0)"
-								onclick="new Medications().loadMedicationsList()"> <i
-									class="fa fa-envelope"></i> <span>Medications</span>
-							</a></li>
-						</ul></li>
-
+					
 				</ul>
 			</section>
 			<!-- /.sidebar -->
@@ -801,6 +785,7 @@
 	<script src="/js/login.js"></script>
 	<script src="/js/Category.js"></script>
 	<script src="/js/Medications.js"></script>
+	<script src="/js/settings.js"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="/bower_components/admin-lte/dist/js/demo.js"></script>
 

@@ -1,28 +1,20 @@
-var login = function() {
-
+var Settings = function() {
 	var self = this;
-			self.doLogin = function() {
+	
+	self.loadSettingsPage = function(data) {
 
-				if (WsUtils.validate("loginForm"))
-					return;
-
-				if ($("#userName").val() == "admin"
-						&& $("#password").val() == "admin") {
-					localStorage.setItem("user", $("#userName").val());
-					window.location.href = "pages/calendar.html";
-
-				} else {
-					$("#invalidLoginError").text(
-							"Invalid User name and password.");
-					$("#userName").val("");
-					$("#password").val("");
-					$("#userName").focus();
-				}
-
-			}, self.doLogOff = function() {
-
-				localStorage.removeItem("user");
-				window.location.href = "../index.html";
-
-			}
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				var responseObj = resultGlobalClass.response;
+				$(".content").html(responseObj);	
+				new Category().loadCategoryList();
+				
+			},
+			requestUrl : "../pages/templates/settings.html",			
+			requestData : {},
+			resultType : "text",
+		});
+		ServiceCalls.loadHtmlPage();
+		
+	};
 }

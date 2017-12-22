@@ -2,7 +2,7 @@ var medicationVo;
 
 function initMedicationVo() {
 	medicationVo = {
-		name : ko.observable("sds"),
+		name : ko.observable(""),
 		id : "",
 		types : ko.observableArray([{"id":"Tablet","name":"Tablet"},{"id":"Syrup","name":"Syrup"},{"id":"Capsule","name":"Capsule"}]),
 		type : ko.observable("Syrup"),
@@ -19,14 +19,16 @@ var Medications = function() {
 		
 		initMedicationVo();
 		
-		$("#content").html(WsUtils.getGridFilterContainer("Medications", "Add Medication"));
+		$("#medicationsContainer").html(WsUtils.getGridFilterContainer("Medications", "Add Medication",'medicationGrid','addMedicationsBtn'));
+		$(".tab-pane").removeClass("active");
+		$("#medicationsContainer").addClass("active");
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				$("#comboDiv").html(WsUtils.getGridFilterContainer());
 				var dataArr=resultGlobalClass.response;			
 						
-				$("#addNewBtn").bind("click",function(){
+				$("#addMedicationsBtn").bind("click",function(){
 					self.loadMedicationPage();
 				});
 				
@@ -74,7 +76,7 @@ var Medications = function() {
 								}	
 							},
 					});
-					dataGridController.showDataGrid(dgm, "gridContainer", "medicationgrid",false);
+					dataGridController.showDataGrid(dgm, "medicationGrid", "medicationgrid",false);
 				}
 				else
 				{
@@ -133,10 +135,11 @@ var Medications = function() {
 				WsUtils.showAlert('Saved Successfully.');
 				WsUtils.hidePopup();
 				
-				if($("#addMedication")){
-					self.loadMedications();
-				}else{
+				if($("#medicationsContainer").hasClass("active")){
 					self.loadMedicationsList();
+					
+				}else{
+					self.loadMedications();
 				}
 				
 			},

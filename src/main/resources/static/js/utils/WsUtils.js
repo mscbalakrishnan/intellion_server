@@ -50,21 +50,25 @@ var WsUtils = {
 				return "";
 				
 		},
-		getGridFilterContainer : function(title,buttonName)
+		getGridFilterContainer : function(title,buttonName,gridContainerName, btnName)
 		{
            if(!buttonName) buttonName = "Add New";
            if(!title) title = "";
            
-			var gridContainerHtml = '<div class="row box-header" style="padding:4px;margin:0px;background:#3c8dbc"><div class="col-sm-6">' + 
+           if(!gridContainerName) gridContainerName = 'gridContainer';
+           
+           if(!btnName) btnName = 'addNewBtn';
+           
+		   var gridContainerHtml = '<div class="row box-header" style="padding:4px;margin:0px;background:#3c8dbc"><div class="col-sm-6">' + 
 										' <div class="dataTables_length" id="filter">' +
 										'<h3 class="box-title" style="color:#FFF">'+title+'</h3>'+
 										' </div>' +
 									'</div>' + 
-									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="addNewBtn"'+
+									'<div class="col-sm-6" id="buttonContainer" style="text-align:right"><button type="submit" class="btn btn-success" id="'+btnName+'"'+
 									//' data-toggle="popover" data-content="Please search and select Medication." data-placement="left" title="Add/Update"' +
 									'>'+buttonName+'</button></div> ' + 
 									'</div>'+
-									'<div class="table-responsive row" id="gridContainer" style="padding:0px 10px 0px 10px"></div>';
+									'<div class="table-responsive row" id="'+gridContainerName+'" style="padding:0px 10px 0px 10px"></div>';
 			
 			return gridContainerHtml;
 		},
