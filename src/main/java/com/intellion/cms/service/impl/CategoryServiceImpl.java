@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.intellion.cms.domain.Category;
+import com.intellion.cms.domain.Medication;
 import com.intellion.cms.repository.CategoryRepository;
 import com.intellion.cms.service.CategoryService;
 
@@ -36,5 +37,12 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryRepository.delete(id);
 		
 	}
+	
+	@Override
+	public Category findOne(long id) {
+		return categoryRepository.findOne(id);
+	}
+	
+	
 	
 }

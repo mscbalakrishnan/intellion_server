@@ -8,6 +8,7 @@ public interface PrescriptionService {
 	Prescription findOne(long id);
 	void delete(long id);
 	Iterable<Prescription> findByDoctor_Id(long doctorId);
-	Iterable<Prescription> findByPatient_Id(String patId);
-	Iterable<Prescription> findByDoctor_IdAndPatient_Id(long doctorId, String patientId);
+	Iterable<Prescription> findByPatient_Id(long patId);
+	Iterable<Prescription> findByDoctor_IdAndPatient_Id(long doctorId, long patientId);
+	
 }

@@ -1,6 +1,7 @@
 package com.intellion.cms.service;
 
 import com.intellion.cms.domain.Category;
+import com.intellion.cms.domain.Medication;
 
 public interface CategoryService {
 	
@@ -8,11 +9,8 @@ public interface CategoryService {
 
 	Iterable<Category> findAll();
 
-	//Optional<Category> findOne(long id);
-
 	void delete(long id);
 
-	//void delete(Category Category);
-
+	Category findOne(long id);
 	
 }

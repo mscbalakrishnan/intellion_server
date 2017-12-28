@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.intellion.cms.domain.Category;
+import com.intellion.cms.domain.Medication;
 import com.intellion.cms.domain.dto.CategoryDto;
+import com.intellion.cms.domain.dto.MedicationDto;
 import com.intellion.cms.service.CategoryService;
 
 /**
@@ -49,14 +52,24 @@ public class CategoryController {
 	public CategoryDto addCategory(@RequestBody CategoryDto categoryDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , categoryDto.toString());
 		Category category = new Category();
-		if(categoryDto.getId() != null && categoryDto.getId() > 0){
-			category.setId(categoryDto.getId());
-		}
 		category.setName(categoryDto.getName());
 		category = this.categoryService.save(category);
 		return new CategoryDto(category);
 		
 	}
+	
+	@PutMapping
+	@ResponseBody
+	public CategoryDto editCategory(@RequestBody CategoryDto categoryDto, HttpServletRequest request) {
+		logger.debug("*********** Received the Object to EDIT {}" , categoryDto.toString());
+		Category category = categoryService.findOne(categoryDto.getId());
+		category.setName(categoryDto.getName());
+		category = this.categoryService.save(category);
+		return new CategoryDto(category);
+	}
+	
+	
+	
 	
 	@DeleteMapping(value="/{categoryId}")
 	@ResponseBody

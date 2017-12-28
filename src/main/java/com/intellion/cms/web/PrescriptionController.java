@@ -3,6 +3,7 @@ package com.intellion.cms.web;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import com.intellion.cms.domain.Doctor;
 import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.Prescription;
 import com.intellion.cms.domain.PrescriptionEntry;
+import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.domain.dto.PrescriptionDto;
 import com.intellion.cms.domain.dto.PrescriptionEntryInputDto;
 import com.intellion.cms.domain.dto.PrescriptionInputDto;
@@ -87,7 +89,7 @@ public class PrescriptionController {
 	@ResponseBody
 	public PrescriptionDto addPrescription(@RequestBody PrescriptionInputDto prescriptionInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , prescriptionInputDto.toString());
-		Doctor doctor = doctorService.findOne(prescriptionInputDto.getDoctorId());
+		Doctor doctor =  doctorService.findOne(prescriptionInputDto.getDoctorId());
 		Patient patient = patientService.findOne(prescriptionInputDto.getPatientId());
 		
 		Set<PrescriptionEntry> preEntries = new HashSet<>();
@@ -141,7 +143,7 @@ public class PrescriptionController {
 	}	
 	
 	@GetMapping(value="/patient/{patientid}")
-	public Iterable<PrescriptionDto> findByPatId(@PathVariable("patientid") String patientId, HttpServletRequest request) {
+	public Iterable<PrescriptionDto> findByPatId(@PathVariable("patientid") long patientId, HttpServletRequest request) {
 		logger.debug("Patient Id ----> {}",patientId);
 		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByPatient_Id(patientId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
@@ -150,13 +152,21 @@ public class PrescriptionController {
 	}
 	
 	@GetMapping(value="/doctorandpatient/{doctorid}/{patientid}")
-	public Iterable<PrescriptionDto> findByDocAndPatId(@PathVariable("doctorid") long doctorId, @PathVariable("patientid") String patientId, HttpServletRequest request) {
+	public Iterable<PrescriptionDto> findByDocAndPatId(@PathVariable("doctorid") long doctorId, @PathVariable("patientid") long patientId, HttpServletRequest request) {
 		logger.debug("Doctor ID ----> {}, Patient ID ----> {}",doctorId, patientId);
 		List<Prescription> prescriptions =  (List<Prescription>) this.prescriptionService.findByDoctor_IdAndPatient_Id(doctorId, patientId);
 		List<PrescriptionDto> toReturn = new ArrayList<>();
 		prescriptions.forEach(p->toReturn.add(new PrescriptionDto(p)));
 		return toReturn;
 	}
+	
+	@GetMapping(value="/{prescriptionid}")
+	@ResponseBody
+	public PrescriptionDto getPrescription(@PathVariable("prescriptionid") long prescriptionId, HttpServletRequest request) {
+		logger.debug("PresID ID ---->",prescriptionId);
+		Prescription prescription = this.prescriptionService.findOne(prescriptionId);
+		return new PrescriptionDto(prescription);
+	}	
 	
 	
 	
