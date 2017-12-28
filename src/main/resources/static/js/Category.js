@@ -121,7 +121,9 @@ var Category = function() {
 			return;
 		
 		var methodType = "POST";
-		
+		if(categoryVo.id){
+			methodType = "PUT";
+		}
 		
 		var data = {name : categoryVo.name(),id : categoryVo.id};
 		
