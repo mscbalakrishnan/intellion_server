@@ -1,0 +1,19 @@
+<form name="group">
+<div class="form-group" id="groupForm">
+	<label >Group Name *</label> <input
+		data-bind="value:name" class="form-control" id="category"
+		placeholder="Enter Group Name" validation="required" type="empty">
+	<span class="help-block"></span>
+</div>
+
+<div class="box-footer">
+		<div class="col-md-2"></div>
+		<div class="col-md-4">
+			<button type="button" class="btn btn-block btn-info" onclick="new Group().saveGroup()">Submit</button>
+		</div>
+		<div class="col-md-4">
+			<button type="button" class="btn btn-block btn-danger btn-flat" onclick="WsUtils.hidePopup()">Cancel</button>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</form>

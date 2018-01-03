@@ -192,9 +192,15 @@ public class CMSApplication implements CommandLineRunner {
 		l.setLabelname("POOR");
 		List<Patient> patList = new ArrayList<Patient>();
 		patList.add(p); patList.add(p1);
-		l.setPatientList(patList);
+		//l.setPatientList(patList);
 		l = labelRepository.save(l);
 		
+		Label l1 = new Label();
+		l1.setLabelname("RICH");
+		
+		patList.add(p); patList.add(p1);
+		l1.setPatientList(patList);
+		l1 = labelRepository.save(l1);
 		
 		Prescription prescription = new Prescription();
 		prescription.setDoctor(d);

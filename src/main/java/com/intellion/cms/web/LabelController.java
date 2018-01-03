@@ -41,10 +41,10 @@ public class LabelController {
 	 * @param request
 	 * @return
 	 */
-	@GetMapping
+	@GetMapping(value="/labeldto")
 	@ResponseBody
 	public List<LabelDto> getAllLabels(HttpServletRequest request) {
-
+		System.out.println("Muralibabu: getAllLabels");
 		List<Label> labels =  (List<Label>) this.labelService.findAll();
 		List<LabelDto> toReturn = new ArrayList<>();
 		labels.forEach(l->toReturn.add(new LabelDto(l)));
@@ -55,6 +55,7 @@ public class LabelController {
 	@PostMapping
 	@ResponseBody
 	public LabelDto addLabel(@RequestBody LabelDto labelDto, HttpServletRequest request) {
+		logger.debug("*********** Received the Object to ADD {}" );
 		Label label = new Label();
 		label.setLabelname(labelDto.getName());
 		List<String> patIdList = labelDto.getPatientIdList();
@@ -75,6 +76,7 @@ public class LabelController {
 	@PutMapping
 	@ResponseBody
 	public LabelDto editLabel(@RequestBody LabelDto labelDto, HttpServletRequest request) {
+		logger.debug("*********** Received the Object to EDIT {}" );
 		Label label = labelService.findOne(labelDto.getId());
 		label.setLabelname(labelDto.getName());
 		List<String> patIdList = labelDto.getPatientIdList();

@@ -82,9 +82,14 @@ public class LabelDto implements Serializable {
 		
 		return label;
 	}	
+	public LabelDto(){}
 	
-	
-	
+	public LabelDto(Long id, String name) {
+		
+		super();
+		this.id = id;
+		this.name = name;
+	}
 	
 	
 	
