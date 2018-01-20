@@ -15,7 +15,7 @@ public class SettingsDto implements Serializable {
 	private String type;
 	private String category;
 	private List<SettingsParamsDto> settingsParamsDtos;
-	
+	public SettingsDto(){}
 	public Long getId() {
 		return id;
 	}
@@ -43,8 +43,9 @@ public class SettingsDto implements Serializable {
 	
 	
 	
-	public SettingsDto(String type, String category, List<SettingsParamsDto> settingsParamsDtos) {
+	public SettingsDto(Long id, String type, String category, List<SettingsParamsDto> settingsParamsDtos) {
 		super();
+		this.id = id;
 		this.type = type;
 		this.category = category;
 		this.settingsParamsDtos = settingsParamsDtos;

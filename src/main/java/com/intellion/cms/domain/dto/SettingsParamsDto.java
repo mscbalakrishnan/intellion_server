@@ -35,6 +35,14 @@ public class SettingsParamsDto implements Serializable {
 	
 	public SettingsParamsDto() {}
 	
+	public SettingsParamsDto(Long id, String paramName, String paramValue){
+	
+		super();
+		this.id = id;
+		this.paramName = paramName;
+		this.paramValue = paramValue;
+	}
+	
 	public SettingsParamsDto(SettingsParams settingsParams) {
 		setId(settingsParams.getId());
 		setParamName(settingsParams.getParamName());

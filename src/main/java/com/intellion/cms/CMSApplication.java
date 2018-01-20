@@ -251,12 +251,12 @@ public class CMSApplication implements CommandLineRunner {
 		settingsParams = settingsParamsRepository.save(settingsParams);
 
 		SettingsParams settingsParams1 = new SettingsParams();
-		settingsParams1.setParamName("USERNAME");
+		settingsParams1.setParamName("username");
 		settingsParams1.setParamValue("success");
 		settingsParams1 = settingsParamsRepository.save(settingsParams1);
 		
 		SettingsParams settingsParams11 = new SettingsParams();
-		settingsParams11.setParamName("PASSWORD");
+		settingsParams11.setParamName("password");
 		settingsParams11.setParamValue("123456");
 		settingsParams11 = settingsParamsRepository.save(settingsParams11);
 		
@@ -281,7 +281,7 @@ public class CMSApplication implements CommandLineRunner {
 		settingsParams15 = settingsParamsRepository.save(settingsParams15);
 		
 		Settings settings = new Settings();
-		settings.setCategory("SMS");
+		settings.setCategory("sms");
 		settings.getSettingsParams().add(settingsParams);
 		settings.getSettingsParams().add(settingsParams1);
 		settings.getSettingsParams().add(settingsParams11);
@@ -292,12 +292,12 @@ public class CMSApplication implements CommandLineRunner {
 		settings = settingsRepository.save(settings);
 		
 		SettingsParams settingsParams2 = new SettingsParams();
-		settingsParams2.setParamName("NAME");
+		settingsParams2.setParamName("clinicName");
 		settingsParams2.setParamValue("Sree Balaji Dental Clinic");
 		settingsParams2 = settingsParamsRepository.save(settingsParams2);
 		
 		SettingsParams settingsParams3 = new SettingsParams();
-		settingsParams3.setParamName("ADDRESS");
+		settingsParams3.setParamName("addressline1");
 		settingsParams3.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
 		settingsParams3 = settingsParamsRepository.save(settingsParams3);
 		
