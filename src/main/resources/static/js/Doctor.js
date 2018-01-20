@@ -40,6 +40,10 @@ var Doctor = function() {
 					doctorVo.qualification(data["qualification"]);
 					doctorVo.fees(data["fees"]);
 					doctorVo.mobile(data["mobile"]);
+					if(data["categories"] && data["categories"][0] ){
+						doctorVo.category(data["categories"][0]["id"]);
+					}
+					
 					//doctorVo.category(data["categoryid"]);
 					//doctorVo.categoryList(data["categories"])
 				}
@@ -146,7 +150,7 @@ var Doctor = function() {
 		objToSave.qualification = doctorVo.qualification();
 		objToSave.fees = doctorVo.fees()
 		objToSave.mobile = doctorVo.mobile()
-	//	objToSave.category = doctorVo.category();
+		objToSave.category = doctorVo.category();
 		
 		var methodType = "POST";
 		if(doctorVo.id()){
