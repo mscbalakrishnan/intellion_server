@@ -3,7 +3,6 @@ package com.intellion.cms.web;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,15 +25,16 @@ import com.intellion.cms.domain.Doctor;
 import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.Prescription;
 import com.intellion.cms.domain.PrescriptionEntry;
-import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.domain.dto.PrescriptionDto;
 import com.intellion.cms.domain.dto.PrescriptionEntryInputDto;
 import com.intellion.cms.domain.dto.PrescriptionInputDto;
+import com.intellion.cms.domain.dto.ReportDto;
 import com.intellion.cms.service.DoctorService;
 import com.intellion.cms.service.MedicationService;
 import com.intellion.cms.service.PatientService;
 import com.intellion.cms.service.PrescriptionEntryService;
 import com.intellion.cms.service.PrescriptionService;
+import com.intellion.cms.vm.VmConfigGenerator;
 
 /**
  * Main Controller class
@@ -168,7 +168,16 @@ public class PrescriptionController {
 		return new PrescriptionDto(prescription);
 	}	
 	
-	
+	@GetMapping(value="/print/{prescriptionid}")
+	@ResponseBody
+	public ReportDto printPrescription(@PathVariable("prescriptionid") long prescriptionId, HttpServletRequest request) {
+		logger.debug("*********** Received the Object to print {}" , prescriptionId);
+		Prescription prescription = prescriptionService.findOne(prescriptionId);
+		PrescriptionDto pDto = new PrescriptionDto(prescription);
+		VmConfigGenerator generator = new VmConfigGenerator();
+		String prescription_html_str = generator.generatePrescriptionConfiguration(pDto);
+		return new ReportDto(prescription_html_str);
+	}
 	
 	
 }
