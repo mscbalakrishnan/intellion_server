@@ -53,6 +53,7 @@
 </head>
 <body
 	class="hold-transition sidebar-mini-expand-feature sidebar-mini skin-blue">
+	<a id="pagetop" ></a>
 	<div class="wrapper">
 
 		<header class="main-header">
@@ -477,7 +478,8 @@
 							class="fa fa-envelope"></i> <span>Inventory</span>
 					</a></li>
 
-					<li><a href="javascript:void(0)" onclick="new Settings().loadSettingsPage('content')"> <i
+					<li><a href="javascript:void(0)"
+						onclick="new Settings().loadSettingsPage('content')"> <i
 							class="fa fa-envelope"></i> <span>Settings</span>
 					</a></li>
 
@@ -491,7 +493,7 @@
 							<i class="fa fa-envelope"></i> <span>Prescriptions List</span>
 					</a></li>
 
-					
+
 				</ul>
 			</section>
 			<!-- /.sidebar -->
@@ -739,6 +741,19 @@
 		<div class="control-sidebar-bg"></div>
 	</div>
 	<!-- ./wrapper -->
+	<div id="wholepagepopup" class="hide"
+		style="box-sizing: border-box; position: absolute; left: 0px; top: 0px; background-color: #FFF; width: 100%; height: 150%; z-index: 1040">
+		<div class="popupHeader"
+			style="background-color: #2196f3; height: 58px; vertical-align: middle;">
+			<div class="row" id="headerContent"></div>			
+		</div>
+		<div
+			style="position: absolute; top: 1%; right: 50px; font-size: 30px; font-weight: bold; cursor: pointer"
+			onClick="closeWholePagePopup()">X</div>
+
+
+		<div id="popupcontent"></div>
+	</div>
 
 
 	<script type="text/javascript"
@@ -800,6 +815,9 @@
 			  } */
 			 new Appointment().initializeCalander();
 		}); 
+		function closeWholePagePopup(){
+			$("#wholepagepopup").hide();
+		}
 	</script>
 </body>
 </html>

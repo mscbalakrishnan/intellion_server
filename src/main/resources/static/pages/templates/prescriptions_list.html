@@ -1,10 +1,10 @@
 <style type="text/css">
 table {
-	width: 100%;	
+	width: 100%;
 	border-collapse: collapse;
 }
 
- .bordererTable {
+.bordererTable {
 	border: 1px solid #cdcdcd;
 	text-align: center;
 }
@@ -12,7 +12,7 @@ table {
 table th, table td {
 	padding: 2px;
 	text-align: center;
-} 
+}
 
 .addRow {
 	cursor: pointer;
@@ -21,35 +21,49 @@ table th, table td {
 .delRow {
 	cursor: pointer;
 }
-.consumptionTimeTable {
+
+.consumptionTimeTableStyles {
 	width: 100%;
 	margin: 0px 0;
 	border-collapse: collapse;
-	border: none !important
+	border: none !important color:#FFF;
+	font-weight: bold;
+	background-color: #867a7a;
+	color: #FFF;
 }
-.doctorLabel{
-	text-align:left;
-	margin:10px;
-	float:left;
+
+.doctorLabel {
+	text-align: left;
+	margin: 10px;
+	float: left;
 }
-.patientLabel{
-	text-align:left;
-	margin:10px;
-	float:right;
+
+.patientLabel {
+	text-align: left;
+	margin: 10px;
+	float: right;
 }
-.buttons{
-	text-align:left;
-	margin:0px;
-	float:right;
-	clear:both
+
+.buttons {
+	text-align: left;
+	margin: 0px;
+	float: right;
+	clear: both
 }
-.dtLabel{
-	text-align:left;
-	margin:10px;
-	clear:both
+
+.dtLabel {
+	text-align: left;
+	margin: 10px;
+	clear: both
 }
-.leftTextAlign{
-	text-align:left;
+
+.leftTextAlign {
+	text-align: left;
+}
+
+.tableHeadercolor {
+	background-color: #2196F3;
+	color: #FFF;
 }
 </style>
 <div class="box box-primary">
@@ -57,16 +71,17 @@ table th, table td {
 		<div class="form-group">
 			<div class="row prescriptionListFilter">
 				<div class="col-xs-5 doctor">
-					<label> Doctor *</label> <input class="form-control" id="doctor"
+					<label> Doctor *</label> <input class="form-control" id="doctorId"
 						placeholder="Search Doctor" type="text" validation="required">
 					<span class="help-block"></span>
 				</div>
 				<div class="col-xs-5 patient">
-					<label>Patient *</label> <input class="form-control" id="patient"
+					<label>Patient *</label> <input class="form-control" id="patientId"
 						placeholder="Search Patient" type="text" validation="required">
 					<span class="help-block"></span>
 				</div>
-				<div class="col-md-2"><label></label>
+				<div class="col-md-2">
+					<label></label>
 					<button type="button" class="btn btn-block btn-info"
 						onclick="new Prescriptions().filterPrescription()">Apply</button>
 				</div>
@@ -77,44 +92,57 @@ table th, table td {
 	<div data-bind="foreach: { data: prescriptions, as: 'prescription' }">
 
 		<div style="border-bottom: 10px solid #EEEEEE;">
-			<div class="form-group" style="margin-bottom:0px">
-				<table class="consumptionTimeTable">
+			<div class="form-group" style="margin-bottom: 0px">
+				<table class="consumptionTimeTableStyles">
 					<tr>
 						<td>
 							<div class="doctorLabel">
-								<span data-bind="text: $index()+1">) </span><span> ) </span>Doctor Name : <span data-bind="text:prescription.doctorName"></span>
+								<!-- <span data-bind="text: $index()+1">) </span><span> ) -->
+								</span>Doctor Name : <span data-bind="text:prescription.doctorName"></span>
 							</div>
 							<div class="patientLabel">
 								Patient Name : <span data-bind="text:prescription.patientName"></span>
 							</div>
-							<div class="dtLabel">Date : <span data-bind="text:date"></span>
-							<div class="buttons">
-								<button	data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}'>Delete</button>
-								<button	data-bind='click:function(){new Prescriptions().editPrescription(prescription,"content")}'>Edit</button>
+							<hr style="clear: both; margin-bottom: 0px !important;">
+							<div class="dtLabel">
+								Date : <span data-bind="text:date"></span>
+								<div class="buttons">
+									<div class="row">
+
+										<div class="col-xs-6">
+											<button class="btn btn-success" style="float: left"
+												data-bind='click:function(){new Prescriptions().editPrescription(prescription,"popupcontent")}'>Edit</button>
+										</div>
+										<div class="col-xs-6">
+											<button class="btn btn-block btn-danger btn-flat"
+												data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}'>Delete</button>
+										</div>
+									</div>
+
+								</div>
 							</div>
-							</div>
-							
+
 						</td>
-						
+
 					</tr>
-					
+
 				</table>
 
 			</div>
 			<table border="1" cellpadding="2px" class="bordererTable">
 				<thead>
-					<tr>
-						<th rowspan="2">No</th>
-						<th rowspan="2">Medication</th>
-						<th rowspan="2">Days</th>
-						<th colspan="4">Consumption Time</th>
+					<tr >
+						<th rowspan="2" class="tableHeadercolor">No</th>
+						<th rowspan="2" class="tableHeadercolor">Medication</th>
+						<th rowspan="2" class="tableHeadercolor">Days</th>
+						<th colspan="4" class="tableHeadercolor">Consumption Time</th>
 
 					</tr>
-					<tr>
+					<tr class="tableHeadercolor">
 
-						<th>Morning</th>
-						<th>Noon</th>
-						<th>Night</th>
+						<th class="tableHeadercolor">Morning</th>
+						<th class="tableHeadercolor">Noon</th>
+						<th class="tableHeadercolor">Night</th>
 					</tr>
 				</thead>
 				<tbody

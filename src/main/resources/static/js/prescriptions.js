@@ -1,6 +1,8 @@
 var medications = [];
 var patientId = "";
 var doctorId = "";
+var currentPrescriptionPage = "";
+
 var presModel = function() {
 	var self = this;
 			self.id,
@@ -10,6 +12,13 @@ var presModel = function() {
 				self.items.push(new item(0, "", false, 0, false, 0, false, 0,
 						"Test Notes11", "Number", "Number", "Number", 3));
 
+			}.bind(this),
+			
+			self.decideButtonVisible = function(index){
+				if(index === self.items().length)
+					return true;
+				else
+					return false;
 			}.bind(this),
 
 			self.addNewItemToUpdate = function(data) {
@@ -205,6 +214,13 @@ var Prescriptions = function() {
 	self.loadPrescriptionForm = function(divToLoad, pageType) {
 
 		// loadMedicationsAndInitPresVo();
+		
+		if(currentPrescriptionPage == 'edit'){
+			$("#popupcontent").html("");
+			$("#wholepagepopup").hide();
+			currentPrescriptionPage = "";
+			return;
+		}
 
 		$('.searchBtn').popover('hide');
 
@@ -314,8 +330,15 @@ var Prescriptions = function() {
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				WsUtils.showAlert('Saved Successfully.');
-				new Prescriptions().loadPrescriptionForm('content');
-
+				
+				if($("#wholepagepopup")){
+					$("#popupcontent").html("");
+					$("#wholepagepopup").hide();
+				}
+				if(currentPrescriptionPage != 'edit'){
+					new Prescriptions().loadPrescriptionForm('content');
+				}	
+				currentPrescriptionPage = "";
 			},
 			requestUrl : "/intelhosp/prescription",
 			requestMethod : methodType,
@@ -410,13 +433,13 @@ var Prescriptions = function() {
 				// console.log(result);
 				ko.cleanNode($("#" + divId)[0]);
 				ko.applyBindings(model, $("#" + divId)[0]);
-				WsUtils.configureAutoComplete("doctor",
+				WsUtils.configureAutoComplete("doctorId",
 						"../intelhosp/doctors/doctorname/find", function(
 								selectedItem) {
 							// alert(selectedItem.id);
 							doctorId = selectedItem.id;
 						});
-				WsUtils.configureAutoComplete("patient",
+				WsUtils.configureAutoComplete("patientId",
 						"../intelhosp/patients/patientname/find", function(
 								selectedItem) {
 							// alert(selectedItem.id);
@@ -470,11 +493,17 @@ var Prescriptions = function() {
 
 		console.log(prescriptionDetails);
 		$('.searchBtn').popover('hide');
+		currentPrescriptionPage = "edit";
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
 				$("#" + divToLoad).html(responseObj);
+				if(!pageType){
+					$("#wholepagepopup").removeClass("hide");
+					$("#wholepagepopup").show();
+					window.location.href = "#pagetop";
+				}
 
 				initPresVo();
 				var presEntries = prescriptionDetails.prescriptionEntries();
