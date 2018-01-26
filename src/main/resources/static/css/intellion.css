@@ -5,6 +5,25 @@
 	width:60px;
     height:30px
 }
+
+.deleteIconImage{
+	cursor: pointer;
+	width:60px;
+    height:30px;
+    font-size: 26px;
+    color:#ec0766;
+}
+	
+
+.viewIcon
+{
+	cursor: pointer;
+	width:60px;
+    height:30px;
+    font-size: 26px;
+    color:#00a65a;
+}
+
 .closeIcon
 {
 	background: transparent url(../img/14.png) no-repeat center; 

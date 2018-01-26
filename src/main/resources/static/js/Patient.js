@@ -145,8 +145,10 @@ var Patient = function() {
 							gridHeaders : {"title":"Title","name":"Name","gender":"Gender","profileId":"Profile","mobile":"Mobile","email" : "Email","label":"Label/Grp"},
 							hiddenColumns : ["id","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments"],
 							isDeleteButton : true,
+							deleteIconClass:"glyphicon glyphicon-remove-sign deleteIconImage",
 							isViewButton : true,
 							isSearchVisible:true,
+							viewIconClass : "glyphicon glyphicon-eye-open viewIcon",
 							isCustomPagination : false,
 							callbackFunction : function(data,event,type){
 								if(type == 'view'){

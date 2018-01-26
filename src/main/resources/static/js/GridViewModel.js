@@ -108,7 +108,21 @@ var dataGridController = {
 					}else{
 							dataGridString +=   " <td data-bind='attr:{align:(WsUtils.isNumber($parent[header]))?\"right\":\"left\"}' >" ;}
 			
-				dataGridString +=" <table><tr><td>	<div data-bind='css:($data[\"header\"] == \"delete\")?(($data[\"deleteIconClass\"] !=\"\")?$data[\"deleteIconClass\"]:\"deleteIcon\"):($data[\"header\"] == \"close\")?(($data[\"closeIconClass\"] !=\"\")?$data[\"closeIconClass\"]:\"closeIcon\"):\"\",text: ($data[\"header\"] == \"Delete\")?$data[\"deleteContent\"]: $parent[header]," +
+				dataGridString +=" <table><tr>"+
+						" <td><div title=\"View\" style='cursor:pointer'  data-bind='css:$data[\"viewIconClass\"]!=\"\"?$data[\"viewIconClass\"]:\"viewIcon\",visible:($data[\"isViewButton\"])," +
+						" 	click:function($data,event){" +
+						" 		if($data[\"header\"] == \"delete\"){" +
+						" 			event.stopPropagation();" +
+			            "      			          if($.isFunction($root.callbackFunction))" +
+								               "  {" +
+								               "      $root.callbackFunction.apply(this,[$parent,event,\"view\"])" +
+								               "   }" + 
+								               "   else" +
+								               "   { " +
+								               "		window[$root.callbackFunction].apply(this,[$parent,event,\"view\"])" +
+								               "    }"+
+			            " }}'></div></td>" +
+					" <td><div title =\"Delete\" data-bind='css:($data[\"header\"] == \"delete\")?(($data[\"deleteIconClass\"] !=\"\")?$data[\"deleteIconClass\"]:\"deleteIcon\"):($data[\"header\"] == \"close\")?(($data[\"closeIconClass\"] !=\"\")?$data[\"closeIconClass\"]:\"closeIcon\"):\"\",text: ($data[\"header\"] == \"Delete\")?$data[\"deleteContent\"]: $parent[header]," +
 						"  		click:function($data,event)" +
 						"			  { " +
 						"				" +
@@ -125,19 +139,9 @@ var dataGridController = {
 			            " 				}" +
 			            "			  }" + 
 						"  '></div></td>" +
-						" <td><div style='cursor:pointer' class='$data[\"viewIconClass\"]' data-bind='visible:($data[\"isViewButton\"])," +
-						" 	click:function($data,event){" +
-						" 		if($data[\"header\"] == \"delete\"){" +
-						" 			event.stopPropagation();" +
-			            "      			          if($.isFunction($root.callbackFunction))" +
-								               "  {" +
-								               "      $root.callbackFunction.apply(this,[$parent,event,\"view\"])" +
-								               "   }" + 
-								               "   else" +
-								               "   { " +
-								               "		window[$root.callbackFunction].apply(this,[$parent,event,\"view\"])" +
-								               "    }"+
-			            " }}'>View</div></td></tr></table></td>" ;
+						
+						
+			            "</tr></table></td>" ;
 
 				
 				dataGridString +=  "</tr> " +
