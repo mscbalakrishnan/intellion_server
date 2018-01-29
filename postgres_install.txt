@@ -16,3 +16,7 @@ pg_ctl -D <data_directory> init/start/stop
 pg_ctl -D c:\\cms\\data init
 pg_ctl -D c:\\cms\\data start
 pg_ctl -D c:\\cms\\data stop
+
+mvn clean install -DskipTests=true
+
+java -jar .\target\cms-0.0.1-SNAPSHOT.jar
