@@ -7,12 +7,10 @@ import java.util.List;
 import com.intellion.cms.domain.Settings;
 import com.intellion.cms.domain.SettingsParams;
 
-
 public class SettingsDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Long id;
-	private String type;
 	private String category;
 	private List<SettingsParamsDto> settingsParamsDtos;
 	public SettingsDto(){}
@@ -22,12 +20,7 @@ public class SettingsDto implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
+
 	public String getCategory() {
 		return category;
 	}
@@ -41,12 +34,13 @@ public class SettingsDto implements Serializable {
 		this.settingsParamsDtos = settingsParamsDtos;
 	}
 	
-	
-	
-	public SettingsDto(Long id, String type, String category, List<SettingsParamsDto> settingsParamsDtos) {
+	@Override
+	public String toString() {
+		return "SettingsDto [id=" + id + ", category=" + category + ", settingsParamsDtos=" + settingsParamsDtos + "]";
+	}
+	public SettingsDto(Long id, String category, List<SettingsParamsDto> settingsParamsDtos) {
 		super();
 		this.id = id;
-		this.type = type;
 		this.category = category;
 		this.settingsParamsDtos = settingsParamsDtos;
 	}
@@ -54,7 +48,6 @@ public class SettingsDto implements Serializable {
 	public SettingsDto(Settings settings) {
 		
 		setId(settings.getId());
-		setType(settings.getType());
 		setCategory(settings.getCategory());
 		List<SettingsParamsDto> settingsParamsDtoList = new ArrayList<SettingsParamsDto>();
 		List<SettingsParams> settingsParamsList = settings.getSettingsParams();
@@ -76,7 +69,7 @@ public class SettingsDto implements Serializable {
 		List<SettingsParams> settingsParamsList = new ArrayList<SettingsParams>();
 		
 		settings.setId(settingsDto.getId());
-		settings.setType(settingsDto.getType());
+		//settings.setType(settingsDto.getType());
 		settings.setCategory(settingsDto.getCategory());
 		List<SettingsParamsDto> settingsParamsDtos = settingsDto.getSettingsParamsDtos();
 		if(null != settingsParamsDtos && settingsParamsDtos.size() > 0){
@@ -88,6 +81,19 @@ public class SettingsDto implements Serializable {
 		}
 		settings.setSettingsParams(settingsParamsList);
 		return settings;
+	}
+	public static Settings Dto2Pojo(Settings existSettings, SettingsDto settingsDto) {
+		if(existSettings.getId() != settingsDto.getId()) {
+			return null;
+		}
+		for (SettingsParamsDto sdto:settingsDto.getSettingsParamsDtos()){
+			for (SettingsParams spojo:existSettings.getSettingsParams()){
+				if (sdto.getId() == spojo.getId()){
+					spojo.setParamValue(sdto.getParamValue());
+				}
+			}
+		}
+		return existSettings;
 	}
 
 }

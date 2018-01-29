@@ -49,8 +49,9 @@ public class SettingsController {
 	public SettingsDto editSettings(@RequestBody SettingsDto settingsDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , settingsDto.toString());
 		Settings existSettings = this.settingsService.findOne(settingsDto.getId());
-		existSettings = SettingsDto.Dto2Pojo(settingsDto);
+		existSettings = SettingsDto.Dto2Pojo(existSettings, settingsDto);
 		existSettings = this.settingsService.save(existSettings);
+		logger.debug("*********** After set the value from UI {}" , existSettings);
 		return new SettingsDto(existSettings);
 	}	
 	

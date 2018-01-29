@@ -46,15 +46,4 @@ public class Settings extends EntityWithSurrogatePK{
 	public String toString() {
 		return "Settings [category=" + category + ", settingsParams=" + settingsParams + "]";
 	}
-
-	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setType(String type) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -49,6 +49,10 @@ public class SettingsParamsDto implements Serializable {
 		setParamValue(settingsParams.getParamValue());
 	}
 	
+	@Override
+	public String toString() {
+		return "SettingsParamsDto [id=" + id + ", paramName=" + paramName + ", paramValue=" + paramValue + "]";
+	}
 	public static SettingsParams Dto2Pojo(SettingsParamsDto settingsParamsDto){
 		SettingsParams pojo = new SettingsParams();
 		pojo.setParamName(settingsParamsDto.getParamName());

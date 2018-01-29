@@ -76,28 +76,7 @@ public class CMSApplication implements CommandLineRunner {
 		SpringApplication.run(CMSApplication.class, args);
 	}
 
-	/*@Override
-	@PostConstruct
-	public void run(String... arg0) throws Exception {
-		Thread.sleep(5000);
-		Role _adminRole = new Role();
-		_adminRole.setRole("ADMIN");
-		roleRepository.save(_adminRole);
-		Role _userRole = new Role();
-		_userRole.setRole("USER");
-		roleRepository.save(_userRole);
-		User user = new User();
-		user.setName("admine");
-		Role userRole = roleRepository.findByRole("ADMIN");
-		Set<Role> roles = new HashSet<>();
-		roles.add(userRole);
-		user.setRoles(roles);
-		user.setActive(true);
-		user.setPassword(bCryptPasswordEncoder.encode("admin"));
-		userRepository.save(user);
-	}*/
-	@Override
-	public void run(String... arg0) throws Exception {
+	public void run1(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
@@ -244,7 +223,8 @@ public class CMSApplication implements CommandLineRunner {
 //		prescription.setPrescriptionEntries(prescriptionEntries);
 		pe1 = prescriptionEntryRepository.save(pe1);
 		pe2 = prescriptionEntryRepository.save(pe2);
-		
+	}
+	public void run(String... arg0) throws Exception {
 		SettingsParams settingsParams = new SettingsParams();
 		settingsParams.setParamName("ENABLED");
 		settingsParams.setParamValue("FALSE");
@@ -293,24 +273,75 @@ public class CMSApplication implements CommandLineRunner {
 		
 		SettingsParams settingsParams2 = new SettingsParams();
 		settingsParams2.setParamName("clinicName");
-		settingsParams2.setParamValue("Sree Balaji Dental Clinic");
+//		settingsParams2.setParamValue("Sree Balaji Dental Clinic");
+		settingsParams2.setParamValue("");
 		settingsParams2 = settingsParamsRepository.save(settingsParams2);
 		
-		SettingsParams settingsParams3 = new SettingsParams();
-		settingsParams3.setParamName("addressline1");
-		settingsParams3.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
-		settingsParams3 = settingsParamsRepository.save(settingsParams3);
+		SettingsParams settingsParams21 = new SettingsParams();
+		settingsParams21.setParamName("addressLine1");
+//		settingsParams21.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
+		settingsParams21.setParamValue("");
+		settingsParams21 = settingsParamsRepository.save(settingsParams21);
 		
-		SettingsParams settingsParams4 = new SettingsParams();
-		settingsParams4.setParamName("MOBILENO");
-		settingsParams4.setParamValue("+91 44 43559921");
-		settingsParams4 = settingsParamsRepository.save(settingsParams4);
+		SettingsParams settingsParams22 = new SettingsParams();
+		settingsParams22.setParamName("addressLine2");
+		settingsParams22.setParamValue("");
+		settingsParams22 = settingsParamsRepository.save(settingsParams22);
 		
+		SettingsParams settingsParams23 = new SettingsParams();
+		settingsParams23.setParamName("mobile");
+//		settingsParams23.setParamValue("+91 44 43559921");
+		settingsParams23.setParamValue("");
+		settingsParams23 = settingsParamsRepository.save(settingsParams23);
+		
+		SettingsParams settingsParams24 = new SettingsParams();
+		settingsParams24.setParamName("area");
+		settingsParams24.setParamValue("");
+		settingsParams24 = settingsParamsRepository.save(settingsParams24);
+		
+		SettingsParams settingsParams25 = new SettingsParams();
+		settingsParams25.setParamName("city");
+		settingsParams25.setParamValue("");
+		settingsParams25 = settingsParamsRepository.save(settingsParams25);
+		
+		SettingsParams settingsParams26 = new SettingsParams();
+		settingsParams26.setParamName("state");
+		settingsParams26.setParamValue("");
+		settingsParams26 = settingsParamsRepository.save(settingsParams26);
+		
+		SettingsParams settingsParams27 = new SettingsParams();
+		settingsParams27.setParamName("pincode");
+		settingsParams27.setParamValue("");
+		settingsParams27 = settingsParamsRepository.save(settingsParams27);
+		
+		SettingsParams settingsParams28 = new SettingsParams();
+		settingsParams28.setParamName("email");
+		settingsParams28.setParamValue("");
+		settingsParams28 = settingsParamsRepository.save(settingsParams28);
+		
+		SettingsParams settingsParams29 = new SettingsParams();
+		settingsParams29.setParamName("landline");
+		settingsParams29.setParamValue("");
+		settingsParams29 = settingsParamsRepository.save(settingsParams29);
+		
+		SettingsParams settingsParams30 = new SettingsParams();
+		settingsParams30.setParamName("website");
+		settingsParams30.setParamValue("");
+		settingsParams30 = settingsParamsRepository.save(settingsParams30);
+
 		Settings settings1 = new Settings();
-		settings1.setCategory("CLINIC");
+		settings1.setCategory("clinic");
 		settings1.getSettingsParams().add(settingsParams2);
-		settings1.getSettingsParams().add(settingsParams3);
-		settings1.getSettingsParams().add(settingsParams4);
+		settings1.getSettingsParams().add(settingsParams21);
+		settings1.getSettingsParams().add(settingsParams22);
+		settings1.getSettingsParams().add(settingsParams23);
+		settings1.getSettingsParams().add(settingsParams24);
+		settings1.getSettingsParams().add(settingsParams25);
+		settings1.getSettingsParams().add(settingsParams26);
+		settings1.getSettingsParams().add(settingsParams27);
+		settings1.getSettingsParams().add(settingsParams28);
+		settings1.getSettingsParams().add(settingsParams29);
+		settings1.getSettingsParams().add(settingsParams30);
 		settings1 = settingsRepository.save(settings1);
 		
 		logger.debug("All Settings "+settingsRepository.findAll());

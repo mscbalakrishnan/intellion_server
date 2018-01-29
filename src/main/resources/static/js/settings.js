@@ -71,15 +71,14 @@ var SettingsController = function(){
 		
 		if(WsUtils.validate(category))
 			return;
-		
 		var settingsVO = settingDetailsArr[category];
 		console.log(settingsVO)
 		var settingsParam = [];
-		
-		if(!settingsVO || !settingsVO.id){
+		/*if(!settingsVO || !settingsVO.id){
 			settingsVO = initSettingsVO();
-		}
+		}*/
 				
+		
 		settingsVO.category = category;
 		settingsVO.settingsParamsDtos = settingsParam;
 		
