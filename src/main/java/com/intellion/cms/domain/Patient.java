@@ -75,6 +75,7 @@ public class Patient extends BaseEntity {
 	private String medicalHistory;
 	private String medicalAlert;
 	private String allergies;
+	private String dentalHistory;
 	private boolean needWelcomeMessage;
 	private boolean birthdayWish;
 	private PeriodicRemainder remainder;
@@ -270,6 +271,14 @@ public class Patient extends BaseEntity {
 		this.appointments = appointments;
 	}
 
+	public String getDentalHistory() {
+		return dentalHistory;
+	}
+
+	public void setDentalHistory(String dentalHistory) {
+		this.dentalHistory = dentalHistory;
+	}
+
 	@Override
 	public String toString() {
 		return "Patient [id=" + id + ", title=" + title + ", name=" + name + ", guardianName=" + guardianName
@@ -278,7 +287,7 @@ public class Patient extends BaseEntity {
 				+ ", bloodGroup=" + bloodGroup + ", gender=" + gender + ", Occupation=" + Occupation + ", dob=" + dob
 				+ ", email=" + email + ", age=" + age + ", medicalHistory=" + medicalHistory + ", medicalAlert="
 				+ medicalAlert + ", allergies=" + allergies + ", needWelcomeMessage=" + needWelcomeMessage
-				+ ", birthdayWish=" + birthdayWish + ", remainder=" + remainder + ", appointments=" + appointments
+				+ ", birthdayWish=" + birthdayWish + ", remainder=" + remainder + ", appointments=" + appointments + ", dentalHistory=" + dentalHistory
 				+ "]";
 	}
 

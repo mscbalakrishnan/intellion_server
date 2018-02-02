@@ -19,16 +19,10 @@ public class ControllerUtil {
 	private static final Logger logger = LoggerFactory.getLogger(ControllerUtil.class);
 
 	public static List<DoctorDto> toDto(List<Doctor> doctors) {
-//		logger.debug("" + doctors);
 		List<DoctorDto> toReturn = new ArrayList<>();
 		for (Doctor doctor : doctors) {
 			DoctorDto ddto = new DoctorDto(doctor);
-			Set<CategoryDto> catDtoList = new HashSet<>();
-			for (Category category : doctor.getCategories()) {
-				CategoryDto cdto = new CategoryDto(category);
-				catDtoList.add(cdto);
-			}
-			ddto.setCategories(catDtoList);
+
 			Set<AppointmentDto> appointmentDtos = new HashSet<>();
 			for (Appointment appointment:doctor.getAppointments()){
 				appointmentDtos.add(new AppointmentDto(appointment));
@@ -36,7 +30,6 @@ public class ControllerUtil {
 			ddto.setAppointments(appointmentDtos);
 			toReturn.add(ddto);
 		}
-//		logger.debug("" + toReturn);
 		return toReturn;
 	}
 }

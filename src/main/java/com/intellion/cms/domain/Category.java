@@ -30,22 +30,10 @@ public class Category extends EntityWithSurrogatePK {
 		this.name = name;
 	}
 	
-	@JsonManagedReference	
-	@ManyToMany(fetch=FetchType.LAZY)
-    @JoinTable(name = "doctor_category",
-    joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"), 
-    inverseJoinColumns = @JoinColumn(name = "doctor_id",referencedColumnName = "id"))
-    private Set<Doctor> doctors;
-
-	public Set<Doctor> getDoctors() {
-		return doctors;
-	}
-	public void setDoctors(Set<Doctor> doctors) {
-		this.doctors = doctors;
-	}
+	
 	@Override
 	public String toString() {
-		return "Category [name=" + name + ", doctors=" + doctors + "]";
+		return "Category [name=" + name + "]";
 	}
 	
 }

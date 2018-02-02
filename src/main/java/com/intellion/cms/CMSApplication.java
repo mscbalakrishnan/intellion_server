@@ -101,12 +101,12 @@ public class CMSApplication implements CommandLineRunner {
 		d.setTitle(Title.Dr);
 		d.setEmail("abc@xyz.com");
 		d.setMobile1("9171415876");
-		d.setCategories(categories);
+		//d.setCategories(categories);
 		d = doctorRepository.save(d);
 		d1.setName("Guru");
 		d1.setTitle(Title.Dr);
 		d1.setEmail("xyz@abc.com");
-		d1.setCategories(categories);
+		//d1.setCategories(categories);
 		d1.setMobile1("9971415876");
 		d1 = doctorRepository.save(d1);
 		
@@ -114,7 +114,7 @@ public class CMSApplication implements CommandLineRunner {
 		doctors.add(d);
 		doctors.add(d1);
 		
-		dentist.setDoctors(doctors);
+		//dentist.setDoctors(doctors);
 //		root_canal_specialist.setDoctors(doctors);
 		
 		categoryRepository.save(dentist);
@@ -225,125 +225,137 @@ public class CMSApplication implements CommandLineRunner {
 		pe2 = prescriptionEntryRepository.save(pe2);
 	}
 	public void run(String... arg0) throws Exception {
-		SettingsParams settingsParams = new SettingsParams();
-		settingsParams.setParamName("ENABLED");
-		settingsParams.setParamValue("FALSE");
-		settingsParams = settingsParamsRepository.save(settingsParams);
+		
+		
+		List<Settings> settingsListByCat =  (List<Settings>)this.settingsRepository.findByCategory("sms");
+		
+		if(null != settingsListByCat && settingsListByCat.size() > 0){
+			logger.debug("All Settings are already there");
+		}else{
+			SettingsParams settingsParams = new SettingsParams();
+			settingsParams.setParamName("ENABLED");
+			settingsParams.setParamValue("FALSE");
+			settingsParams = settingsParamsRepository.save(settingsParams);
 
-		SettingsParams settingsParams1 = new SettingsParams();
-		settingsParams1.setParamName("username");
-		settingsParams1.setParamValue("success");
-		settingsParams1 = settingsParamsRepository.save(settingsParams1);
-		
-		SettingsParams settingsParams11 = new SettingsParams();
-		settingsParams11.setParamName("password");
-		settingsParams11.setParamValue("123456");
-		settingsParams11 = settingsParamsRepository.save(settingsParams11);
-		
-		SettingsParams settingsParams12 = new SettingsParams();
-		settingsParams12.setParamName("SENDER");
-		settingsParams12.setParamValue("SPPURT");
-		settingsParams12 = settingsParamsRepository.save(settingsParams12);
-		
-		SettingsParams settingsParams13 = new SettingsParams();
-		settingsParams13.setParamName("URL");
-		settingsParams13.setParamValue("http://bhashsms.com/api/sendmsg.php");
-		settingsParams13 = settingsParamsRepository.save(settingsParams13);
-		
-		SettingsParams settingsParams14 = new SettingsParams();
-		settingsParams14.setParamName("TYPE");
-		settingsParams14.setParamValue("normal");
-		settingsParams14 = settingsParamsRepository.save(settingsParams14);
-		
-		SettingsParams settingsParams15 = new SettingsParams();
-		settingsParams15.setParamName("PRIORITY");
-		settingsParams15.setParamValue("ndnd");
-		settingsParams15 = settingsParamsRepository.save(settingsParams15);
-		
-		Settings settings = new Settings();
-		settings.setCategory("sms");
-		settings.getSettingsParams().add(settingsParams);
-		settings.getSettingsParams().add(settingsParams1);
-		settings.getSettingsParams().add(settingsParams11);
-		settings.getSettingsParams().add(settingsParams12);
-		settings.getSettingsParams().add(settingsParams13);
-		settings.getSettingsParams().add(settingsParams14);
-		settings.getSettingsParams().add(settingsParams15);
-		settings = settingsRepository.save(settings);
-		
-		SettingsParams settingsParams2 = new SettingsParams();
-		settingsParams2.setParamName("clinicName");
-//		settingsParams2.setParamValue("Sree Balaji Dental Clinic");
-		settingsParams2.setParamValue("");
-		settingsParams2 = settingsParamsRepository.save(settingsParams2);
-		
-		SettingsParams settingsParams21 = new SettingsParams();
-		settingsParams21.setParamName("addressLine1");
-//		settingsParams21.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
-		settingsParams21.setParamValue("");
-		settingsParams21 = settingsParamsRepository.save(settingsParams21);
-		
-		SettingsParams settingsParams22 = new SettingsParams();
-		settingsParams22.setParamName("addressLine2");
-		settingsParams22.setParamValue("");
-		settingsParams22 = settingsParamsRepository.save(settingsParams22);
-		
-		SettingsParams settingsParams23 = new SettingsParams();
-		settingsParams23.setParamName("mobile");
-//		settingsParams23.setParamValue("+91 44 43559921");
-		settingsParams23.setParamValue("");
-		settingsParams23 = settingsParamsRepository.save(settingsParams23);
-		
-		SettingsParams settingsParams24 = new SettingsParams();
-		settingsParams24.setParamName("area");
-		settingsParams24.setParamValue("");
-		settingsParams24 = settingsParamsRepository.save(settingsParams24);
-		
-		SettingsParams settingsParams25 = new SettingsParams();
-		settingsParams25.setParamName("city");
-		settingsParams25.setParamValue("");
-		settingsParams25 = settingsParamsRepository.save(settingsParams25);
-		
-		SettingsParams settingsParams26 = new SettingsParams();
-		settingsParams26.setParamName("state");
-		settingsParams26.setParamValue("");
-		settingsParams26 = settingsParamsRepository.save(settingsParams26);
-		
-		SettingsParams settingsParams27 = new SettingsParams();
-		settingsParams27.setParamName("pincode");
-		settingsParams27.setParamValue("");
-		settingsParams27 = settingsParamsRepository.save(settingsParams27);
-		
-		SettingsParams settingsParams28 = new SettingsParams();
-		settingsParams28.setParamName("email");
-		settingsParams28.setParamValue("");
-		settingsParams28 = settingsParamsRepository.save(settingsParams28);
-		
-		SettingsParams settingsParams29 = new SettingsParams();
-		settingsParams29.setParamName("landline");
-		settingsParams29.setParamValue("");
-		settingsParams29 = settingsParamsRepository.save(settingsParams29);
-		
-		SettingsParams settingsParams30 = new SettingsParams();
-		settingsParams30.setParamName("website");
-		settingsParams30.setParamValue("");
-		settingsParams30 = settingsParamsRepository.save(settingsParams30);
+			SettingsParams settingsParams1 = new SettingsParams();
+			settingsParams1.setParamName("username");
+			settingsParams1.setParamValue("success");
+			settingsParams1 = settingsParamsRepository.save(settingsParams1);
+			
+			SettingsParams settingsParams11 = new SettingsParams();
+			settingsParams11.setParamName("password");
+			settingsParams11.setParamValue("123456");
+			settingsParams11 = settingsParamsRepository.save(settingsParams11);
+			
+			SettingsParams settingsParams12 = new SettingsParams();
+			settingsParams12.setParamName("SENDER");
+			settingsParams12.setParamValue("SPPURT");
+			settingsParams12 = settingsParamsRepository.save(settingsParams12);
+			
+			SettingsParams settingsParams13 = new SettingsParams();
+			settingsParams13.setParamName("URL");
+			settingsParams13.setParamValue("http://bhashsms.com/api/sendmsg.php");
+			settingsParams13 = settingsParamsRepository.save(settingsParams13);
+			
+			SettingsParams settingsParams14 = new SettingsParams();
+			settingsParams14.setParamName("TYPE");
+			settingsParams14.setParamValue("normal");
+			settingsParams14 = settingsParamsRepository.save(settingsParams14);
+			
+			SettingsParams settingsParams15 = new SettingsParams();
+			settingsParams15.setParamName("PRIORITY");
+			settingsParams15.setParamValue("ndnd");
+			settingsParams15 = settingsParamsRepository.save(settingsParams15);
+			
+			Settings settings = new Settings();
+			settings.setCategory("sms");
+			settings.getSettingsParams().add(settingsParams);
+			settings.getSettingsParams().add(settingsParams1);
+			settings.getSettingsParams().add(settingsParams11);
+			settings.getSettingsParams().add(settingsParams12);
+			settings.getSettingsParams().add(settingsParams13);
+			settings.getSettingsParams().add(settingsParams14);
+			settings.getSettingsParams().add(settingsParams15);
+			settings = settingsRepository.save(settings);
+			
+			
+			
+			SettingsParams settingsParams2 = new SettingsParams();
+			settingsParams2.setParamName("clinicName");
+//			settingsParams2.setParamValue("Sree Balaji Dental Clinic");
+			settingsParams2.setParamValue("");
+			settingsParams2 = settingsParamsRepository.save(settingsParams2);
+			
+			SettingsParams settingsParams21 = new SettingsParams();
+			settingsParams21.setParamName("addressLine1");
+//			settingsParams21.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
+			settingsParams21.setParamValue("");
+			settingsParams21 = settingsParamsRepository.save(settingsParams21);
+			
+			SettingsParams settingsParams22 = new SettingsParams();
+			settingsParams22.setParamName("addressLine2");
+			settingsParams22.setParamValue("");
+			settingsParams22 = settingsParamsRepository.save(settingsParams22);
+			
+			SettingsParams settingsParams23 = new SettingsParams();
+			settingsParams23.setParamName("mobile");
+//			settingsParams23.setParamValue("+91 44 43559921");
+			settingsParams23.setParamValue("");
+			settingsParams23 = settingsParamsRepository.save(settingsParams23);
+			
+			SettingsParams settingsParams24 = new SettingsParams();
+			settingsParams24.setParamName("area");
+			settingsParams24.setParamValue("");
+			settingsParams24 = settingsParamsRepository.save(settingsParams24);
+			
+			SettingsParams settingsParams25 = new SettingsParams();
+			settingsParams25.setParamName("city");
+			settingsParams25.setParamValue("");
+			settingsParams25 = settingsParamsRepository.save(settingsParams25);
+			
+			SettingsParams settingsParams26 = new SettingsParams();
+			settingsParams26.setParamName("state");
+			settingsParams26.setParamValue("");
+			settingsParams26 = settingsParamsRepository.save(settingsParams26);
+			
+			SettingsParams settingsParams27 = new SettingsParams();
+			settingsParams27.setParamName("pincode");
+			settingsParams27.setParamValue("");
+			settingsParams27 = settingsParamsRepository.save(settingsParams27);
+			
+			SettingsParams settingsParams28 = new SettingsParams();
+			settingsParams28.setParamName("email");
+			settingsParams28.setParamValue("");
+			settingsParams28 = settingsParamsRepository.save(settingsParams28);
+			
+			SettingsParams settingsParams29 = new SettingsParams();
+			settingsParams29.setParamName("landline");
+			settingsParams29.setParamValue("");
+			settingsParams29 = settingsParamsRepository.save(settingsParams29);
+			
+			SettingsParams settingsParams30 = new SettingsParams();
+			settingsParams30.setParamName("website");
+			settingsParams30.setParamValue("");
+			settingsParams30 = settingsParamsRepository.save(settingsParams30);
 
-		Settings settings1 = new Settings();
-		settings1.setCategory("clinic");
-		settings1.getSettingsParams().add(settingsParams2);
-		settings1.getSettingsParams().add(settingsParams21);
-		settings1.getSettingsParams().add(settingsParams22);
-		settings1.getSettingsParams().add(settingsParams23);
-		settings1.getSettingsParams().add(settingsParams24);
-		settings1.getSettingsParams().add(settingsParams25);
-		settings1.getSettingsParams().add(settingsParams26);
-		settings1.getSettingsParams().add(settingsParams27);
-		settings1.getSettingsParams().add(settingsParams28);
-		settings1.getSettingsParams().add(settingsParams29);
-		settings1.getSettingsParams().add(settingsParams30);
-		settings1 = settingsRepository.save(settings1);
+			Settings settings1 = new Settings();
+			settings1.setCategory("clinic");
+			settings1.getSettingsParams().add(settingsParams2);
+			settings1.getSettingsParams().add(settingsParams21);
+			settings1.getSettingsParams().add(settingsParams22);
+			settings1.getSettingsParams().add(settingsParams23);
+			settings1.getSettingsParams().add(settingsParams24);
+			settings1.getSettingsParams().add(settingsParams25);
+			settings1.getSettingsParams().add(settingsParams26);
+			settings1.getSettingsParams().add(settingsParams27);
+			settings1.getSettingsParams().add(settingsParams28);
+			settings1.getSettingsParams().add(settingsParams29);
+			settings1.getSettingsParams().add(settingsParams30);
+			settings1 = settingsRepository.save(settings1);
+			
+			logger.debug("All Settings "+settingsRepository.findAll());
+		}
 		
-		logger.debug("All Settings "+settingsRepository.findAll());
+		
 	}
 }

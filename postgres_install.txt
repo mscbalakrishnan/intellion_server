@@ -7,7 +7,12 @@ Execute following commands to create 'cms' user and 'cms' database.
 Provide postgres user user password when it is prompted. 
 
 2. psql -Upostgres -c "create user cms with password 'cms';"
+
+		or create user cms with password 'cms';
+		
 3. psql -Upostgres -c "create database cms owner cms;"
+
+		or create database cms owner cms;
 
 if the postgres db server is not started automatically use the following commands to init/start/stop database
 
@@ -20,3 +25,12 @@ pg_ctl -D c:\\cms\\data stop
 mvn clean install -DskipTests=true
 
 java -jar .\target\cms-0.0.1-SNAPSHOT.jar
+
+place cmsRun.sh in the folder where the jar file is placed
+
+
+JAVA_HOME = C:\Program Files\Java\jdk1.8.0_92
+
+Path = C:\ProgramData\Oracle\Java\javapath;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;C:\Program Files\Java\jdk1.8.0_92\bin;E:\Softwares\apache-maven-3.3.9\bin;E:\Softwares\jetty-6.1.22\bin;C:\Program Files\Git\cmd
+
+6227

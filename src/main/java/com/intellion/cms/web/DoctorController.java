@@ -128,5 +128,6 @@ public class DoctorController {
 		existingDoctor.setMobile1(doctor.getMobile1());
 		existingDoctor.setQualification(doctor.getQualification());
 		existingDoctor.setFees(doctor.getFees());
+		existingDoctor.setCategoryId(doctor.getCategoryId());
 	}
 }

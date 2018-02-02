@@ -26,6 +26,7 @@ public class Doctor extends EntityWithSurrogatePK {
 	private String name;
 	
 	private Title title;
+	private String categoryId;
 	@Email(message = "Email should be valid")
 	private String email;
 	private String qualification;
@@ -41,9 +42,6 @@ public class Doctor extends EntityWithSurrogatePK {
 	@Pattern(regexp="(^$|[0-9]{10})")
 	private String mobileNumber3;
 	
-	@JsonBackReference	
-	@ManyToMany(mappedBy = "doctors",fetch=FetchType.LAZY,cascade = CascadeType.REMOVE)
-    private Set<Category> categories;
 	
 	@OneToMany(mappedBy="doctor",fetch=FetchType.LAZY,cascade = CascadeType.REMOVE)
 	private Set<Appointment> appointments;
@@ -112,13 +110,6 @@ public class Doctor extends EntityWithSurrogatePK {
 		this.mobileNumber3 = mobileNumber3;
 	}
 
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
 
 	public Set<Appointment> getAppointments() {
 		return appointments;
@@ -128,11 +119,19 @@ public class Doctor extends EntityWithSurrogatePK {
 		this.appointments = appointments;
 	}
 
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+
 	@Override
 	public String toString() {
 		return "Doctor [name=" + name + ", title=" + title + ", email=" + email + ", qualification=" + qualification
 				+ ", fees=" + fees + ", mobile1=" + mobile1 + ", mobileNumber2=" + mobileNumber2 + ", mobileNumber3="
-				+ mobileNumber3 + ", categories=" + categories + ", appointments=" + appointments + "]";
+				+ mobileNumber3 +", appointments=" + appointments + ", categoryId=" + categoryId +"]";
 	}
 
 	

@@ -51,6 +51,8 @@ public class PatientDto implements Serializable {
 	private String medicalHistory;
 	private String medicalAlert;
 	private String allergies;
+	private String dentalHistory;
+	
 	private boolean needWelcomeMessage;
 	private boolean birthdayWish;
 	private PeriodicRemainder remainder;
@@ -78,6 +80,7 @@ public class PatientDto implements Serializable {
 			setAge(patient.getAge());
 		}		
 		setMedicalHistory(patient.getMedicalHistory());
+		setDentalHistory(patient.getDentalHistory());
 		setMedicalAlert(patient.getMedicalAlert());
 		setAllergies(patient.getAllergies());
 		setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
@@ -93,6 +96,7 @@ public class PatientDto implements Serializable {
 			setLandline(addressDto.getLandLine1());
 		}
 		Set<Appointment> appointments = patient.getAppointments();
+		setProfileId(patient.getId());
 		/*Set<AppointmentDto> appointmentDtos = new HashSet<>();
 		for (Appointment appointment:appointments){
 			appointmentDtos.add(new AppointmentDto(appointment));
@@ -115,6 +119,7 @@ public class PatientDto implements Serializable {
 		p.setDob(patient.getDob());
 		p.setAge(patient.getAge());		
 		p.setMedicalHistory(patient.getMedicalHistory());
+		p.setDentalHistory(patient.getDentalHistory());
 		p.setMedicalAlert(patient.getMedicalAlert());
 		p.setAllergies(patient.getAllergies());
 		p.setNeedWelcomeMessage(patient.isNeedWelcomeMessage());

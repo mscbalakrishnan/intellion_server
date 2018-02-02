@@ -28,7 +28,7 @@ function initPatientVo() {
 		label : ko.observable(""),
 		landline : ko.observable(""),
 		bloodGroup : ko.observable(""),
-		bloodGroupList:ko.observableArray([{"id":1,"name":"A1+"},{"id":2,"name":"O+"}]),
+		bloodGroupList:ko.observableArray([{"id":1,"name":"A+"},{"id":2,"name":"A-"},{"id":3,"name":"B+"},{"id":4,"name":"B-"},{"id":5,"name":"O+"},{"id":6,"name":"O-"},{"id":7,"name":"AB+"},{"id":8,"name":"AB-"}]),
 		gender : ko.observable(""),
 		genderList:ko.observableArray([{"id":0,"name":"Male"},{"id":1,"name":"Female"}]),
 		age : ko.observable(""),
@@ -79,6 +79,7 @@ var Patient = function() {
 					else
 						patientVo.gender(1);
 						
+					
 					patientVo.id (data["id"]),
 					patientVo.name ( data["name"]),
 					patientVo.title ( data["title"]),
@@ -100,13 +101,16 @@ var Patient = function() {
 					patientVo.bloodGroup ( data["bloodGroup"]),
 					
 					patientVo.age ( data["age"]),
+					patientVo.occupation(data["occupation"]);
 					
 					patientVo.medicalHistory ( data["medicalHistory"]),
+					patientVo.dentalHistory ( data["dentalHistory"]),
 					patientVo.medicalAlert ( data["medicalAlert"]),
 					patientVo.allergies ( data["allergies"]),
 					patientVo.needWelcomeMessage ( data["needWelcomeMessage"]),
 					patientVo.birthdayWish ( data["birthdayWish"]),
 					patientVo.remainder ( data["remainder"])
+					
 					// patientVo.appointments ( data["appointments"])
 				}
 				ko.cleanNode($("#patientForm")[0]);
@@ -142,8 +146,8 @@ var Patient = function() {
 					initDataGridModel();
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
-							gridHeaders : {"title":"Title","name":"Name","gender":"Gender","profileId":"Profile","mobile":"Mobile","email" : "Email","label":"Label/Grp"},
-							hiddenColumns : ["id","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments"],
+							gridHeaders : {"title":"Title","name":"Name","gender":"Gender","profileId":"Profile ID","mobile":"Mobile","email" : "Email","label":"Label/Grp"},
+							hiddenColumns : ["id","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments","dentalHistory"],
 							isDeleteButton : true,
 							deleteIconClass:"glyphicon glyphicon-remove-sign deleteIconImage",
 							isViewButton : true,
@@ -212,6 +216,7 @@ var Patient = function() {
 		 var data = ko.toJS(patientVo);
 		/* var dob = data.dob; */
 		 var date = data.dob;
+		 var dH = data.dentalHistory;
 		 var dateArr = date.split("-");
 		 data.dob = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
 		 

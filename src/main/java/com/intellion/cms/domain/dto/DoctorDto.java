@@ -19,7 +19,7 @@ public class DoctorDto implements Serializable {
 	private String qualification;
 	private float fees;
 	private String mobile;
-    private Set<CategoryDto> categories;
+	private String categoryId;
 	private Set<AppointmentDto> appointments;
 	protected DoctorDto() {
 	}
@@ -31,6 +31,7 @@ public class DoctorDto implements Serializable {
 		setQualification(doctor.getQualification());
 		setFees(doctor.getFees());
 		setMobile(doctor.getMobile1());
+		setCategoryId(doctor.getCategoryId());
 	}
 	public static Doctor Dto2Pojo(DoctorDto doctor){
 		Doctor d = new Doctor();
@@ -41,6 +42,7 @@ public class DoctorDto implements Serializable {
 		d.setQualification(doctor.getQualification());
 		d.setFees(doctor.getFees());
 		d.setMobile1(doctor.getMobile());
+		d.setCategoryId(doctor.getCategoryId());
 		return d;
 	}
 }

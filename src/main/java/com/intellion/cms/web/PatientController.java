@@ -236,6 +236,7 @@ public class PatientController {
 		p.setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
 		p.setBirthdayWish(patient.isBirthdayWish());
 		p.setRemainder(patient.getRemainder());
+		p.setDentalHistory(patient.getDentalHistory());
 	}
 
 	private AddressDto getAddress(PatientDto patientDto){
