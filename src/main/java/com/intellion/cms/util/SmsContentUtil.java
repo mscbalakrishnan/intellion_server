@@ -82,7 +82,7 @@ public class SmsContentUtil {
 
 	public Properties getClinicParams() {
 		Properties properties = new Properties();
-		for (Settings settings : settingsService.findByCategory("CLINIC")) {
+		for (Settings settings : settingsService.findByCategory("clinic")) {
 			for (SettingsParams params : settings.getSettingsParams()) {
 				properties.setProperty(params.getParamName(), params.getParamValue());
 			}
@@ -98,8 +98,8 @@ public class SmsContentUtil {
 		
 		SmsTemplateData smsTemplateData = new SmsTemplateData();
 		smsTemplateData.setPatientName(patientName);
-		smsTemplateData.setHospitalName(properties.getProperty("NAME"));
-		smsTemplateData.setHospitalPhone(properties.getProperty("MOBILENO"));
+		smsTemplateData.setHospitalName(properties.getProperty("clinicName"));
+		smsTemplateData.setHospitalPhone(properties.getProperty("mobile"));
 		context.put("data", smsTemplateData);
 		
 		StringWriter writer = new StringWriter();

@@ -38,7 +38,7 @@ public class NotifyServiceImpl implements NotifyService {
 	
 	public Properties getSmsParams() {
 		Properties properties = new Properties();
-		for (Settings settings : settingsService.findByCategory("SMS")) {
+		for (Settings settings : settingsService.findByCategory("sms")) {
 			for (SettingsParams params : settings.getSettingsParams()) {
 				properties.setProperty(params.getParamName(), params.getParamValue());
 			}
@@ -49,32 +49,36 @@ public class NotifyServiceImpl implements NotifyService {
 	
 //	second (0-59) / minute (0-59) / hour (0-23) / day of month (1-31) / month (1-12) / day of week (0-6)
 //	Testing every twenty  seconds...
-//	@Scheduled(cron="*/20 * * * * *")
-	@Scheduled(cron="0 0 9-18 * * *")
+	@Scheduled(cron="*/45 * * * * *")
+//	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void sendSMS(){
 		logger.debug("sendSMS() called...");
+		System.out.println("RAVI RAJA sendSMS..:");
+		Properties properties =  getSmsParams();
+		if (!Boolean.parseBoolean(properties.getProperty("sms_global_switch"))){
+			logger.debug("SMS DISABLED !!! ");
+			//System.out.println("sendSMS..:DISABLED");
+			return;
+		}		
 		for (SmsDetails smsDetails:smsDetailsService.getPendingSms()) {
-			Properties properties =  getSmsParams();
-	//		phoneNumber should be 10 digit Number.class validation should be doen in UI
-			String urlStr = properties.getProperty("URL");
-			urlStr += "?user=" + properties.getProperty("USERNAME");
-			urlStr += "&pass=" + properties.getProperty("PASSWORD");
-			urlStr += "&sender=" + properties.getProperty("SENDER");
+			
+			String urlStr = properties.getProperty("url");
+			urlStr += "?user=" + properties.getProperty("username");
+			urlStr += "&pass=" + properties.getProperty("password");
+			urlStr += "&sender=" + properties.getProperty("sender");
 			urlStr += "&phone=" + smsDetails.getContactList();
 			try {
 				urlStr += "&text=" + URLEncoder.encode(smsDetails.getDetail(), "UTF-8");
 			} catch (UnsupportedEncodingException e1) {
 				logger.error("Unable to encode the sms text message.", e1);
 			}
-			urlStr += "&priority=" + properties.getProperty("PRIORITY");
-			urlStr += "&stype=" + properties.getProperty("TYPE");
+			urlStr += "&priority=" + properties.getProperty("priority");
+			urlStr += "&stype=" + properties.getProperty("type");
 			logger.debug("urlStr for SMS : {}",urlStr);
 			
-			if (!Boolean.parseBoolean(properties.getProperty("ENABLED"))){
-				logger.debug("SMS DISABLED !!! ");
-				return;
-			}
+			//System.out.println("sendSMS..:"+urlStr);
+			
 			try {
 				URL url = new URL(urlStr);
 				URLConnection urlConnection = url.openConnection();

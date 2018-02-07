@@ -232,50 +232,62 @@ public class CMSApplication implements CommandLineRunner {
 		if(null != settingsListByCat && settingsListByCat.size() > 0){
 			logger.debug("All Settings are already there");
 		}else{
-			SettingsParams settingsParams = new SettingsParams();
-			settingsParams.setParamName("ENABLED");
-			settingsParams.setParamValue("FALSE");
-			settingsParams = settingsParamsRepository.save(settingsParams);
+			SettingsParams smsGlobalSwitch = new SettingsParams();
+			smsGlobalSwitch.setParamName("sms_global_switch");
+			smsGlobalSwitch.setParamValue("false");
+			smsGlobalSwitch = settingsParamsRepository.save(smsGlobalSwitch);
 
-			SettingsParams settingsParams1 = new SettingsParams();
-			settingsParams1.setParamName("username");
-			settingsParams1.setParamValue("success");
-			settingsParams1 = settingsParamsRepository.save(settingsParams1);
+			SettingsParams smsUserName = new SettingsParams();
+			smsUserName.setParamName("username");
+			smsUserName.setParamValue("success");
+			smsUserName = settingsParamsRepository.save(smsUserName);
 			
-			SettingsParams settingsParams11 = new SettingsParams();
-			settingsParams11.setParamName("password");
-			settingsParams11.setParamValue("123456");
-			settingsParams11 = settingsParamsRepository.save(settingsParams11);
+			SettingsParams smsPassword = new SettingsParams();
+			smsPassword.setParamName("password");
+			smsPassword.setParamValue("123456");
+			smsPassword = settingsParamsRepository.save(smsPassword);
 			
-			SettingsParams settingsParams12 = new SettingsParams();
-			settingsParams12.setParamName("SENDER");
-			settingsParams12.setParamValue("SPPURT");
-			settingsParams12 = settingsParamsRepository.save(settingsParams12);
+			SettingsParams smsSender = new SettingsParams();
+			smsSender.setParamName("sender");
+			smsSender.setParamValue("SPPURT");
+			smsSender = settingsParamsRepository.save(smsSender);
 			
-			SettingsParams settingsParams13 = new SettingsParams();
-			settingsParams13.setParamName("URL");
-			settingsParams13.setParamValue("http://bhashsms.com/api/sendmsg.php");
-			settingsParams13 = settingsParamsRepository.save(settingsParams13);
+			SettingsParams smsUrl = new SettingsParams();
+			smsUrl.setParamName("url");
+			smsUrl.setParamValue("http://bhashsms.com/api/sendmsg.php");
+			smsUrl = settingsParamsRepository.save(smsUrl);
 			
-			SettingsParams settingsParams14 = new SettingsParams();
-			settingsParams14.setParamName("TYPE");
-			settingsParams14.setParamValue("normal");
-			settingsParams14 = settingsParamsRepository.save(settingsParams14);
+			SettingsParams smsType = new SettingsParams();
+			smsType.setParamName("type");
+			smsType.setParamValue("normal");
+			smsType = settingsParamsRepository.save(smsType);
 			
-			SettingsParams settingsParams15 = new SettingsParams();
-			settingsParams15.setParamName("PRIORITY");
-			settingsParams15.setParamValue("ndnd");
-			settingsParams15 = settingsParamsRepository.save(settingsParams15);
+			SettingsParams smsPriority = new SettingsParams();
+			smsPriority.setParamName("priority");
+			smsPriority.setParamValue("ndnd");
+			smsPriority = settingsParamsRepository.save(smsPriority);
+			
+			SettingsParams smsBirthdayAlarm = new SettingsParams();
+			smsBirthdayAlarm.setParamName("sms_birthday_alarm");
+			smsBirthdayAlarm.setParamValue("false");
+			smsBirthdayAlarm = settingsParamsRepository.save(smsBirthdayAlarm);
+			
+			SettingsParams smsPeriodicRemainder = new SettingsParams();
+			smsPeriodicRemainder.setParamName("sms_periodic_reminder");
+			smsPeriodicRemainder.setParamValue("false");
+			smsPeriodicRemainder = settingsParamsRepository.save(smsPeriodicRemainder);
 			
 			Settings settings = new Settings();
 			settings.setCategory("sms");
-			settings.getSettingsParams().add(settingsParams);
-			settings.getSettingsParams().add(settingsParams1);
-			settings.getSettingsParams().add(settingsParams11);
-			settings.getSettingsParams().add(settingsParams12);
-			settings.getSettingsParams().add(settingsParams13);
-			settings.getSettingsParams().add(settingsParams14);
-			settings.getSettingsParams().add(settingsParams15);
+			settings.getSettingsParams().add(smsGlobalSwitch);
+			settings.getSettingsParams().add(smsUserName);
+			settings.getSettingsParams().add(smsPassword);
+			settings.getSettingsParams().add(smsSender);
+			settings.getSettingsParams().add(smsUrl);
+			settings.getSettingsParams().add(smsType);
+			settings.getSettingsParams().add(smsPriority);
+			settings.getSettingsParams().add(smsBirthdayAlarm);
+			settings.getSettingsParams().add(smsPeriodicRemainder);
 			settings = settingsRepository.save(settings);
 			
 			

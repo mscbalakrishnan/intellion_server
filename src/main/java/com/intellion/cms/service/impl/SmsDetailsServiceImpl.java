@@ -24,6 +24,8 @@ public class SmsDetailsServiceImpl implements SmsDetailsService {
 	}
 	@Override
 	public Iterable<SmsDetails> getPendingSms(){
-		return smsDetailsRepository.findByDateAndStatusNotAndRetryCountLessThan(Instant.now().toEpochMilli(), SmsStatus.SUCCESS.name(), 5);
+		//return smsDetailsRepository.findByDateAndStatusNotAndRetryCountLessThan(Instant.now().toEpochMilli(), SmsStatus.SUCCESS.name(), 5);
+		
+		return smsDetailsRepository.findAll();
 	}
 }
