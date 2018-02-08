@@ -5,6 +5,7 @@ public interface NotifyService {
 //	public String getMsgForAppConfirm(String template, Appointment appointment);
 //	public String getMsgForAppConfirmForDoc(String template, Appointment appointment);
 	public void sendSMS();
+	public void patientBirthDateCheckScheduler();
 //	public String getMsgForApp(String template, Appointment appointment, String operation);
 //	public String getMsgForDelApp(String template, AppointmentDto appointmentDto, String toUser);
 }

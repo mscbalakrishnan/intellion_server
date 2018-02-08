@@ -8,6 +8,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -16,13 +21,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.Settings;
 import com.intellion.cms.domain.SettingsParams;
 import com.intellion.cms.domain.SmsDetails;
 import com.intellion.cms.domain.SmsStatus;
+import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.NotifyService;
+import com.intellion.cms.service.PatientService;
 import com.intellion.cms.service.SettingsService;
 import com.intellion.cms.service.SmsDetailsService;
+import com.intellion.cms.util.SmsContentUtil;
 
 @Component("notifyService")
 public class NotifyServiceImpl implements NotifyService {
@@ -30,7 +39,11 @@ public class NotifyServiceImpl implements NotifyService {
 	@Autowired
     private SettingsService settingsService;
 	@Autowired
+    private PatientService patientService;
+	@Autowired
     private SmsDetailsService smsDetailsService;
+	@Autowired
+	private SmsDetailsRepository smsDetailsRepository;
 //	private static final Logger logger = LoggerFactory.getLogger(NotifyServiceImpl.class);
 //	private String urlStr = "http://bhashsms.com/api/sendmsg.php";
 //	private String priority = "ndnd";
@@ -49,18 +62,17 @@ public class NotifyServiceImpl implements NotifyService {
 	
 //	second (0-59) / minute (0-59) / hour (0-23) / day of month (1-31) / month (1-12) / day of week (0-6)
 //	Testing every twenty  seconds...
-	@Scheduled(cron="*/45 * * * * *")
-//	@Scheduled(cron="0 0 9-18 * * *")
+//	@Scheduled(cron="*/59 * * * * *")
+	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void sendSMS(){
 		logger.debug("sendSMS() called...");
-		System.out.println("RAVI RAJA sendSMS..:");
 		Properties properties =  getSmsParams();
 		if (!Boolean.parseBoolean(properties.getProperty("sms_global_switch"))){
 			logger.debug("SMS DISABLED !!! ");
-			//System.out.println("sendSMS..:DISABLED");
 			return;
-		}		
+		}
+		
 		for (SmsDetails smsDetails:smsDetailsService.getPendingSms()) {
 			
 			String urlStr = properties.getProperty("url");
@@ -76,8 +88,6 @@ public class NotifyServiceImpl implements NotifyService {
 			urlStr += "&priority=" + properties.getProperty("priority");
 			urlStr += "&stype=" + properties.getProperty("type");
 			logger.debug("urlStr for SMS : {}",urlStr);
-			
-			//System.out.println("sendSMS..:"+urlStr);
 			
 			try {
 				URL url = new URL(urlStr);
@@ -103,6 +113,38 @@ public class NotifyServiceImpl implements NotifyService {
 			}
 		}
 	}
+	
+	
+
+	@Scheduled(cron="*/45 * * * * *")
+	//@Scheduled(cron="0 0 9-18 * * *")
+	@Override
+	public void patientBirthDateCheckScheduler(){
+		logger.debug("patientBirthDateCheckScheduler() called...");
+		LocalDate currLocalDate = LocalDate.now();
+		List<Patient> patList = patientService.findByDOB(currLocalDate);
+		
+		for (Patient patient:patientService.findByDOB(currLocalDate)) {
+			
+			String patientPhoneNumber = patient.getMobileNumber1();
+			if(patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
+				String bdayWishMsg = SmsContentUtil.getInstance().getBirthDayWishMessage("birthdaywish.vm", patient.getName());
+				logger.debug("*********** PATIENT BIRTHDAY SMS CONTENT: "+bdayWishMsg);
+				SmsDetails smsDetails = new SmsDetails();
+				smsDetails.setContactList(patientPhoneNumber);
+				smsDetails.setDetail(bdayWishMsg);
+				smsDetails.setRetryCount(5);
+				smsDetails.setDate(new Date().getTime());
+				smsDetails.setName(SmsContentUtil.SMS_BDAY_NAME_PREFIX + patient.getId());
+				smsDetails.setStatus(SmsStatus.PENDING.name());
+				smsDetailsRepository.save(smsDetails);
+			}
+			
+		}
+	}	
+	
+	
+	
 	
 	/*
 	@Value("${sms.enable:false}")

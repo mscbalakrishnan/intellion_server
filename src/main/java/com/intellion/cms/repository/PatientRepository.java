@@ -1,5 +1,6 @@
 package com.intellion.cms.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -12,5 +13,6 @@ public interface PatientRepository extends CrudRepository<Patient, String>{
 
 	List<Patient> findByNameContaining(String name);
 	List<Patient> findByNameContainingIgnoreCase(String name);
+	List<Patient> findByDob(LocalDate currDate);
 //	Page<Patient> findAll(Pageable pageable);
 }

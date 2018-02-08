@@ -1,5 +1,6 @@
 package com.intellion.cms.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.intellion.cms.domain.Patient;
@@ -18,4 +19,5 @@ public interface PatientService {
 	void delete(Patient patient);
 
 	List<Patient> findByName(String name);
+	List<Patient> findByDOB(LocalDate locDate);
 }

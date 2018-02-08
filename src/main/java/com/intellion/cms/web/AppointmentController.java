@@ -160,10 +160,10 @@ public class AppointmentController {
 		this.appointmentService.delete(appointmentId);
 		
 		if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() != 0) {
-			sendSmsToDoctor(appointment, "appointment_cancel.vm");
+			sendSmsToDoctor(appointment, "appointment_cancel.vm",SmsContentUtil.SMS_APPOINTMENT_CANCEL_NAME_PREFIX);
 		}
 		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-			sendSmsToPatient(appointment, "appointment_cancel.vm");
+			sendSmsToPatient(appointment, "appointment_cancel.vm",SmsContentUtil.SMS_APPOINTMENT_CANCEL_NAME_PREFIX);
 		}
 	}
 
@@ -182,10 +182,10 @@ public class AppointmentController {
 		if (appointment != null) {
 			// Success process sms
 			if (appointmentInputDto.isSmsToDoctor()) {
-				sendSmsToDoctor(appointment, "appointment_confirm.vm");
+				sendSmsToDoctor(appointment, "appointment_confirm.vm",SmsContentUtil.SMS_APPOINTMENT_NAME_PREFIX);
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
-				sendSmsToPatient(appointment, "appointment_confirm.vm");
+				sendSmsToPatient(appointment, "appointment_confirm.vm",SmsContentUtil.SMS_APPOINTMENT_NAME_PREFIX);
 			}
 		}
 		return new AppointmentDto(appointment);
@@ -210,17 +210,17 @@ public class AppointmentController {
 		if (appointment != null) {
 			// Success process sms
 			if (appointmentInputDto.isSmsToDoctor()) {
-				sendSmsToDoctor(appointment, "appointment_reschedule.vm");
+				sendSmsToDoctor(appointment, "appointment_reschedule.vm",SmsContentUtil.SMS_APPOINTMENT_RESCHEDULE_NAME_PREFIX);
 			}
 			if (appointmentInputDto.isSmsToPatient()) {
-				sendSmsToPatient(appointment, "appointment_reschedule.vm");
+				sendSmsToPatient(appointment, "appointment_reschedule.vm",SmsContentUtil.SMS_APPOINTMENT_RESCHEDULE_NAME_PREFIX);
 			}
 		}
 		logger.debug("edited successfully...");
 		return new AppointmentDto(appointment);
 	}
 
-	private void sendSmsToDoctor(Appointment appointment, String templateName) {
+	private void sendSmsToDoctor(Appointment appointment, String templateName, String smsIdentifier) {
 		String doctorPhoneNumber = appointment.getDoctor().getMobile1();
 		String doctorName = appointment.getDoctor().getName();
 		Long doctorId = appointment.getDoctor().getId();
@@ -234,13 +234,13 @@ public class AppointmentController {
 			smsDetails.setRetryCount(5);
 			smsDetails.setDetail(msg);
 			smsDetails.setDate(new Date().getTime());
-			smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + doctorId.toString());
+			smsDetails.setName(smsIdentifier + doctorId.toString());
 			smsDetails.setStatus(SmsStatus.PENDING.name());
 			smsDetailsRepository.save(smsDetails);
 		}
 	}
 
-	private void sendSmsToPatient(Appointment appointment, String templateName) {
+	private void sendSmsToPatient(Appointment appointment, String templateName, String smsIdentifier) {
 		String patientId = appointment.getPatient().getId();
 		String patientName = appointment.getPatient().getName();
 		String patientPhoneNumber = appointment.getPatient().getMobileNumber1();
@@ -253,7 +253,7 @@ public class AppointmentController {
 			smsDetails.setDetail(msg);
 			smsDetails.setRetryCount(5);
 			smsDetails.setDate(new Date().getTime());
-			smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + patientId);
+			smsDetails.setName(smsIdentifier + patientId);
 			smsDetails.setStatus(SmsStatus.PENDING.name());
 			smsDetailsRepository.save(smsDetails);
 		}

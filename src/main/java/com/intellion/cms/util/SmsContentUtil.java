@@ -39,6 +39,10 @@ public class SmsContentUtil {
 	private static final String IGNORE = "Please ignore if you already have taken";
 	private static final String IGNOREPAID = "Please ignore if you have already paid";
 	public static final String SMS_REG_NAME_PREFIX = "REGISTRATION::";
+	public static final String SMS_BDAY_NAME_PREFIX = "BIRTHDAY::";
+	public static final String SMS_APPOINTMENT_NAME_PREFIX = "APPOINTMENT::";
+	public static final String SMS_APPOINTMENT_RESCHEDULE_NAME_PREFIX = "APPOINTMENT RESCHEDULE::";
+	public static final String SMS_APPOINTMENT_CANCEL_NAME_PREFIX = "APPOINTMENT CANCEL::";
 	
 	private SmsContentUtil() {
 		context = new VelocityContext();
@@ -106,6 +110,23 @@ public class SmsContentUtil {
 		t.merge(context, writer);
 		return writer.toString();
 	}
+
+	public synchronized String getBirthDayWishMessage(String template, String patientName) {
+		Properties properties =  getClinicParams();
+		template = BASE_DIR + "/" + template;
+		Template t = ve.getTemplate(template);
+		
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setPatientName(patientName);
+		smsTemplateData.setHospitalName(properties.getProperty("clinicName"));
+		context.put("data", smsTemplateData);
+		
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		return writer.toString();
+	}
+	
+	
 	
 	/**
 	 * Method will return sms message for patient as well as doctor if the doctorName parameter is not none
@@ -124,8 +145,8 @@ public class SmsContentUtil {
 		smsTemplateData.setDateTime(time);
 		smsTemplateData.setPatientName(patientName);
 		smsTemplateData.setDoctorName(doctorName);
-		smsTemplateData.setHospitalName(properties.getProperty("NAME"));
-		smsTemplateData.setHospitalPhone(properties.getProperty("MOBILENO"));
+		smsTemplateData.setHospitalName(properties.getProperty("clinicName"));
+		smsTemplateData.setHospitalPhone(properties.getProperty("mobile"));
 		context.put("data", smsTemplateData);
 		
 		StringWriter writer = new StringWriter();

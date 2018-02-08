@@ -1,5 +1,6 @@
 package com.intellion.cms.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.ConstraintViolation;
@@ -81,6 +82,11 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public List<Patient> findByName(String name) {
 		return patientRepository.findByNameContainingIgnoreCase(name);
+	}
+	
+	@Override
+	public List<Patient> findByDOB(LocalDate locDate) {
+		return patientRepository.findByDob(locDate);
 	}
 
 }
