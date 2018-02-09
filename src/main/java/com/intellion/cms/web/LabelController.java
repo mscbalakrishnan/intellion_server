@@ -1,7 +1,10 @@
 package com.intellion.cms.web;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,16 +18,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.intellion.cms.domain.Appointment;
 import com.intellion.cms.domain.Label;
 import com.intellion.cms.domain.Patient;
+import com.intellion.cms.domain.SmsDetails;
+import com.intellion.cms.domain.SmsStatus;
+import com.intellion.cms.domain.dto.AppointmentDto;
 import com.intellion.cms.domain.dto.LabelDto;
 import com.intellion.cms.domain.dto.PatientDto;
+import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.LabelService;
 import com.intellion.cms.service.PatientService;
+import com.intellion.cms.util.DateUtil;
+import com.intellion.cms.util.SmsContentUtil;
 
 
 @RestController
@@ -35,6 +45,8 @@ public class LabelController {
 	private LabelService labelService;
 	@Autowired
 	private PatientService patientService;
+	@Autowired
+	private SmsDetailsRepository smsDetailsRepository;
 	
 	
 	/**
@@ -98,6 +110,36 @@ public class LabelController {
 	public void deleteLabel(@PathVariable("labelid") long labelId, HttpServletRequest request) {
 		this.labelService.delete(labelId);
 	}
+	
+	
+	@GetMapping(value="/grouppromo")
+	public String findPatIDsByGroupId(@RequestParam  long labelId, @RequestParam  String promoMsg) {
+		logger.debug("group Id ----> {}",labelId);
+		Label label = this.labelService.findOne(labelId);
+		List<Patient> patList = label.getPatientList(); 
+		for(Patient patient:patList){
+			if(null != patient){
+				sendSmsToPatient(patient.getMobileNumber1(), patient.getId(), promoMsg, "PROMO");
+			}
+		}
+		
+		return "success";
+	}
+	
+	private void sendSmsToPatient(String patientPhoneNumber, String patientId, String promoMsg, String smsIdentifier) {
+		
+		logger.debug("*********** PROMO SMS CONTENT FOR PATIENT:"+promoMsg);
+		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
+			SmsDetails smsDetails = new SmsDetails();
+			smsDetails.setContactList(patientPhoneNumber);
+			smsDetails.setDetail(promoMsg);
+			smsDetails.setRetryCount(5);
+			smsDetails.setDate(new Date().getTime());
+			smsDetails.setName(smsIdentifier + patientId);
+			smsDetails.setStatus(SmsStatus.PENDING.name());
+			smsDetailsRepository.save(smsDetails);
+		}
+	}	
 	
 	
 }
