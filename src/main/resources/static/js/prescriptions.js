@@ -10,7 +10,7 @@ var presModel = function() {
 			self.addNewItem = function(data) {
 				console.log(data);
 				self.items.push(new item(0, "", false, 0, false, 0, false, 0,
-						"Test Notes11", "Number", "Number", "Number", 3));
+						"", "Number", "Number", "Number", 0));
 
 			}.bind(this),
 			
@@ -58,7 +58,7 @@ var presModel = function() {
 			self.addDefaultValues = function() {
 
 				self.items.push(new item(0, "", false, 0, false, 0, false, 0,
-						"", "Number", "Number", "Number", 3));
+						"", "Number", "Number", "Number", 0));
 
 			}
 
