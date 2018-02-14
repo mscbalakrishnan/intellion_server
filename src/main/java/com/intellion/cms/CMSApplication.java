@@ -130,7 +130,7 @@ public class CMSApplication implements CommandLineRunner {
 		p.setName("Murali Babu");
 		p.setMobileNumber1("9600194696");
 		p.setTitle(Title.Mr);
-		p.setBloodGroup(BloodGroup.BPositive);
+		//p.setBloodGroup(BloodGroup.BPositive);
 		p.setDob(LocalDate.of(1989, 1, 15));
 		p.getAddressList().add(address1);
 		p = patientRepository.save(p);
@@ -139,7 +139,7 @@ public class CMSApplication implements CommandLineRunner {
 		p1.setName("pandian Babu");
 		p1.setMobileNumber1("9600194696");
 		p1.setTitle(Title.Mr);
-		p1.setBloodGroup(BloodGroup.BPositive);
+		//p1.setBloodGroup(BloodGroup.BPositive);
 		p1.setDob(LocalDate.of(1989, 1, 15));
 		p1.getAddressList().add(address1);
 		p1 = patientRepository.save(p1);

@@ -26,6 +26,7 @@ public class PatientDto implements Serializable {
 
 	private String id;
 	private Title title;
+	private int titleId;
 	private String name;
 	@NotNull(message="Primary Mobile number can not be empty")
 	@Size(min=10, max=10, message="Should be 10 digits")
@@ -39,6 +40,7 @@ public class PatientDto implements Serializable {
 	private String label;
 	private String landline;
 	private BloodGroup bloodGroup;
+	private int bloodGroupId;
 	private Gender gender;
 	private String Occupation;
 	@Email(message = "Email should be valid")
@@ -65,11 +67,12 @@ public class PatientDto implements Serializable {
 	public PatientDto(Patient patient) {
 		setId(patient.getId());
 		setTitle(patient.getTitle());
+		setTitleId(patient.getTitle().getId());
 		setName(patient.getName());
 		setMobile(patient.getMobileNumber1());
 		setProfileId(patient.getProfileId());
 		setLabel(patient.getLabel());
-		setBloodGroup(patient.getBloodGroup());
+		setBloodGroupId(patient.getBloodGroup().getId());
 		setGender(patient.getGender());
 		setOccupation(patient.getOccupation());
 		setEmail(patient.getEmail());
