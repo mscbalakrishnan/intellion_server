@@ -76,7 +76,7 @@ public class CMSApplication implements CommandLineRunner {
 		SpringApplication.run(CMSApplication.class, args);
 	}
 
-	public void run1(String... arg0) throws Exception {
+	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
@@ -223,15 +223,16 @@ public class CMSApplication implements CommandLineRunner {
 //		prescription.setPrescriptionEntries(prescriptionEntries);
 		pe1 = prescriptionEntryRepository.save(pe1);
 		pe2 = prescriptionEntryRepository.save(pe2);
+		run1(arg0);
 	}
-	public void run(String... arg0) throws Exception {
+	public void run1(String... arg0) throws Exception {
 		
 		
 		List<Settings> settingsListByCat =  (List<Settings>)this.settingsRepository.findByCategory("sms");
 		
 		if(null != settingsListByCat && settingsListByCat.size() > 0){
 			logger.debug("All Settings are already there");
-		}else{
+		} else {
 			SettingsParams smsGlobalSwitch = new SettingsParams();
 			smsGlobalSwitch.setParamName("sms_global_switch");
 			smsGlobalSwitch.setParamValue("false");
@@ -294,60 +295,68 @@ public class CMSApplication implements CommandLineRunner {
 			
 			SettingsParams settingsParams2 = new SettingsParams();
 			settingsParams2.setParamName("clinicName");
-//			settingsParams2.setParamValue("Sree Balaji Dental Clinic");
-			settingsParams2.setParamValue("");
+			settingsParams2.setParamValue("Sree Balaji Dental Clinic");
+//			settingsParams2.setParamValue("");
 			settingsParams2 = settingsParamsRepository.save(settingsParams2);
 			
 			SettingsParams settingsParams21 = new SettingsParams();
 			settingsParams21.setParamName("addressLine1");
-//			settingsParams21.setParamValue("No 14, 11th Street, Balaji Nagar, Adambakkam, Chennai, Tamil Nadu. PIN: 600088");
-			settingsParams21.setParamValue("");
+			settingsParams21.setParamValue("No 14, 11th Street");
+//			settingsParams21.setParamValue("");
 			settingsParams21 = settingsParamsRepository.save(settingsParams21);
 			
 			SettingsParams settingsParams22 = new SettingsParams();
 			settingsParams22.setParamName("addressLine2");
-			settingsParams22.setParamValue("");
+			settingsParams22.setParamValue("Balaji Nagar");
+//			settingsParams22.setParamValue("");
 			settingsParams22 = settingsParamsRepository.save(settingsParams22);
 			
 			SettingsParams settingsParams23 = new SettingsParams();
 			settingsParams23.setParamName("mobile");
-//			settingsParams23.setParamValue("+91 44 43559921");
-			settingsParams23.setParamValue("");
+			settingsParams23.setParamValue("+91 99221 99221");
+//			settingsParams23.setParamValue("");
 			settingsParams23 = settingsParamsRepository.save(settingsParams23);
 			
 			SettingsParams settingsParams24 = new SettingsParams();
 			settingsParams24.setParamName("area");
-			settingsParams24.setParamValue("");
+			settingsParams24.setParamValue("Adambakkam");
+//			settingsParams24.setParamValue("");
 			settingsParams24 = settingsParamsRepository.save(settingsParams24);
 			
 			SettingsParams settingsParams25 = new SettingsParams();
 			settingsParams25.setParamName("city");
-			settingsParams25.setParamValue("");
+			settingsParams25.setParamValue("Chennai");
+//			settingsParams25.setParamValue("");
 			settingsParams25 = settingsParamsRepository.save(settingsParams25);
 			
 			SettingsParams settingsParams26 = new SettingsParams();
 			settingsParams26.setParamName("state");
-			settingsParams26.setParamValue("");
+			settingsParams26.setParamValue("Tamil Nadu");
+//			settingsParams26.setParamValue("");
 			settingsParams26 = settingsParamsRepository.save(settingsParams26);
 			
 			SettingsParams settingsParams27 = new SettingsParams();
 			settingsParams27.setParamName("pincode");
-			settingsParams27.setParamValue("");
+			settingsParams27.setParamValue("600088");
+//			settingsParams27.setParamValue("");
 			settingsParams27 = settingsParamsRepository.save(settingsParams27);
 			
 			SettingsParams settingsParams28 = new SettingsParams();
 			settingsParams28.setParamName("email");
-			settingsParams28.setParamValue("");
+			settingsParams28.setParamValue("drbalajiclinc@gmail.com");
+//			settingsParams28.setParamValue("");
 			settingsParams28 = settingsParamsRepository.save(settingsParams28);
 			
 			SettingsParams settingsParams29 = new SettingsParams();
 			settingsParams29.setParamName("landline");
-			settingsParams29.setParamValue("");
+			settingsParams29.setParamValue("+91 44 43559921");
+//			settingsParams29.setParamValue("");
 			settingsParams29 = settingsParamsRepository.save(settingsParams29);
 			
 			SettingsParams settingsParams30 = new SettingsParams();
 			settingsParams30.setParamName("website");
-			settingsParams30.setParamValue("");
+			settingsParams30.setParamValue("www.drbalajiclinc.com");
+//			settingsParams30.setParamValue("");
 			settingsParams30 = settingsParamsRepository.save(settingsParams30);
 
 			Settings settings1 = new Settings();

@@ -10,6 +10,8 @@ import java.io.StringWriter;
 
 import org.apache.commons.lang.StringUtils;
 import com.intellion.cms.domain.Prescription;
+import com.intellion.cms.domain.dto.ClinicDto;
+import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.domain.dto.PrescriptionDto;
 
 public class VmConfigGenerator {
@@ -29,7 +31,7 @@ public class VmConfigGenerator {
         return ve;
     }
     
-    public String generatePrescriptionConfiguration(PrescriptionDto prescriptionDto) {
+    public String generatePrescriptionConfiguration(PrescriptionDto prescriptionDto, ClinicDto clinicDto, PatientDto patientDto) {
     	String vtFileName = BASE_DIR + "/" + "prescription.vm";
     	
         try{
@@ -39,6 +41,8 @@ public class VmConfigGenerator {
             Template t = ve.getTemplate(vtFileName);
             VelocityContext context = new VelocityContext();
             context.put("prescription", prescriptionDto);
+            context.put("clinic", clinicDto);
+            context.put("patient", patientDto);
             context.put("StringUtils", StringUtils.class);
             context.put("newline", "\n");
             StringWriter writer = new StringWriter();

@@ -96,4 +96,34 @@ public class SettingsDto implements Serializable {
 		return existSettings;
 	}
 
+	public ClinicDto getClinicObject() {
+		ClinicDto clinicDto = new ClinicDto();
+		for (SettingsParamsDto dto : settingsParamsDtos) {
+			if ("clinicName".equals(dto.getParamName())) {
+				clinicDto.setClinicName(dto.getParamValue());
+			} else if ("addressLine1".equals(dto.getParamName())) {
+				clinicDto.setAddressLine1(dto.getParamValue());
+			} else if ("addressLine2".equals(dto.getParamName())) {
+				clinicDto.setAddressLine2(dto.getParamValue());
+			} else if ("mobile".equals(dto.getParamName())) {
+				clinicDto.setMobile(dto.getParamValue());
+			} else if ("area".equals(dto.getParamName())) {
+				clinicDto.setArea(dto.getParamValue());
+			} else if ("city".equals(dto.getParamName())) {
+				clinicDto.setCity(dto.getParamValue());
+			} else if ("state".equals(dto.getParamName())) {
+				clinicDto.setState(dto.getParamValue());
+			} else if ("pincode".equals(dto.getParamName())) {
+				clinicDto.setPincode(dto.getParamValue());
+			} else if ("email".equals(dto.getParamName())) {
+				clinicDto.setEmail(dto.getParamValue());
+			} else if ("landline".equals(dto.getParamName())) {
+				clinicDto.setLandline(dto.getParamValue());
+			} else if ("website".equals(dto.getParamName())) {
+				clinicDto.setWebsite(dto.getParamValue());
+			}
+		}
+		return clinicDto;
+	}
+
 }

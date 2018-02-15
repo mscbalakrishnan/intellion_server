@@ -25,15 +25,20 @@ import com.intellion.cms.domain.Doctor;
 import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.Prescription;
 import com.intellion.cms.domain.PrescriptionEntry;
+import com.intellion.cms.domain.Settings;
+import com.intellion.cms.domain.dto.ClinicDto;
+import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.domain.dto.PrescriptionDto;
 import com.intellion.cms.domain.dto.PrescriptionEntryInputDto;
 import com.intellion.cms.domain.dto.PrescriptionInputDto;
 import com.intellion.cms.domain.dto.ReportDto;
+import com.intellion.cms.domain.dto.SettingsDto;
 import com.intellion.cms.service.DoctorService;
 import com.intellion.cms.service.MedicationService;
 import com.intellion.cms.service.PatientService;
 import com.intellion.cms.service.PrescriptionEntryService;
 import com.intellion.cms.service.PrescriptionService;
+import com.intellion.cms.service.SettingsService;
 import com.intellion.cms.vm.VmConfigGenerator;
 
 /**
@@ -55,6 +60,8 @@ public class PrescriptionController {
 	private DoctorService doctorService;
 	@Autowired
 	private MedicationService medicationService;
+	@Autowired
+	private SettingsService settingsService;
 	/**
 	 * @param request
 	 * @return
@@ -172,12 +179,19 @@ public class PrescriptionController {
 	@ResponseBody
 	public ReportDto printPrescription(@PathVariable("prescriptionid") long prescriptionId, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to print {}" , prescriptionId);
+		List<Settings> settingsListByCat =  (List<Settings>)this.settingsService.findByCategory("clinic");
+		List<SettingsDto> toReturn = new ArrayList<>();
+		settingsListByCat.forEach(s->toReturn.add(new SettingsDto(s)));
+		SettingsDto settingsDto = toReturn.get(0);
+		logger.debug("settingsDto --> {}", settingsDto);
+		ClinicDto clinicDto = settingsDto.getClinicObject();
+		logger.debug("clinicDto --> {}", clinicDto);
 		Prescription prescription = prescriptionService.findOne(prescriptionId);
 		PrescriptionDto pDto = new PrescriptionDto(prescription);
+		Patient patient = patientService.findOne(pDto.getPatientDto().getId());
+		PatientDto patientDto = new PatientDto(patient);
 		VmConfigGenerator generator = new VmConfigGenerator();
-		String prescription_html_str = generator.generatePrescriptionConfiguration(pDto);
-		return new ReportDto(prescription_html_str);
+		String prescription_html_str = generator.generatePrescriptionConfiguration(pDto, clinicDto, patientDto);
+		return new ReportDto(prescription_html_str.replace("\r\n", ""));
 	}
-	
-	
 }

@@ -1,8 +1,11 @@
-<head><title>CMS</title><link rel="stylesheet" type="text/css" href="minimalistBlack.css"/></head>
+<head>
+<title>CMS</title>
+<link rel="stylesheet" type="text/css" href="minimalistBlack.css"/>
+</head>
 #if($prescription)
 #set($patient = $prescription.patientDto.name)
 #set($patientAge = $prescription.patientDto.age)
-#set($patientGender = $prescription.patientDto.gender.gender)
+#set($patientGender = $prescription.patientDto.gender)
 #set($doctor = $prescription.doctorDto.name)
 #set($date = $prescription.date)
 #end
@@ -19,7 +22,42 @@
 #set($landline = $clinic.landline)
 #set($website = $clinic.website)
 #end
-<table><tbody><tr><td style="text-align: left;width:30%;"><img src="icon.png" alt="icon" width="128" height="128" /></td><td style="text-align: center;width:40%;"><h1 style="color: #5e9ca0; text-align: center;">$clinicName</h1><p style="text-align: center;">$addressLine1, $addressLine2, $area</p><p style="text-align: center;">$city - $pincode. Email:<a href="mailto:$email">$email</a> Web: $website</p></td><td style="text-align: right;width:30%;"><p style="text-align: right;">Mobile:$mobile</p><p style="text-align: right;">Landline:$landline</p></td></tr></tbody></table><p style="color: #5e9ca0; text-align: center;">&nbsp;</p><hr /><p>Date:$date</p><p>Doctor:$doctor</p><p>Patient: $patient</p><p>Age: $patientAge</p><p>Gender: $patientGender</p><table class="minimalistBlack" style="width: 100%;" border="1"><thead><tr><td style="width: 79px;">Medication</td><td style="width: 35px;">Days</td><td style="width: 95px;">Morning</td><td style="width: 95px;">Noon</td><td style="width: 95px;">Night</td><td style="width: 304.667px;">Notes</td></tr></thead><tbody>
+
+<table>
+<tbody>
+<tr>
+<td style="text-align: left;width:30%;"><img src="icon.png" alt="icon" width="128" height="128" /></td>
+<td style="text-align: center;width:40%;">
+<h1 style="color: #5e9ca0; text-align: center;">$clinicName</h1>
+<p style="text-align: center;">$addressLine1, $addressLine2, $area</p>
+<p style="text-align: center;">$city - $pincode. Email:<a href="mailto:$email">$email</a> Web: $website</p>
+</td>
+<td style="text-align: right;width:30%;">
+<p style="text-align: right;">Mobile:$mobile</p>
+<p style="text-align: right;">Landline:$landline</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="color: #5e9ca0; text-align: center;">&nbsp;</p>
+<hr />
+<p>Date:$date</p>
+<p>Doctor:$doctor</p>
+<p>Patient: $patient</p>
+<p>Age: $patientAge</p>
+<p>Gender: $patientGender</p>
+<table class="minimalistBlack" style="width: 100%;" border="1">
+<thead>
+<tr>
+<td style="width: 79px;">Medication</td>
+<td style="width: 35px;">Days</td>
+<td style="width: 95px;">Morning</td>
+<td style="width: 95px;">Noon</td>
+<td style="width: 95px;">Night</td>
+<td style="width: 304.667px;">Notes</td>
+</tr>
+</thead>
+<tbody>
 #foreach($prescriptionEntry in $prescription.prescriptionEntries)
 <tr>
 #set($medicationName = $prescriptionEntry.medicationDto.name)
@@ -42,6 +80,7 @@
 #else
 #set($night = $night + 'AF')
 #end
+
 #set($notes = $prescriptionEntry.notes)
 #if($medicationName)
     <td style="width: 79px;">$medicationName</td>
@@ -53,4 +92,6 @@
 </tr>    
 #end
 #end
-</tbody></table><p><strong>&nbsp;</strong></p>
+</tbody>
+</table>
+<p><strong>&nbsp;</strong></p>
