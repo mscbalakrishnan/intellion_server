@@ -244,5 +244,27 @@ var Patient = function() {
 			},resultType : "json",
 		});
 		ServiceCalls.call();
+	},
+	self.calculateAge = function(dob){
+		//var dob = '15-02-1985';
+		var curDt = new Date();
+
+		var dobArr = dob.split("-");
+
+		var dobYr = dobArr[2];
+		var dobMon = dobArr[1];
+
+		var curYr = curDt.getFullYear();
+		var curMon = curDt.getMonth() + 1;
+
+
+		if(curMon < dobMon ) {
+			curYr = curYr - 1;
+		}
+
+		var age = curYr - dobYr;
+		console.log(age);
+		
+		return age;
 	}
 }
