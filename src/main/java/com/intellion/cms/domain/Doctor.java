@@ -42,6 +42,8 @@ public class Doctor extends EntityWithSurrogatePK {
 	@Pattern(regexp="(^$|[0-9]{10})")
 	private String mobileNumber3;
 	
+	private String colorCode;
+	
 	
 	@OneToMany(mappedBy="doctor",fetch=FetchType.LAZY,cascade = CascadeType.REMOVE)
 	private Set<Appointment> appointments;
@@ -127,11 +129,19 @@ public class Doctor extends EntityWithSurrogatePK {
 		this.categoryId = categoryId;
 	}
 
+	public String getColorCode() {
+		return colorCode;
+	}
+
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+
 	@Override
 	public String toString() {
 		return "Doctor [name=" + name + ", title=" + title + ", email=" + email + ", qualification=" + qualification
 				+ ", fees=" + fees + ", mobile1=" + mobile1 + ", mobileNumber2=" + mobileNumber2 + ", mobileNumber3="
-				+ mobileNumber3 +", appointments=" + appointments + ", categoryId=" + categoryId +"]";
+				+ mobileNumber3 +", appointments=" + appointments + ", categoryId=" + categoryId + ", colorCode=" + colorCode +"]";
 	}
 
 	

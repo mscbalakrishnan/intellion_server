@@ -127,6 +127,7 @@ public class DoctorController {
 		existingDoctor.setEmail(doctor.getEmail());
 		existingDoctor.setMobile1(doctor.getMobile1());
 		existingDoctor.setQualification(doctor.getQualification());
+		existingDoctor.setColorCode(doctor.getColorCode());
 		existingDoctor.setFees(doctor.getFees());
 		existingDoctor.setCategoryId(doctor.getCategoryId());
 	}

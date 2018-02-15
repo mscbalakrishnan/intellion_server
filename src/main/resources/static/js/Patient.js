@@ -12,7 +12,8 @@ function initPatientVo() {
 	patientVo = {
 		id : ko.observable(""),
 		name : ko.observable(""),
-		title : ko.observable("1"),
+		title : ko.observable("0"),
+		titleList:ko.observableArray([{"id":0,"name":"Mr."},{"id":1,"name":"Mrs."},{"id":2,"name":"Ms."},{"id":3,"name":"Master."},{"id":4,"name":"Baby."}]),
 		email : ko.observable(""),
 		mobile : ko.observable(""),
 		landline : ko.observable(""),
@@ -28,7 +29,7 @@ function initPatientVo() {
 		label : ko.observable(""),
 		landline : ko.observable(""),
 		bloodGroup : ko.observable(""),
-		bloodGroupList:ko.observableArray([{"id":1,"name":"A+"},{"id":2,"name":"A-"},{"id":3,"name":"B+"},{"id":4,"name":"B-"},{"id":5,"name":"O+"},{"id":6,"name":"O-"},{"id":7,"name":"AB+"},{"id":8,"name":"AB-"}]),
+		bloodGroupList:ko.observableArray([{"id":0,"name":"A+"},{"id":1,"name":"A-"},{"id":2,"name":"B+"},{"id":3,"name":"B-"},{"id":4,"name":"O+"},{"id":5,"name":"O-"},{"id":6,"name":"AB+"},{"id":7,"name":"AB-"}]),
 		gender : ko.observable(""),
 		genderList:ko.observableArray([{"id":0,"name":"Male"},{"id":1,"name":"Female"}]),
 		age : ko.observable(""),
@@ -79,10 +80,9 @@ var Patient = function() {
 					else
 						patientVo.gender(1);
 						
-					
 					patientVo.id (data["id"]),
 					patientVo.name ( data["name"]),
-					patientVo.title ( data["title"]),
+					patientVo.title ( data["titleId"]),
 					patientVo.email ( data["email"]),
 					patientVo.mobile ( data["mobile"]),
 					patientVo.landline ( data["landline"]),
@@ -98,7 +98,7 @@ var Patient = function() {
 					
 					patientVo.label ( data["label"]),
 					patientVo.landline ( data["landline"]),
-					patientVo.bloodGroup ( data["bloodGroup"]),
+					patientVo.bloodGroup ( data["bloodGroupId"]),
 					
 					patientVo.age ( data["age"]),
 					patientVo.occupation(data["occupation"]);
@@ -147,7 +147,7 @@ var Patient = function() {
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
 							gridHeaders : {"title":"Title","name":"Name","gender":"Gender","profileId":"Profile ID","mobile":"Mobile","email" : "Email","label":"Label/Grp"},
-							hiddenColumns : ["id","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments","dentalHistory"],
+							hiddenColumns : ["id","titleId","dob","occupation","bloodGroup","age","address1","address2","city","pincode","landline","medicalAlert","medicalHistory","allergies","needWelcomeMessage","birthdayWish","remainder","appointments","dentalHistory","bloodGroupId"],
 							isDeleteButton : true,
 							deleteIconClass:"glyphicon glyphicon-remove-sign deleteIconImage",
 							isViewButton : true,
@@ -214,7 +214,8 @@ var Patient = function() {
 		}
 		
 		 var data = ko.toJS(patientVo);
-		/* var dob = data.dob; */
+		
+		 var bloodGroup = data.bloodGroup;
 		 var date = data.dob;
 		 var dH = data.dentalHistory;
 		 var dateArr = date.split("-");
@@ -243,5 +244,27 @@ var Patient = function() {
 			},resultType : "json",
 		});
 		ServiceCalls.call();
+	},
+	self.calculateAge = function(textbox){
+		//var dob = '15-02-1985';
+		var curDt = new Date();
+		var dob = textbox.value;
+		var dobArr = dob.split("-");
+
+		var dobYr = dobArr[2];
+		var dobMon = dobArr[1];
+
+		var curYr = curDt.getFullYear();
+		var curMon = curDt.getMonth() + 1;
+
+
+		if(curMon < dobMon ) {
+			curYr = curYr - 1;
+		}
+
+		var age = curYr - dobYr;
+		console.log(age);
+		$("#age").val(age);
+		return age;
 	}
 }

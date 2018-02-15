@@ -1,25 +1,38 @@
 package com.intellion.cms.domain;
 
-public enum Title {
+public enum Title{
 
-	Mr("Mr."), Mrs("Mrs."), Ms("Ms."), Master("Master."), Baby("Baby."), Dr("Dr."), Prof("Prof.");
+	Mr(0), Mrs(1), Ms(2), Master(3), Baby(4), Dr(5), Prof(6),Unknown(100);;
 
-	private final String title;
 
-	private Title(String title) {
-		this.title = title;
+	private int id;
+	
+	private Title(int id) {
+		this.id = id;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public static Title getById(String titleStr) {
-		for (Title type : Title.values()) {
-			if (type.getTitle().equals(titleStr)) {
-				return type;
+	public int getId() {
+		return id;
+	}	
+	
+	
+	
+	public static Title getById(int id) {
+		for(Title bg : Title.values()) {
+			if(bg.getId() == id) {
+				return bg;
 			}
 		}
-		return null;
+		
+		return Unknown;
+	}
+	
+	public static Title getByName(String value) {
+		for(Title bg : Title.values()) {
+			if(bg.name().equalsIgnoreCase(value)) {
+				return bg;
+			}
+		}
+		
+		return Unknown;
 	}
 }
