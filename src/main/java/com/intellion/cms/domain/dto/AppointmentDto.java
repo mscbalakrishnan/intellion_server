@@ -13,6 +13,7 @@ public class AppointmentDto implements Serializable {
 	private LocalDateTime time;
 	private DoctorDto doctor;
 	private PatientDto patient;
+	private String doctorColorCode;
 	
 	public Long getId() {
 		return id;
@@ -48,10 +49,17 @@ public class AppointmentDto implements Serializable {
 			setTime(appointment.getTime());
 			setPatient(new PatientDto(appointment.getPatient()));
 			setDoctor(new DoctorDto(appointment.getDoctor()));
+			setDoctorColorCode(appointment.getDoctor().getColorCode());
 		}
+	}
+	public String getDoctorColorCode() {
+		return doctorColorCode;
+	}
+	public void setDoctorColorCode(String doctorColorCode) {
+		this.doctorColorCode = doctorColorCode;
 	}
 	@Override
 	public String toString() {
-		return "Appointment [id=" + id + ", time=" + time + ", doctor=" + doctor + ", patient=" + patient + "]";
+		return "Appointment [id=" + id + ", time=" + time + ", doctor=" + doctor + ", patient=" + patient + ", doctorColorCode=" + doctorColorCode +"]";
 	}
 }

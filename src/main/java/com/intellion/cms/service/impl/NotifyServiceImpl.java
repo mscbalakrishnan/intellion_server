@@ -62,8 +62,8 @@ public class NotifyServiceImpl implements NotifyService {
 	
 //	second (0-59) / minute (0-59) / hour (0-23) / day of month (1-31) / month (1-12) / day of week (0-6)
 //	Testing every twenty  seconds...
-//	@Scheduled(cron="*/59 * * * * *")
-	@Scheduled(cron="0 0 9-18 * * *")
+	@Scheduled(cron="*/50 * * * * *")
+//	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void sendSMS(){
 		logger.debug("sendSMS() called...");

@@ -574,7 +574,7 @@ var Appointment = function() {
 		var min = timeArr[1];
 
 		var appointDate = new Date(year, month, day);
-
+		
 		events.push({
 			id : v.id,
 			patientId:v.patient.id,
@@ -588,8 +588,11 @@ var Appointment = function() {
 					appointDate.getMonth() - 1, appointDate.getDate(), hour,
 					min,Math.random(900)),
 			allDay : false,
-			backgroundColor : '#00a65a', // Blue
-			borderColor : '#00a65a' // Blue
+			//backgroundColor : '#00a65a', // Blue#FFA07A
+			//borderColor : '#00a65a' // Blue#FFA07A
+				
+				backgroundColor : v.doctorColorCode, 
+				borderColor : '#00a65a' 
 		});
 	};
 	self.initializeCalander = function(){

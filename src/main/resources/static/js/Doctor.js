@@ -8,6 +8,7 @@ function initDoctorVo() {
 		name : ko.observable(""),
 		title : ko.observable(""),
 		email : ko.observable(""),
+		colorCode : ko.observable(""),
 		qualification : ko.observable(""),
 		fees : ko.observable(""),
 		mobile : ko.observable(""),
@@ -16,6 +17,7 @@ function initDoctorVo() {
 		categoryList:ko.observableArray([]),
 		title : ko.observable(""),
 		titleList:ko.observableArray([{"id":1,"name":"Mr"},{"id":2,"name":"Ms/Mrs"}])
+		
 	};
 	
 	doctorVo.categoryList(categoryList);
@@ -38,6 +40,7 @@ var Doctor = function() {
 					doctorVo.title(data["title"]);
 					doctorVo.email(data["email"]);
 					doctorVo.qualification(data["qualification"]);
+					doctorVo.colorCode(data["colorCode"]);
 					doctorVo.fees(data["fees"]);
 					doctorVo.mobile(data["mobile"]);
 					doctorVo.category(data["categoryId"]);
@@ -73,7 +76,7 @@ var Doctor = function() {
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
 							gridHeaders : {"title":"Title","name":"Name","qualification":"Qualification","email" : "Email","mobile":"Mobile"},
-							hiddenColumns : ["id","categoryId","categories","appointments","fees"],
+							hiddenColumns : ["id","categoryId","categories","appointments","fees","colorCode"],
 							isDeleteButton : true,
 							isCustomPagination : false,
 							isSearchVisible:true,
@@ -147,6 +150,7 @@ var Doctor = function() {
 		objToSave.mobile = doctorVo.mobile()
 		objToSave.category = doctorVo.category();
 		objToSave.categoryId = doctorVo.category();
+		objToSave.colorCode = doctorVo.colorCode();
 		
 		var methodType = "POST";
 		if(doctorVo.id()){
