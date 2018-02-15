@@ -245,10 +245,10 @@ var Patient = function() {
 		});
 		ServiceCalls.call();
 	},
-	self.calculateAge = function(dob){
+	self.calculateAge = function(textbox){
 		//var dob = '15-02-1985';
 		var curDt = new Date();
-
+		var dob = textbox.value;
 		var dobArr = dob.split("-");
 
 		var dobYr = dobArr[2];
@@ -264,7 +264,7 @@ var Patient = function() {
 
 		var age = curYr - dobYr;
 		console.log(age);
-		
+		$("#age").val(age);
 		return age;
 	}
 }
