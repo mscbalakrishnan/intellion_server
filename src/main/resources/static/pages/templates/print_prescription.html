@@ -1,0 +1,132 @@
+<style>
+.tableAlignLeft {
+	text-align: left;
+	padding-left: 40px;
+}
+
+.tableAlignRight {
+	text-align: right;
+	padding-right: 40px;
+}
+</style>
+<table border="0" cellpadding="2px">
+	<tr>
+		<td width="75%">
+			<table border="0" cellpadding="2px" class="tableAlignLeft">
+				<tr>
+					<td align="left"><div class="tableAlignLeft">
+							<span data-bind="text:clinicObject().clinicName"></span>
+						</div></td>
+				</tr>
+				<tr>
+					<td align="left">
+						<div class="tableAlignLeft">
+							<span data-bind="text:doctorVo().title"></span>.<span
+								data-bind="text:doctorVo().name"></span><span> </span> <span
+								data-bind="text:doctorVo().qualification"></span>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td align="left"><div class="tableAlignLeft">
+							<span data-bind="text:doctorVo().additionalQualification"></span>
+						</div></td>
+				</tr>
+				<tr>
+					<td align="left"><div class="tableAlignLeft">
+							Mobile : <span data-bind="text:clinicObject().mobile"></span>
+						</div></td>
+				</tr>
+				<tr>
+					<td align="left"><div class="tableAlignLeft">
+							Email :<span data-bind="text:clinicObject().email"></span>
+						</div></td>
+				</tr>
+				<tr>
+					<td align="left"><div class="tableAlignLeft">
+							<span data-bind="text:clinicObject().addressLine1"></span>,<span
+								data-bind="text:clinicObject().addressLine2"></span>
+						</div></td>
+				</tr>
+				<tr>
+					<td align="left"><div class="tableAlignLeft">
+							<span data-bind="text:clinicObject().area"></span>,<span
+								data-bind="text:clinicObject().city"></span>, <span
+								data-bind="text:clinicObject().pincode"></span>
+						</div></td>
+				</tr>
+			</table>
+		</td>
+		<td></td>
+	</tr>
+</table>
+<table border="0" cellpadding="2px" height="100px">
+	<tr>
+		<td>Name : <span data-bind="text:patientName"></span></td>
+		<td>Age / Sex : <span data-bind="text:patientVo().age"></span>/<span
+			data-bind="text:patientVo().gender"></span></td>
+		<td>Date : <span data-bind="text:date"></span></td>
+	</tr>
+</table>
+
+<table border="1" cellpadding="2px" class="bordererTable">
+
+	<thead>
+		<tr>
+			<th>S.No</th>
+			<th>Medication</th>
+			<th>Days</th>
+			<th>Morning</th>
+			<th>Noon</th>
+			<th>Night</th>
+			<th>Notes</th>
+		</tr>
+	</thead>
+	<tbody
+		data-bind="foreach: { data: prescriptionEntries, as: 'prescriptionEntry' }">
+		<tr>
+			<td><span data-bind="text: $index()+1"></span></td>
+			<td><span class="medications col-sm-12"
+				data-bind="text:prescriptionEntry.medicationDto.name"></span></td>
+			<td><span class="medications col-sm-12"
+				data-bind="text:noOfDays"></span></td>
+
+
+			<td><span class="medications col-sm-12"
+				data-bind="text: morningTableData(prescriptionEntry)"></span></td>
+			<td><span class="medications col-sm-12"
+				data-bind="text:noonTableData(prescriptionEntry)""></span></td>
+			<td><span class="medications col-sm-12"
+				data-bind="text:nightTableData(prescriptionEntry)""></span></td>
+			<td>
+				<div class="form-group leftTextAlign">
+					<div class="col-sm-12">
+						<span class="medications col-sm-12" data-bind="text:notes"></span>
+					</div>
+				</div>
+			</td>
+		</tr>
+
+	</tbody>
+</table>
+
+<footer class="print-footer" style="position:absolute;top:88%;width:100%">
+	
+	<table border="0" cellpadding="2px" width="100%" height="30px" >
+	<tr>
+		<td><div class="tableAlignRight">Signature</div></td>
+		
+	</tr>
+</table>
+</footer>
+
+
+<footer class="print-footer" style="position:absolute;top:95%;width:100%">
+	
+	<table border="0" cellpadding="2px" width="100%" height="30px">
+	<tr>
+		<td><span data-bind="text:clinicObject().website"></span></td>
+		<td><span data-bind="text:clinicObject().landline"></span></td>
+	</tr>
+</table>
+</footer>

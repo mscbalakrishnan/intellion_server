@@ -182,7 +182,7 @@ var Patient = function() {
 								}
 								else if(type = "rowSelect")
 								{
-									new Profile().loadPatientProfilePage(data);
+									new Patient().loadPatientPage(data);
 									
 								}	
 							},
@@ -207,6 +207,7 @@ var Patient = function() {
 		
 		if(WsUtils.validate("patientForm"))
 			return;
+
 		
 		var methodType = "POST";
 		if(patientVo.id()){
@@ -217,6 +218,17 @@ var Patient = function() {
 		
 		 var bloodGroup = data.bloodGroup;
 		 var date = data.dob;
+		 
+		//var formattedDOB = $.datepicker.formatDate("dd-mm-yy", date);
+		
+  	    var today = $.datepicker.formatDate("dd-mm-yy", new Date());
+  	 //   console.log("check-->" + formattedDOB + '<' + "today-->" + today);
+		 
+  	    if(date > today){
+  	    	WsUtils.showAlert('Future Date of DOB is not allowed.');
+  	    	return;
+  	    }
+		 
 		 var dH = data.dentalHistory;
 		 var dateArr = date.split("-");
 		 data.dob = dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0];
@@ -264,6 +276,10 @@ var Patient = function() {
 
 		var age = curYr - dobYr;
 		console.log(age);
+		if(age < 0){
+			age = 0;
+		}
+		
 		$("#age").val(age);
 		return age;
 	}

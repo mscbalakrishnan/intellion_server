@@ -92,8 +92,7 @@ table th, table td {
 	<div class="row">
 		<div class="col-xs-10"></div><div class="col-xs-2">
 
-			<button type="button" id="addMedication" class="btn btn-primary"
-				onClick="new Prescriptions().loadPrescriptionForm('prescriptions','profile')">Add Prescription</button>
+			<button type="button" id="addPres" class="btn btn-primary">Add Prescription</button>
 		</div>
 	</div>	
 	<div data-bind="foreach: { data: prescriptions, as: 'prescription' }">
@@ -116,13 +115,17 @@ table th, table td {
 								<div class="buttons">
 									<div class="row">
 
-										<div class="col-xs-6">
+										<div class="col-xs-3">
 											<button class="btn btn-success" style="float: left"
 												data-bind='click:function(){new Prescriptions().editPrescription(prescription,"popupcontent")}'>Edit</button>
 										</div>
-										<div class="col-xs-6">
+										<div class="col-xs-5">
 											<button class="btn btn-block btn-danger btn-flat"
 												data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}'>Delete</button>
+										</div>
+										<div class="col-xs-4">
+											<button class="btn btn-success" style="float: left"
+												data-bind='click:function(){new Prescriptions().printPrescription(prescription,"popupcontent")}'>Print</button>
 										</div>
 									</div>
 

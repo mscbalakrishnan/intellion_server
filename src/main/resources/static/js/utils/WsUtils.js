@@ -706,6 +706,7 @@ var WsUtils = {
 						hasError = true;
 					}
 					else if(validationType == 'email'){
+						if(elementValue != ""){
 					    var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
 					    if(!pattern.test(elementValue)) {
 					    	hasError = true;
@@ -721,7 +722,7 @@ var WsUtils = {
 								element.parent().find(".help-block").text("Invalid Email Address.");
 							}
 					    }
-						
+						}
 					}
 					else if(validationType == 'number'){
 					    if(elementValue == "" || isNaN(elementValue)) {

@@ -2,6 +2,7 @@ var medications = [];
 var patientId = "";
 var doctorId = "";
 var currentPrescriptionPage = "";
+var clinicDetails;
 
 var presModel = function() {
 	var self = this;
@@ -186,12 +187,13 @@ var presciptionVO = function(data) {
 
 	var self = this;
 	self.id = data.id;
-	self.doctorName = ko.observable(data.doctorDto.name);
-	self.patientName = ko.observable(data.patientDto.name);
+	self.doctorName = ko.observable(data.doctorDto && data.doctorDto.name);
+	self.patientName = ko.observable(data.patientDto && data.patientDto.name);
 	self.doctorVo = ko.observable(data.doctorDto);
 	self.patientVo = ko.observable(data.patientDto);
 	self.date = data.date;
 	self.prescriptionEntries = ko.observableArray(data.prescriptionEntries);
+	self.clinicObject = ko.observable();
 }
 
 var presVO;
@@ -247,11 +249,33 @@ var Prescriptions = function() {
 							// alert(selectedItem.id);
 							patientId = selectedItem.id;
 						});
+				
 
 				if (pageType == 'profile') {
 					$('.tab-pane').removeClass('active');
 					$('#prescriptions').addClass("active");
+					$('#presProfMenu').addClass("active");
+					
+					$('#presProfListMenu').removeClass("active");
+					patientId = selectedPatientProfile && selectedPatientProfile.id;
+					$("#patient").val(selectedPatientProfile.name);
+					$("#patient").attr("disabled","disabled");
+					$("#cancelPresForm").click(function(){
+						
+						new Prescriptions().loadPrescriptionForm('prescriptions','profile');
+					})
+				} else {
+					
+					$("#cancelPresForm").click(function(){
+						
+						new Prescriptions().loadPrescriptionForm('content');
+					});
+					
+					
 				}
+				
+				
+				
 
 			},
 			requestUrl : "../pages/templates/prescriptions.html",
@@ -334,10 +358,16 @@ var Prescriptions = function() {
 				if($("#wholepagepopup")){
 					$("#popupcontent").html("");
 					$("#wholepagepopup").hide();
+					
 				}
 				if(currentPrescriptionPage != 'edit'){
 					new Prescriptions().loadPrescriptionForm('content');
+					
 				}	
+				if(currentPrescriptionPage === 'edit'){
+					new Prescriptions().loadPrescriptionListGrid('content');					
+				}
+				
 				currentPrescriptionPage = "";
 			},
 			requestUrl : "/intelhosp/prescription",
@@ -390,8 +420,14 @@ var Prescriptions = function() {
 					} // selectedPatientProfile declared in profile.js
 					self.loadPrescriptionsList(patId, docId, divToLoad);
 					$(".prescriptionListFilter").html("");
+					$("#addPres").click(function(){
+						new Prescriptions().loadPrescriptionForm('prescriptions','profile');
+					});
 				} else {
 					self.loadPrescriptionsList(patId, docId, divToLoad);
+					$("#addPres").click(function(){
+						new Prescriptions().loadPrescriptionForm('content');
+					});
 				}
 
 			},
@@ -538,7 +574,14 @@ var Prescriptions = function() {
 				if (pageType == 'profile') {
 					$('.tab-pane').removeClass('active');
 					$('#prescriptions').addClass("active");
+					
 				}
+				
+				$("#cancelPresForm").click(function(){					
+					try{
+						closeWholePagePopup();
+					}catch(e){}
+				})
 
 			},
 			requestUrl : "../pages/templates/prescriptions.html",
@@ -546,6 +589,79 @@ var Prescriptions = function() {
 			resultType : "text",
 		});
 		ServiceCalls.loadHtmlPage();
+	}
+	
+	self.printPrescription = function(prescriptionDetails, divToLoad, pageType) {
+
+		
+		
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function() {
+				var responseObj = resultGlobalClass.response;
+				$("#" + divToLoad).html(responseObj);
+				if(!pageType){
+					$("#wholepagepopup").removeClass("hide");
+					$("#wholepagepopup").show();
+					window.location.href = "#pagetop";
+				}
+				
+				self.getClinicDetails(prescriptionDetails,divToLoad);
+				
+				
+			},
+			requestUrl : "../pages/templates/print_prescription.html",
+			requestData : {},
+			resultType : "text",
+			isAsyncCall:true,
+		});
+		ServiceCalls.loadHtmlPage();
+	}
+	
+	self.getClinicDetails = function(prescriptionDetails,divToLoad){		
+		
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				var dataArr = resultGlobalClass.response;
+				var settingsController = new SettingsController();
+				
+				if(dataArr){
+					dataArr.forEach(val => {
+						settingDetailsArr[val.category] = val;
+						if(val.category === 'clinic'){
+							clinicDetails = val;
+						}
+					});
+				}
+				
+				prescriptionDetails.clinicObject(clinicDetails.clinicObject);
+
+				ko.cleanNode($("#" + divToLoad)[0]);
+				ko.applyBindings(prescriptionDetails, $("#" + divToLoad)[0]);
+				$("#content").hide();
+				$(".main-footer").hide();
+				$(".popupHeader").hide();
+				$("#closeBtn").hide();
+				
+				console.log(window.print());
+				closeWholePagePopup();
+				$("#content").show();
+				$(".main-footer").show();
+				$(".popupHeader").show();
+				$("#closeBtn").show();
+				
+				
+			},
+			requestUrl : "/intelhosp/settings",
+			requestMethod: "GET",
+			isAsyncCall:true,
+			requestData : {
+				"data" : {} ,
+				"queryName" : "",
+				"queryParamArray" : {}
+			},resultType : "json",
+		});
+		ServiceCalls.call();
+		
 	}
 
 }
