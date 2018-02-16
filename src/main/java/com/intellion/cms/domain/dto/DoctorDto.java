@@ -18,6 +18,7 @@ public class DoctorDto implements Serializable {
 	private int titleId;
 	private String email;
 	private String qualification;
+	private String additionalQualification;
 	private float fees;
 	private String mobile;
 	private String categoryId;
@@ -32,6 +33,7 @@ public class DoctorDto implements Serializable {
 		setTitleId(doctor.getTitle().getId());
 		setEmail(doctor.getEmail());
 		setQualification(doctor.getQualification());
+		setAdditionalQualification(doctor.getAdditionalQualification());
 		setFees(doctor.getFees());
 		setMobile(doctor.getMobile1());
 		setCategoryId(doctor.getCategoryId());
@@ -44,6 +46,7 @@ public class DoctorDto implements Serializable {
 		d.setTitle(doctor.getTitle());
 		d.setEmail(doctor.getEmail());
 		d.setQualification(doctor.getQualification());
+		d.setAdditionalQualification(doctor.getAdditionalQualification());
 		d.setFees(doctor.getFees());
 		d.setMobile1(doctor.getMobile());
 		d.setCategoryId(doctor.getCategoryId());

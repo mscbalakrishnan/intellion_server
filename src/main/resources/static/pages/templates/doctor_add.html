@@ -16,11 +16,6 @@
 
 						<label>Name *</label>
 						<div class="row">
-							<!-- <div class="col-md-2">
-								<select
-									data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title"
-									class="form-control" id="title" required></select>
-							</div> -->
 							<div class="col-md-2">
 								<select class="form-control" id="title"
 									data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title">
@@ -75,6 +70,13 @@
 							class="help-block"></span>
 					</div>
 					<div class="form-group">
+						<label>Additional Qualification</label> <input class="form-control"
+							data-bind="value:additionalQualification" id="additionalQualification"
+							placeholder="Addl Qualifications" type="text"> <span
+							class="help-block"></span>
+					</div>
+
+					<div class="form-group">
 						<label>Consulting Fees *</label> <input class="form-control"
 							data-bind="value:fees" id="fees" placeholder="Consulting Fee"
 							type="number" validation="required"> <span
@@ -89,12 +91,6 @@
 
 				</div>
 				<!-- /.box-body -->
-
-				<!-- <div class="box-footer">
-					<button type="button" class="btn btn-primary" onclick="new Doctor().saveDoctor()">Submit</button>
-					<button type="button" class="btn btn-primary"
-						onclick="new Doctor().loadDoctorPageList()">Cancel</button>
-				</div> -->
 
 				<div class="box-footer">
 					<div class="col-md-2"></div>

@@ -30,6 +30,7 @@ public class Doctor extends EntityWithSurrogatePK {
 	@Email(message = "Email should be valid")
 	private String email;
 	private String qualification;
+	private String additionalQualification;
 	private float fees;
 	@NotNull(message="Mobile number can not be empty")
 	@Size(min=10, max=10, message="Should be 10 digits")
@@ -137,11 +138,19 @@ public class Doctor extends EntityWithSurrogatePK {
 		this.colorCode = colorCode;
 	}
 
+	public String getAdditionalQualification() {
+		return additionalQualification;
+	}
+
+	public void setAdditionalQualification(String additionalQualification) {
+		this.additionalQualification = additionalQualification;
+	}
+
 	@Override
 	public String toString() {
 		return "Doctor [name=" + name + ", title=" + title + ", email=" + email + ", qualification=" + qualification
 				+ ", fees=" + fees + ", mobile1=" + mobile1 + ", mobileNumber2=" + mobileNumber2 + ", mobileNumber3="
-				+ mobileNumber3 +", appointments=" + appointments + ", categoryId=" + categoryId + ", colorCode=" + colorCode +"]";
+				+ mobileNumber3 +", appointments=" + appointments + ", categoryId=" + categoryId + ", colorCode=" + colorCode +  ", additionalQualification=" + additionalQualification +"]";
 	}
 
 	
