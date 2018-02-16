@@ -419,7 +419,7 @@ var Prescriptions = function() {
 		} else if (docId) {
 			url = "/intelhosp/prescription/doctor/" + docId;
 		}
-		// alert(url);
+		 //alert(url);
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var model = new priscriptionListModel();

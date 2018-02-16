@@ -16,11 +16,16 @@
 
 						<label>Name *</label>
 						<div class="row">
-							<div class="col-md-2">
+							<!-- <div class="col-md-2">
 								<select
 									data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title"
 									class="form-control" id="title" required></select>
-							</div>
+							</div> -->
+							<div class="col-md-2">
+								<select class="form-control" id="title"
+									data-bind="options:titleList,optionsText:'name',optionsValue:'id',value:title">
+								</select>
+							</div>							
 							<div class="col-md-10">
 								<input class="form-control" data-bind="value:name" id="name"
 									placeholder="Enter doctor name..." type="text"

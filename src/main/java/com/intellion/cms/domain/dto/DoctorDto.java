@@ -15,6 +15,7 @@ public class DoctorDto implements Serializable {
 	private Long id;
 	private String name;
 	private Title title;
+	private int titleId;
 	private String email;
 	private String qualification;
 	private float fees;
@@ -28,6 +29,7 @@ public class DoctorDto implements Serializable {
 		setId(doctor.getId());
 		setName(doctor.getName());
 		setTitle(doctor.getTitle());
+		setTitleId(doctor.getTitle().getId());
 		setEmail(doctor.getEmail());
 		setQualification(doctor.getQualification());
 		setFees(doctor.getFees());

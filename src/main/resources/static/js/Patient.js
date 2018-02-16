@@ -182,7 +182,7 @@ var Patient = function() {
 								}
 								else if(type = "rowSelect")
 								{
-									self.loadPatientPage(data);
+									new Profile().loadPatientProfilePage(data);
 									
 								}	
 							},

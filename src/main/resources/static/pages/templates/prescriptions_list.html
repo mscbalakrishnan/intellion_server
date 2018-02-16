@@ -89,6 +89,13 @@ table th, table td {
 			</div>
 		</div>
 	</div>
+	<div class="row">
+		<div class="col-xs-10"></div><div class="col-xs-2">
+
+			<button type="button" id="addMedication" class="btn btn-primary"
+				onClick="new Prescriptions().loadPrescriptionForm('prescriptions','profile')">Add Prescription</button>
+		</div>
+	</div>	
 	<div data-bind="foreach: { data: prescriptions, as: 'prescription' }">
 
 		<div style="border-bottom: 10px solid #EEEEEE;">

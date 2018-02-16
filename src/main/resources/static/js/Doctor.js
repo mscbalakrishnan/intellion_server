@@ -6,7 +6,8 @@ function initDoctorVo() {
 	doctorVo = {
 		id : ko.observable(""),
 		name : ko.observable(""),
-		title : ko.observable(""),
+		title : ko.observable("5"),
+		titleList:ko.observableArray([{"id":5,"name":"Dr."},{"id":6,"name":"Prof."}]),
 		email : ko.observable(""),
 		colorCode : ko.observable(""),
 		qualification : ko.observable(""),
@@ -16,7 +17,7 @@ function initDoctorVo() {
 		categoryId: ko.observable(""),
 		categoryList:ko.observableArray([]),
 		title : ko.observable(""),
-		titleList:ko.observableArray([{"id":1,"name":"Mr"},{"id":2,"name":"Ms/Mrs"}])
+		
 		
 	};
 	
@@ -37,7 +38,8 @@ var Doctor = function() {
 				if(data){
 					doctorVo.id(data["id"]);
 					doctorVo.name(data["name"]);
-					doctorVo.title(data["title"]);
+					//doctorVo.title(data["title"]);
+					doctorVo.title(data["titleId"]),
 					doctorVo.email(data["email"]);
 					doctorVo.qualification(data["qualification"]);
 					doctorVo.colorCode(data["colorCode"]);
@@ -76,7 +78,7 @@ var Doctor = function() {
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
 							gridHeaders : {"title":"Title","name":"Name","qualification":"Qualification","email" : "Email","mobile":"Mobile"},
-							hiddenColumns : ["id","categoryId","categories","appointments","fees","colorCode"],
+							hiddenColumns : ["id","categoryId","categories","appointments","fees","colorCode","titleId"],
 							isDeleteButton : true,
 							isCustomPagination : false,
 							isSearchVisible:true,
