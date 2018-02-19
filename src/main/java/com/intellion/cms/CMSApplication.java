@@ -20,6 +20,7 @@ import com.intellion.cms.domain.Appointment;
 import com.intellion.cms.domain.BloodGroup;
 import com.intellion.cms.domain.Category;
 import com.intellion.cms.domain.Doctor;
+import com.intellion.cms.domain.Gender;
 import com.intellion.cms.domain.Label;
 import com.intellion.cms.domain.Medication;
 import com.intellion.cms.domain.MedicationType;
@@ -76,7 +77,7 @@ public class CMSApplication implements CommandLineRunner {
 		SpringApplication.run(CMSApplication.class, args);
 	}
 
-	public void run1(String... arg0) throws Exception {
+	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
@@ -126,11 +127,13 @@ public class CMSApplication implements CommandLineRunner {
 		address1.setCity("Chennai");
 		address1.setCountry("India");
 		address1 = addressRepository.save(address1);
+		
 		Patient p = new Patient();
 		p.setName("Murali Babu");
 		p.setMobileNumber1("9600194696");
 		p.setTitle(Title.Mr);
-		//p.setBloodGroup(BloodGroup.BPositive);
+		p.setBloodGroup(BloodGroup.Bpositive);
+		p.setGender(Gender.Male);
 		p.setDob(LocalDate.of(1989, 1, 15));
 		p.getAddressList().add(address1);
 		p = patientRepository.save(p);
@@ -139,7 +142,8 @@ public class CMSApplication implements CommandLineRunner {
 		p1.setName("pandian Babu");
 		p1.setMobileNumber1("9600194696");
 		p1.setTitle(Title.Mr);
-		//p1.setBloodGroup(BloodGroup.BPositive);
+		p1.setBloodGroup(BloodGroup.Bpositive);
+		p1.setGender(Gender.Male);
 		p1.setDob(LocalDate.of(1989, 1, 15));
 		p1.getAddressList().add(address1);
 		p1 = patientRepository.save(p1);
@@ -225,7 +229,7 @@ public class CMSApplication implements CommandLineRunner {
 		pe2 = prescriptionEntryRepository.save(pe2);
 		run1(arg0);
 	}
-	public void run(String... arg0) throws Exception {
+	public void run1(String... arg0) throws Exception {
 		
 		
 		List<Settings> settingsListByCat =  (List<Settings>)this.settingsRepository.findByCategory("sms");

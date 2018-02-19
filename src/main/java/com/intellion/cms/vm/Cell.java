@@ -1,6 +1,6 @@
 package com.intellion.cms.vm;
 
-import com.itextpdf.text.BaseColor;
+import java.awt.Color;
 
 public class Cell {
 	
@@ -8,7 +8,7 @@ public class Cell {
 		this.value = value;
 	}
 	private String value;
-	private String color = BaseColor.BLACK.toString();
+	private String color = Color.BLACK.toString();
 	
 	public String getValue() {
 		return value;
