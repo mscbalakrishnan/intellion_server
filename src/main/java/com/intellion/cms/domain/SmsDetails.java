@@ -6,7 +6,7 @@ import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 
 import lombok.Data;
 
-@Data
+
 @Entity(name="smsdetails")
 public class SmsDetails extends EntityWithSurrogatePK {
 
@@ -18,5 +18,55 @@ public class SmsDetails extends EntityWithSurrogatePK {
 	private String failureCause;
 	private int statusCode;
 	private String contactList;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDetail() {
+		return detail;
+	}
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public int getRetryCount() {
+		return retryCount;
+	}
+	public void setRetryCount(int retryCount) {
+		this.retryCount = retryCount;
+	}
+	public long getDate() {
+		return date;
+	}
+	public void setDate(long date) {
+		this.date = date;
+	}
+	public String getFailureCause() {
+		return failureCause;
+	}
+	public void setFailureCause(String failureCause) {
+		this.failureCause = failureCause;
+	}
+	public int getStatusCode() {
+		return statusCode;
+	}
+	public void setStatusCode(int statusCode) {
+		this.statusCode = statusCode;
+	}
+	public String getContactList() {
+		return contactList;
+	}
+	public void setContactList(String contactList) {
+		this.contactList = contactList;
+	}
+	
+	
 	
 }
