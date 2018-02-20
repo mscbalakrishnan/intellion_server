@@ -19,7 +19,7 @@ import com.intellion.cms.domain.PeriodicRemainder;
 import com.intellion.cms.domain.Title;
 
 import lombok.Data;
-@Data
+
 public class PatientDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -130,6 +130,165 @@ public class PatientDto implements Serializable {
 		p.setRemainder(patient.getRemainder());
 		
 		return p;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public Title getTitle() {
+		return title;
+	}
+	public void setTitle(Title title) {
+		this.title = title;
+	}
+	public int getTitleId() {
+		return titleId;
+	}
+	public void setTitleId(int titleId) {
+		this.titleId = titleId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getAddress1() {
+		return address1;
+	}
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+	public String getAddress2() {
+		return address2;
+	}
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getPincode() {
+		return pincode;
+	}
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+	public String getProfileId() {
+		return profileId;
+	}
+	public void setProfileId(String profileId) {
+		this.profileId = profileId;
+	}
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	public String getLandline() {
+		return landline;
+	}
+	public void setLandline(String landline) {
+		this.landline = landline;
+	}
+	public BloodGroup getBloodGroup() {
+		return bloodGroup;
+	}
+	public void setBloodGroup(BloodGroup bloodGroup) {
+		this.bloodGroup = bloodGroup;
+	}
+	public int getBloodGroupId() {
+		return bloodGroupId;
+	}
+	public void setBloodGroupId(int bloodGroupId) {
+		this.bloodGroupId = bloodGroupId;
+	}
+	public Gender getGender() {
+		return gender;
+	}
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
+	public String getOccupation() {
+		return Occupation;
+	}
+	public void setOccupation(String occupation) {
+		Occupation = occupation;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public LocalDate getDob() {
+		return dob;
+	}
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getMedicalHistory() {
+		return medicalHistory;
+	}
+	public void setMedicalHistory(String medicalHistory) {
+		this.medicalHistory = medicalHistory;
+	}
+	public String getMedicalAlert() {
+		return medicalAlert;
+	}
+	public void setMedicalAlert(String medicalAlert) {
+		this.medicalAlert = medicalAlert;
+	}
+	public String getAllergies() {
+		return allergies;
+	}
+	public void setAllergies(String allergies) {
+		this.allergies = allergies;
+	}
+	public String getDentalHistory() {
+		return dentalHistory;
+	}
+	public void setDentalHistory(String dentalHistory) {
+		this.dentalHistory = dentalHistory;
+	}
+	public boolean isNeedWelcomeMessage() {
+		return needWelcomeMessage;
+	}
+	public void setNeedWelcomeMessage(boolean needWelcomeMessage) {
+		this.needWelcomeMessage = needWelcomeMessage;
+	}
+	public boolean isBirthdayWish() {
+		return birthdayWish;
+	}
+	public void setBirthdayWish(boolean birthdayWish) {
+		this.birthdayWish = birthdayWish;
+	}
+	public PeriodicRemainder getRemainder() {
+		return remainder;
+	}
+	public void setRemainder(PeriodicRemainder remainder) {
+		this.remainder = remainder;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 }

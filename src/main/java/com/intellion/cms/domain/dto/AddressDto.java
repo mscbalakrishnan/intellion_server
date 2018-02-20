@@ -3,7 +3,7 @@ package com.intellion.cms.domain.dto;
 import com.intellion.cms.domain.Address;
 
 import lombok.Data;
-@Data
+
 public class AddressDto {
 	private Long id;
 	private String apprtmentName;
@@ -42,5 +42,65 @@ public class AddressDto {
 		pojo.setLandLine2(address.getLandLine2());
 		pojo.setLandLine3(address.getLandLine3());
 		return pojo;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getApprtmentName() {
+		return apprtmentName;
+	}
+	public void setApprtmentName(String apprtmentName) {
+		this.apprtmentName = apprtmentName;
+	}
+	public String getStreetName() {
+		return streetName;
+	}
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
+	public String getArea() {
+		return area;
+	}
+	public void setArea(String area) {
+		this.area = area;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getPincode() {
+		return pincode;
+	}
+	public void setPincode(String pincode) {
+		this.pincode = pincode;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getLandLine1() {
+		return landLine1;
+	}
+	public void setLandLine1(String landLine1) {
+		this.landLine1 = landLine1;
+	}
+	public String getLandLine2() {
+		return landLine2;
+	}
+	public void setLandLine2(String landLine2) {
+		this.landLine2 = landLine2;
+	}
+	public String getLandLine3() {
+		return landLine3;
+	}
+	public void setLandLine3(String landLine3) {
+		this.landLine3 = landLine3;
 	}
 }

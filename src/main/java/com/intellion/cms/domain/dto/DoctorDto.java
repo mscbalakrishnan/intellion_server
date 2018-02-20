@@ -7,7 +7,7 @@ import com.intellion.cms.domain.Doctor;
 import com.intellion.cms.domain.Title;
 
 import lombok.Data;
-@Data
+
 public class DoctorDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -52,5 +52,80 @@ public class DoctorDto implements Serializable {
 		d.setCategoryId(doctor.getCategoryId());
 		d.setColorCode(doctor.getColorCode());
 		return d;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Title getTitle() {
+		return title;
+	}
+	public void setTitle(Title title) {
+		this.title = title;
+	}
+	public int getTitleId() {
+		return titleId;
+	}
+	public void setTitleId(int titleId) {
+		this.titleId = titleId;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getQualification() {
+		return qualification;
+	}
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
+	}
+	public String getAdditionalQualification() {
+		return additionalQualification;
+	}
+	public void setAdditionalQualification(String additionalQualification) {
+		this.additionalQualification = additionalQualification;
+	}
+	public float getFees() {
+		return fees;
+	}
+	public void setFees(float fees) {
+		this.fees = fees;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	public String getColorCode() {
+		return colorCode;
+	}
+	public void setColorCode(String colorCode) {
+		this.colorCode = colorCode;
+	}
+	public Set<AppointmentDto> getAppointments() {
+		return appointments;
+	}
+	public void setAppointments(Set<AppointmentDto> appointments) {
+		this.appointments = appointments;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }
