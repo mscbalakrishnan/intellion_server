@@ -2,6 +2,7 @@ package com.intellion.cms.web;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.intellion.cms.domain.Appointment;
 import com.intellion.cms.domain.Doctor;
@@ -197,7 +199,7 @@ public class PrescriptionController {
 	@GetMapping(value="/print/{prescriptionid}")
 	@ResponseBody
 	public ResponseEntity<byte[]> printPrescription(@PathVariable("prescriptionid") long prescriptionId, HttpServletRequest request) {
-//	public ReportDto printPrescription(@PathVariable("prescriptionid") long prescriptionId, HttpServletRequest request) {
+//public ReportDto printPrescription(@PathVariable("prescriptionid") long prescriptionId, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to print {}" , prescriptionId);
 		List<Settings> settingsListByCat =  (List<Settings>)this.settingsService.findByCategory("clinic");
 		List<SettingsDto> toReturn = new ArrayList<>();
@@ -214,101 +216,38 @@ public class PrescriptionController {
 		String prescription_html_str = generator.generatePrescriptionConfiguration(pDto, clinicDto, patientDto);
 		String contents = prescription_html_str.replace("\r\n", "");
 		logger.debug("report contents --> {}", contents);
-//		return new ReportDto(contents);
 		
+		String tempFile ="E:\\pdf\\sample.pdf";
+		try{
+				FileOutputStream pdf = new FileOutputStream(tempFile);
+
+		        ITextRenderer renderer = new ITextRenderer();
+		        renderer.setDocumentFromString(contents);
+		        renderer.layout();
+		        renderer.createPDF(pdf);
+		        pdf.close();
+				}catch(Exception e){
+					e.printStackTrace();
+				}			
+				String pdfLocation = "E:\\pdf\\sample.pdf";
+				Path pdfPath = Paths.get(pdfLocation);
+				byte[] pdf_bytes = null;
+				try {
+					pdf_bytes = Files.readAllBytes(pdfPath);
+					logger.debug("pdf_bytes size ::: {}", pdf_bytes.length);
+				} catch (IOException e) {
+					logger.error("Exception:::", e);
+				}
+				///////////End
 		
-		///////////Start
-		SummaryRequest summary = new SummaryRequest();
-		summary.setTitle(clinicDto.getClinicName());
-		summary.setSubTitle(clinicDto.getAddressLine1() + " " + clinicDto.getAddressLine2() + " " + clinicDto.getArea()
-				+ " " + clinicDto.getCity() + "-" + clinicDto.getPincode() + " Email:" + clinicDto.getEmail() + " Web:"
-				+ clinicDto.getWebsite() + " Mobile:" + clinicDto.getMobile() + " Landline:" + clinicDto.getLandline());
-		List<SummarySection> sectionList = new ArrayList<SummarySection>();
-		
-		SummarySection labelSection = new SummarySection();
-		List<PropertyInfo> propertyList = new ArrayList<PropertyInfo>();
-		propertyList.add(new PropertyInfo("Date:", pDto.getDate().toString()));
-		propertyList.add(new PropertyInfo("Doctor:", pDto.getDoctorDto().getName()));
-		propertyList.add(new PropertyInfo("Name:", pDto.getPatientDto().getName()));
-		propertyList.add(new PropertyInfo("Age:", String.valueOf(pDto.getPatientDto().getAge())));
-		propertyList.add(new PropertyInfo("Gender:", pDto.getPatientDto().getGender().name()));
-		labelSection.setValues(propertyList);
-		sectionList.add(labelSection);
-		
-		
-		SummarySection tableSection = new SummarySection();
-		tableSection.setTitle("Medications");
-		List<TableData> tableDataList = new ArrayList<TableData>();
-		TableData tableData = new TableData();
-		
-		ArrayList<String> headings = new ArrayList<String>(Arrays.asList("Medicine", "Days", "Morning", "Noon", "Night", "Notes"));
-		tableData.setTableHeading(headings);
-		List<List<String>> rowData = new ArrayList<List<String>>();
-		
-		for (PrescriptionEntryDto pe: pDto.getPrescriptionEntries()){
-			String morning_str = String.valueOf(pe.getMorning());
-			if (pe.isBeforeFood_morning()) {
-				morning_str += "-BF";
-			} else {
-				morning_str += "-AF";
-			}
-			String noon_str = String.valueOf(pe.getMorning());
-			if (pe.isBeforeFood_morning()) {
-				noon_str += "-BF";
-			} else {
-				noon_str += "-AF";
-			}
-			String night_str = String.valueOf(pe.getMorning());
-			if (pe.isBeforeFood_morning()) {
-				night_str += "-BF";
-			} else {
-				night_str += "-AF";
-			}
-			ArrayList<String> row1 = new ArrayList<String>(Arrays.asList(pe.getMedicationDto().getName(),
-					String.valueOf(pe.getNoOfDays()), morning_str, noon_str, night_str, pe.getNotes()));
-			rowData.add(row1);
-		}
-		
-		tableData.setTableData(rowData);
-		tableDataList.add(tableData);
-		tableSection.setTableDataList(tableDataList);
-		sectionList.add(tableSection);
-		
-		summary.setSectionList(sectionList);
-		
-		PDFGenerator.generatePdfSummaryReport(summary, "SummaryReport.pdf");
-		
-		ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-		
-		String path = classloader.getResource("").getPath();
-		String osAppropriatePath = System.getProperty( "os.name" ).contains( "indow" ) ? path.substring(1) : path;
-		osAppropriatePath = CommonUtil.getFilePath(osAppropriatePath);
-		String FILE_SEPERATOR = File.separator;
-		String imageLocation = path + ".." + FILE_SEPERATOR + ".." + FILE_SEPERATOR + "export" + FILE_SEPERATOR
-				+ "jrxml" + FILE_SEPERATOR;
-		String pdfLocation = osAppropriatePath + "../../Reports/";
-		
-		
-		Path pdfPath = Paths.get(pdfLocation+"SummaryReport.pdf");
-		byte[] pdf_bytes = null;
-		try {
-			pdf_bytes = Files.readAllBytes(pdfPath);
-			logger.debug("pdf_bytes size ::: {}", pdf_bytes.length);
-		} catch (IOException e) {
-			logger.error("Exception:::", e);
-		}
-		///////////End
-		
-		
-		
-		
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.parseMediaType("application/pdf"));
-	    String filename = "output.pdf";
-	    headers.setContentDispositionFormData(filename, filename);
-	    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-	    ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdf_bytes, headers, HttpStatus.OK);
-	    return response;
+				HttpHeaders headers = new HttpHeaders();
+			    headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			    String filename = "output.pdf";
+			    headers.setContentDispositionFormData(filename, filename);
+			    headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+			    ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdf_bytes, headers, HttpStatus.OK);
+			    return response;
+       
 	}
 	
 }
