@@ -496,9 +496,6 @@ var Prescriptions = function() {
 		ServiceCalls.call();
 	};
 	self.deletePrescription = function(id) {
-
-		// alert(id);
-
 		WsUtils.deleteOperation(function() {
 			var model = new priscriptionListModel();
 			var methodType = "DELETE";
@@ -601,20 +598,26 @@ var Prescriptions = function() {
 				$("#" + divToLoad).html(responseObj);
 				if(!pageType){
 					$("#wholepagepopup").removeClass("hide");
-					$("#wholepagepopup").show();
-					window.location.href = "#pagetop";
+					//$("#wholepagepopup").show();
+					//window.location.href = "#pagetop";
 				}
 				
 				self.getClinicDetails(prescriptionDetails,divToLoad);
 				
 				
 			},
-			requestUrl : "../pages/templates/print_prescription.html",
+			requestUrl : "../pages/templates/print_prescription_temp.html",
 			requestData : {},
 			resultType : "text",
-			isAsyncCall:true,
+			//isAsyncCall:true,
 		});
 		ServiceCalls.loadHtmlPage();
+	}
+	
+	self.downLoadPrescription = function(id) {
+		var url = "http://localhost:8080/intelhosp/prescription/print/" + id;
+		alert(url);
+		window.open(url);
 	}
 	
 	self.getClinicDetails = function(prescriptionDetails,divToLoad){		
@@ -637,7 +640,8 @@ var Prescriptions = function() {
 
 				ko.cleanNode($("#" + divToLoad)[0]);
 				ko.applyBindings(prescriptionDetails, $("#" + divToLoad)[0]);
-				$("#content").hide();
+				alert("");
+				/*$("#content").hide();
 				$(".main-footer").hide();
 				$(".popupHeader").hide();
 				$("#closeBtn").hide();
@@ -647,7 +651,7 @@ var Prescriptions = function() {
 				$("#content").show();
 				$(".main-footer").show();
 				$(".popupHeader").show();
-				$("#closeBtn").show();
+				$("#closeBtn").show();*/
 				
 				
 			},

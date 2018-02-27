@@ -119,13 +119,13 @@ table th, table td {
 											<button class="btn btn-success" style="float: left"
 												data-bind='click:function(){new Prescriptions().editPrescription(prescription,"popupcontent")}'>Edit</button>
 										</div>
-										<div class="col-xs-5">
+										<div class="col-xs-4">
 											<button class="btn btn-block btn-danger btn-flat"
 												data-bind='click:function(){new Prescriptions().deletePrescription(prescription.id)}'>Delete</button>
 										</div>
 										<div class="col-xs-4">
 											<button class="btn btn-success" style="float: left"
-												data-bind='click:function(){new Prescriptions().printPrescription(prescription,"popupcontent")}'>Print</button>
+												data-bind='click:function(){new Prescriptions().downLoadPrescription(prescription.id)}'>Download</button>
 										</div>
 									</div>
 

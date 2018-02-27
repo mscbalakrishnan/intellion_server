@@ -66,12 +66,12 @@ div.footer {
 <table class="minimalistBlack" style="width: 100%;" border="1">
 <thead>
 <tr>
-<td width="15%" bgcolor="blue" ><B>Medication</B></td>
-<td width="4%" bgcolor="blue" ><B>Days</B></td>
-<td width="7%" bgcolor="blue" ><B>Morning</B></td>
-<td width="7%" bgcolor="blue" ><B>Noon</B></td>
-<td width="7%" bgcolor="blue" ><B>Night</B></td>
-<td width="60%" bgcolor="blue" ><B>Notes</B></td>
+<td width="15%" bgcolor="19BDB8" ><B>Medication</B></td>
+<td width="4%" bgcolor="19BDB8" ><B>Days</B></td>
+<td width="7%" bgcolor="19BDB8" ><B>Morning</B></td>
+<td width="7%" bgcolor="19BDB8" ><B>Noon</B></td>
+<td width="7%" bgcolor="19BDB8" ><B>Night</B></td>
+<td width="60%" bgcolor="19BDB8" ><B>Notes</B></td>
 </tr>
 </thead>
 <tbody>
@@ -81,21 +81,21 @@ div.footer {
 #set($noOfDays = $prescriptionEntry.noOfDays)
 #set($morning = $prescriptionEntry.morning)
 #if($prescriptionEntry.beforeFood_morning)
-#set($morning = $morning + 'BF')
+#set($morning = $morning +' '+ $prescriptionEntry.unit_morning.medicationUnit +' '+ 'BF')
 #else
-#set($morning = $morning + 'AF')
+#set($morning = $morning +' '+ $prescriptionEntry.unit_morning.medicationUnit +' '+ 'AF')
 #end
 #set($noon = $prescriptionEntry.noon)
 #if($prescriptionEntry.beforeFood_noon)
-#set($noon = $noon + 'BF')
+#set($noon = $noon +' '+ $prescriptionEntry.unit_noon.medicationUnit +' '+ 'BF')
 #else
-#set($noon = $noon + 'AF')
+#set($noon = $noon +' '+ $prescriptionEntry.unit_noon.medicationUnit +' '+ 'AF')
 #end
 #set($night = $prescriptionEntry.night)
 #if($prescriptionEntry.beforeFood_night)
-#set($night = $night + 'BF')
+#set($night = $night +' '+ $prescriptionEntry.unit_night.medicationUnit +' '+ 'BF')
 #else
-#set($night = $night + 'AF')
+#set($night = $night +' '+ $prescriptionEntry.unit_night.medicationUnit +' '+ 'AF')
 #end
 #set($notes = $prescriptionEntry.notes)
 #if($medicationName)
