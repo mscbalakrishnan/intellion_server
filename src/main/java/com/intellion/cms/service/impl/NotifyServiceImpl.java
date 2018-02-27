@@ -143,38 +143,33 @@ public class NotifyServiceImpl implements NotifyService {
 		}
 	}	
 	
+
+	@Scheduled(cron="*/45 * * * * *")
+	@Override
+	public void periodicReminderAppointment(int periodicInterval){
+		logger.debug("periodicReminderAppointment() called...");
+		LocalDate currLocalDate = LocalDate.now();
+		LocalDate currLocalDateWithInterval = currLocalDate.plusDays(periodicInterval);
+		List<Patient> patList = patientService.findByDOB(currLocalDate);
+		
+		/*for (Patient patient:patientService.findByDOB(currLocalDate)) {
+			
+			String patientPhoneNumber = patient.getMobileNumber1();
+			if(patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
+				String bdayWishMsg = SmsContentUtil.getInstance().getBirthDayWishMessage("birthdaywish.vm", patient.getName());
+				logger.debug("*********** PATIENT BIRTHDAY SMS CONTENT: "+bdayWishMsg);
+				SmsDetails smsDetails = new SmsDetails();
+				smsDetails.setContactList(patientPhoneNumber);
+				smsDetails.setDetail(bdayWishMsg);
+				smsDetails.setRetryCount(5);
+				smsDetails.setDate(new Date().getTime());
+				smsDetails.setName(SmsContentUtil.SMS_BDAY_NAME_PREFIX + patient.getId());
+				smsDetails.setStatus(SmsStatus.PENDING.name());
+				smsDetailsRepository.save(smsDetails);
+			}
+			
+		}*/
+	}		
 	
 	
-	
-	/*
-	@Value("${sms.enable:false}")
-	private String enableSMS;
-	
-	@Value("${clinic.name: not set}")
-	private String hospital;
-	
-	@Value("${clinic.mobile: not set}")
-	private String mobile;
-	
-	@Value("${clinic.address: not set}")
-	private String address;
-	
-	@Value("${sms.user: not set}")
-	private String smsUser;
-	
-	@Value("${sms.password:not set}")
-	private String smsPassword;
-	
-	@Value("${sms.sender:not set}")
-	private String smsSender;
-	
-	@PostConstruct
-    public void init() {
-        logger.debug("clinic.hospital : {}",hospital);
-        logger.debug("clinic.address : {}",address);
-        logger.debug("clinic.mobile : {}",mobile);
-        logger.debug("sms.user : {}",smsUser);
-        logger.debug("sms.password : {}",smsPassword);
-        logger.debug("sms.sender : {}",smsSender);
-    }*/
 }

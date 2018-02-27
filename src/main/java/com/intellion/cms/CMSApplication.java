@@ -1,5 +1,9 @@
 package com.intellion.cms;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import com.intellion.cms.domain.Address;
 import com.intellion.cms.domain.Appointment;
@@ -77,7 +82,7 @@ public class CMSApplication implements CommandLineRunner {
 		SpringApplication.run(CMSApplication.class, args);
 	}
 
-	public void run(String... arg0) throws Exception {
+	public void run1(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
@@ -229,10 +234,48 @@ public class CMSApplication implements CommandLineRunner {
 		pe2 = prescriptionEntryRepository.save(pe2);
 		run1(arg0);
 	}
-	public void run1(String... arg0) throws Exception {
+	public void run(String... arg0) throws Exception {
 		
 		
 		List<Settings> settingsListByCat =  (List<Settings>)this.settingsRepository.findByCategory("sms");
+		
+		//try {
+			/*String html = "<html><head><title>CMS</title></head><body><table><tbody><tr><td style=\"text-align: left;width:30%;\"></td><td style=\"text-align: center;width:40%;\"><h1 style=\"color: #5e9ca0; text-align: center;\">Sree Balaji Dental Clinic</h1><p style=\"text-align: center;\">No 14, 11th Street, Balaji Nagar, Adambakkam</p><p style=\"text-align: center;\">Chennai - 600088. Email:<a href=\"mailto:drbalajiclinc@gmail.com\">drbalajiclinc@gmail.com</a> Web: www.drbalajiclinc.com</p></td><td style=\"text-align: right;width:30%;\"><p style=\"text-align: right;\">Mobile:+91 99221 99221</p><p style=\"text-align: right;\">Landline:+91 44 43559921</p></td></tr></tbody></table><p style=\"color: #5e9ca0; text-align: center;\"></p><hr /><p>Date:2018-02-19</p><p>Doctor:Kumara</p><p>Patient: Murali Babu</p><p>Age: 29</p><p>Gender: Male</p><table style=\"width: 100%;\" border=\"1\"><thead><tr><td style=\"width: 79px;\">Medication</td><td style=\"width: 35px;\">Days</td><td style=\"width: 95px;\">Morning</td><td style=\"width: 95px;\">Noon</td><td style=\"width: 95px;\">Night</td><td style=\"width: 304.667px;\">Notes</td></tr></thead><tbody><tr><td style=\"width: 79px;\">benadryl</td><td style=\"width: 79px;\">3.0</td><td style=\"width: 79px;\">2.0AF</td>";
+			html += "<td style=\"width: 79px;\">0.0BF</td><td style=\"width: 79px;\">0.5BF</td><td style=\"width: 79px;\">Work less</td></tr><tr><td style=\"width: 79px;\">Crosin</td><td style=\"width: 79px;\">3.0</td><td style=\"width: 79px;\">1.0BF</td><td style=\"width: 79px;\">0.0BF</td><td style=\"width: 79px;\">0.5BF</td><td style=\"width: 79px;\">Sleep well</td></tr></tbody></table></body></html>";*/
+        	
+			/*String html = "";
+			try{
+				File file = new File("G:\\presprintCopy.html");
+				 
+				  BufferedReader br = new BufferedReader(new FileReader(file));
+				 
+				  String st;
+				  //String str="";
+				  while ((st = br.readLine()) != null){
+					  html+=st;
+				  }
+				    System.out.println(html);
+				  
+				
+
+				
+			} catch(Exception e){
+				
+			}
+			String tempFile ="E:\\pdf\\sample.pdf";
+            FileOutputStream pdf = new FileOutputStream(tempFile);
+ 
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocumentFromString(html);
+            renderer.layout();
+            renderer.createPDF(pdf);
+ 
+            pdf.close();
+ 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }*/
+		
 		
 		if(null != settingsListByCat && settingsListByCat.size() > 0){
 			logger.debug("All Settings are already there");
