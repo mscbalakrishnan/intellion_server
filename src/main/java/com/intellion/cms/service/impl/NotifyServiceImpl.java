@@ -21,12 +21,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.intellion.cms.domain.Appointment;
 import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.Settings;
 import com.intellion.cms.domain.SettingsParams;
 import com.intellion.cms.domain.SmsDetails;
 import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.repository.SmsDetailsRepository;
+import com.intellion.cms.service.AppointmentService;
 import com.intellion.cms.service.NotifyService;
 import com.intellion.cms.service.PatientService;
 import com.intellion.cms.service.SettingsService;
@@ -40,6 +42,8 @@ public class NotifyServiceImpl implements NotifyService {
     private SettingsService settingsService;
 	@Autowired
     private PatientService patientService;
+	@Autowired
+    private AppointmentService appointmentService;
 	@Autowired
     private SmsDetailsService smsDetailsService;
 	@Autowired
@@ -62,8 +66,8 @@ public class NotifyServiceImpl implements NotifyService {
 	
 //	second (0-59) / minute (0-59) / hour (0-23) / day of month (1-31) / month (1-12) / day of week (0-6)
 //	Testing every twenty  seconds...
-	@Scheduled(cron="*/50 * * * * *")
-//	@Scheduled(cron="0 0 9-18 * * *")
+	//@Scheduled(cron="*/50 * * * * *")
+	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void sendSMS(){
 		logger.debug("sendSMS() called...");
@@ -116,8 +120,8 @@ public class NotifyServiceImpl implements NotifyService {
 	
 	
 
-	@Scheduled(cron="*/45 * * * * *")
-	//@Scheduled(cron="0 0 9-18 * * *")
+	//@Scheduled(cron="*/45 * * * * *")
+	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void patientBirthDateCheckScheduler(){
 		logger.debug("patientBirthDateCheckScheduler() called...");
@@ -146,29 +150,34 @@ public class NotifyServiceImpl implements NotifyService {
 
 	@Scheduled(cron="*/45 * * * * *")
 	@Override
-	public void periodicReminderAppointment(int periodicInterval){
+	public void periodicReminderAppointment(){
 		logger.debug("periodicReminderAppointment() called...");
 		LocalDate currLocalDate = LocalDate.now();
+		int periodicInterval = 7;
+		//LocalDate currLocalDateWithInterval = currLocalDate.plusDays(periodicInterval);
 		LocalDate currLocalDateWithInterval = currLocalDate.plusDays(periodicInterval);
-		List<Patient> patList = patientService.findByDOB(currLocalDate);
+		Iterable<Appointment> appointmentList = appointmentService.findByTimeBetween(currLocalDateWithInterval,currLocalDateWithInterval);
 		
-		/*for (Patient patient:patientService.findByDOB(currLocalDate)) {
+		for (Appointment appointment:appointmentList) {
 			
+			Patient patient = appointment.getPatient();
 			String patientPhoneNumber = patient.getMobileNumber1();
+			System.out.println("..............");
+			
 			if(patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
-				String bdayWishMsg = SmsContentUtil.getInstance().getBirthDayWishMessage("birthdaywish.vm", patient.getName());
-				logger.debug("*********** PATIENT BIRTHDAY SMS CONTENT: "+bdayWishMsg);
+				String periodicRemainderMsg = SmsContentUtil.getInstance().getAppointmentReminderMessage("appointment_reminder.vm", patient.getName(),currLocalDateWithInterval.toString());
+				logger.debug("*********** APPOINTMENT PERIODIC REMINDER SMS CONTENT: "+periodicRemainderMsg);
 				SmsDetails smsDetails = new SmsDetails();
 				smsDetails.setContactList(patientPhoneNumber);
-				smsDetails.setDetail(bdayWishMsg);
+				smsDetails.setDetail(periodicRemainderMsg);
 				smsDetails.setRetryCount(5);
 				smsDetails.setDate(new Date().getTime());
-				smsDetails.setName(SmsContentUtil.SMS_BDAY_NAME_PREFIX + patient.getId());
+				smsDetails.setName(SmsContentUtil.SMS_APPOINTMENT_REMINDER_NAME_PREFIX + patient.getId());
 				smsDetails.setStatus(SmsStatus.PENDING.name());
 				smsDetailsRepository.save(smsDetails);
 			}
 			
-		}*/
+		}
 	}		
 	
 	

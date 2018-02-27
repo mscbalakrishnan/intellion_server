@@ -43,6 +43,7 @@ public class SmsContentUtil {
 	public static final String SMS_APPOINTMENT_NAME_PREFIX = "APPOINTMENT::";
 	public static final String SMS_APPOINTMENT_RESCHEDULE_NAME_PREFIX = "APPOINTMENT RESCHEDULE::";
 	public static final String SMS_APPOINTMENT_CANCEL_NAME_PREFIX = "APPOINTMENT CANCEL::";
+	public static final String SMS_APPOINTMENT_REMINDER_NAME_PREFIX = "APPOINTMENT REMINDER::";
 	
 	private SmsContentUtil() {
 		context = new VelocityContext();
@@ -119,6 +120,22 @@ public class SmsContentUtil {
 		SmsTemplateData smsTemplateData = new SmsTemplateData();
 		smsTemplateData.setPatientName(patientName);
 		smsTemplateData.setHospitalName(properties.getProperty("clinicName"));
+		context.put("data", smsTemplateData);
+		
+		StringWriter writer = new StringWriter();
+		t.merge(context, writer);
+		return writer.toString();
+	}
+	
+	public synchronized String getAppointmentReminderMessage(String template, String patientName, String dateTime) {
+		Properties properties =  getClinicParams();
+		template = BASE_DIR + "/" + template;
+		Template t = ve.getTemplate(template);
+		
+		SmsTemplateData smsTemplateData = new SmsTemplateData();
+		smsTemplateData.setPatientName(patientName);
+		smsTemplateData.setHospitalName(properties.getProperty("clinicName"));
+		smsTemplateData.setDateTime(dateTime);
 		context.put("data", smsTemplateData);
 		
 		StringWriter writer = new StringWriter();

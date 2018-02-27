@@ -1,0 +1,1 @@
+Hello $data.patientName, $data.hospitalName informing about the appointment reminder on $data.dateTime.
