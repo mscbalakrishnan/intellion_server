@@ -30,6 +30,7 @@ import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.domain.dto.AppointmentDto;
 import com.intellion.cms.domain.dto.LabelDto;
 import com.intellion.cms.domain.dto.PatientDto;
+import com.intellion.cms.domain.dto.SmsGroupDto;
 import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.LabelService;
 import com.intellion.cms.service.PatientService;
@@ -112,14 +113,22 @@ public class LabelController {
 	}
 	
 	
-	@GetMapping(value="/grouppromo")
-	public String findPatIDsByGroupId(@RequestParam  long labelId, @RequestParam  String promoMsg) {
+	@PostMapping(value="/grouppromo")
+	@ResponseBody
+	
+	public String sendPromoSMS(@RequestBody SmsGroupDto smsGroupDto, HttpServletRequest request) {
+		
+		long labelId = smsGroupDto.getId();
+		String smsMsg = smsGroupDto.getSmsContent();
+		String smsType = smsGroupDto.getSmsType();
 		logger.debug("group Id ----> {}",labelId);
+		logger.debug("smsType ----> {}",smsMsg);
+		
 		Label label = this.labelService.findOne(labelId);
 		List<Patient> patList = label.getPatientList(); 
 		for(Patient patient:patList){
 			if(null != patient){
-				sendSmsToPatient(patient.getMobileNumber1(), patient.getId(), promoMsg, "PROMO");
+				sendSmsToPatient(patient.getMobileNumber1(), patient.getId(), smsMsg, smsType);
 			}
 		}
 		
