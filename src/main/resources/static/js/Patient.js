@@ -218,13 +218,16 @@ var Patient = function() {
 		
 		 var bloodGroup = data.bloodGroup;
 		 var date = data.dob;
+		 var dobArr = date.split("-");
+		 var dob_year = dobArr[2];
+		 var dob_month = dobArr[1];
+		 var dob_date = dobArr[0];
+		 var dobDate = new Date(dob_year,dob_month-1,dob_date);
+		 var today = new Date();
+		 console.log("check-->" + dobDate + '<' + "today-->" + today);
+  	  
 		 
-		//var formattedDOB = $.datepicker.formatDate("dd-mm-yy", date);
-		
-  	    var today = $.datepicker.formatDate("dd-mm-yy", new Date());
-  	 //   console.log("check-->" + formattedDOB + '<' + "today-->" + today);
-		 
-  	    if(date > today){
+  	    if(dobDate > today){
   	    	WsUtils.showAlert('Future Date of DOB is not allowed.');
   	    	return;
   	    }

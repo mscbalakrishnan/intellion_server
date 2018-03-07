@@ -1,8 +1,5 @@
 package com.intellion.cms.domain.template;
 
-import lombok.Data;
-
-
 public class SmsTemplateData {
 	private String userName;
 	private String dateTime;

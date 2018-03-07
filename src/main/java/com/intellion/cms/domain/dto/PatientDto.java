@@ -18,8 +18,6 @@ import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.PeriodicRemainder;
 import com.intellion.cms.domain.Title;
 
-import lombok.Data;
-
 public class PatientDto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -71,7 +69,7 @@ public class PatientDto implements Serializable {
 		setName(patient.getName());
 		setMobile(patient.getMobileNumber1());
 		setProfileId(patient.getProfileId());
-		setLabel(patient.getLabel());
+//		setLabel(patient.getLabel());
 		setBloodGroupId(patient.getBloodGroup().getId());
 		setGender(patient.getGender());
 		setOccupation(patient.getOccupation());
@@ -114,7 +112,7 @@ public class PatientDto implements Serializable {
 		p.setName(patient.getName());
 		p.setMobileNumber1(patient.getMobile());
 		p.setProfileId(patient.getProfileId());
-		p.setLabel(patient.getLabel());
+//		p.setLabel(patient.getLabel());
 		p.setBloodGroup(patient.getBloodGroup());
 		p.setGender(patient.getGender());
 		p.setOccupation(patient.getOccupation());

@@ -14,8 +14,6 @@ import com.intellion.cms.repository.DoctorRepository;
 import com.intellion.cms.service.DoctorService;
 
 @Component("doctorService")
-//@Transactional
-
 public class DoctorServiceImpl implements DoctorService{
 	private final DoctorRepository doctorRepository;
 	private static final Logger logger = LoggerFactory.getLogger(DoctorServiceImpl.class);
@@ -60,11 +58,11 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	@Override
 	public Doctor findOne(long id) {
-		return doctorRepository.findOne(id);
+		return doctorRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 	@Override
 	public void delete(long id) {
-		doctorRepository.delete(id);
+		doctorRepository.deleteById(id);
 	}
 	@Override
 	public void delete(Doctor doctor) {

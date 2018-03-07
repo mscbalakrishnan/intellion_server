@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 
-import lombok.Data;
 @Entity
 public class SettingsParams extends EntityWithSurrogatePK {
 	@Column(nullable = false)

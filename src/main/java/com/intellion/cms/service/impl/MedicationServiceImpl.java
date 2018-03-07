@@ -30,12 +30,12 @@ public class MedicationServiceImpl implements MedicationService {
 
 	@Override
 	public Medication findOne(long id) {
-		return medicationRepository.findOne(id);
+		return medicationRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
 	public void delete(long id) {
-		medicationRepository.delete(id);
+		medicationRepository.deleteById(id);
 	}
 	
 	@Override

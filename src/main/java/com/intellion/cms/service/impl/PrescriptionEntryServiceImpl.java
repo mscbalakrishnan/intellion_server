@@ -30,11 +30,11 @@ public class PrescriptionEntryServiceImpl implements PrescriptionEntryService {
 
 	@Override
 	public PrescriptionEntry findOne(long id) {
-		return prescriptionEntryRepository.findOne(id);
+		return prescriptionEntryRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
 	public void delete(long id) {
-		prescriptionEntryRepository.delete(id);
+		prescriptionEntryRepository.deleteById(id);
 	}
 }

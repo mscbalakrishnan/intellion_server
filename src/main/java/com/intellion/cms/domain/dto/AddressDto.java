@@ -2,8 +2,6 @@ package com.intellion.cms.domain.dto;
 
 import com.intellion.cms.domain.Address;
 
-import lombok.Data;
-
 public class AddressDto {
 	private Long id;
 	private String apprtmentName;

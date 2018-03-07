@@ -53,12 +53,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public Appointment findOne(long id) {
-		return appointmentRepository.findOne(id);
+		return appointmentRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public void delete(long id) {
-		appointmentRepository.delete(id);
+		appointmentRepository.deleteById(id);
 	}
 
 	@Override
@@ -68,27 +68,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public Appointment save(Long id, LocalDateTime time, Long doctorId, String patientId) {
-		Doctor doctor = doctorRepository.findOne(doctorId);
-		Patient patient = patientRepository.findOne(patientId);
-		if (doctor == null) {
-			throw new IllegalArgumentException("Doctor Id does not exists:" + doctorId);
-		}
-		if (patient == null) {
-			throw new IllegalArgumentException("Patient Id does not exists:" + patientId);
-		}
+		Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()->new IllegalArgumentException("Doctor Id does not exists:" + doctorId));
+		Patient patient = patientRepository.findById(patientId).orElseThrow(()->new IllegalArgumentException("Patient Id does not exists:" + patientId));
 		if (id == null) {
 			Appointment appointment = new Appointment(time, doctor, patient);
 			return appointmentRepository.save(appointment);
 		} else {
-			Appointment appointment = appointmentRepository.findOne(id);
-			if (appointment != null) {
-				appointment.setTime(time);
-				appointment.setDoctor(doctor);
-				appointment.setPatient(patient);
-				return appointmentRepository.save(appointment);
-			} else {
-				throw new IllegalArgumentException("Appointment Id does not exists:" + id);
-			}
+			Appointment appointment = appointmentRepository.findById(id).orElseThrow(()->new IllegalArgumentException("Appointment Id does not exists:" + id));
+			appointment.setTime(time);
+			appointment.setDoctor(doctor);
+			appointment.setPatient(patient);
+			return appointmentRepository.save(appointment);
 		}
 	}
 

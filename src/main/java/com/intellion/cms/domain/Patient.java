@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -59,7 +61,9 @@ public class Patient extends BaseEntity {
 	@Pattern(regexp="(^$|[0-9]{10})")
 	private String mobileNumber3;	
 	private String profileId;
-	private String label;
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "patient_label", joinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "label_id", referencedColumnName = "id"))
+	private Set<Label> labels;
 	private BloodGroup bloodGroup;
 	private Gender gender;
 	private String Occupation;
@@ -159,12 +163,12 @@ public class Patient extends BaseEntity {
 		this.profileId = profileId;
 	}
 
-	public String getLabel() {
-		return label;
+	public Set<Label> getLabels() {
+		return labels;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
 	}
 
 	public BloodGroup getBloodGroup() {
@@ -283,7 +287,7 @@ public class Patient extends BaseEntity {
 	public String toString() {
 		return "Patient [id=" + id + ", title=" + title + ", name=" + name + ", guardianName=" + guardianName
 				+ ", addressList=" + addressList + ", mobileNumber1=" + mobileNumber1 + ", mobileNumber2="
-				+ mobileNumber2 + ", mobileNumber3=" + mobileNumber3 + ", profileId=" + profileId + ", label=" + label
+				+ mobileNumber2 + ", mobileNumber3=" + mobileNumber3 + ", profileId=" + profileId + ", label=" + labels
 				+ ", bloodGroup=" + bloodGroup + ", gender=" + gender + ", Occupation=" + Occupation + ", dob=" + dob
 				+ ", email=" + email + ", age=" + age + ", medicalHistory=" + medicalHistory + ", medicalAlert="
 				+ medicalAlert + ", allergies=" + allergies + ", needWelcomeMessage=" + needWelcomeMessage

@@ -17,10 +17,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 
-import lombok.ToString;
-
 @Entity
-@ToString(callSuper=true,exclude="doctor,patient")
 public class Appointment extends EntityWithSurrogatePK {
 
 	@Column(nullable = false)
@@ -63,6 +60,10 @@ public class Appointment extends EntityWithSurrogatePK {
 	}
 	
 
+	@Override
+	public String toString() {
+		return "Appointment [time=" + time + ", doctor=" + doctor.getName() + ", patient=" + patient + "]";
+	}
 	public Appointment(LocalDateTime time, Doctor doctor, Patient patient) {
 		super();
 		this.time = time;

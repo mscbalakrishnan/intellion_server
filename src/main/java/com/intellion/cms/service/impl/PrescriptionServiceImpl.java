@@ -38,16 +38,16 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
 	@Override
 	public Prescription findOne(long id) {
-		return prescriptionRepository.findOne(id);
+		return prescriptionRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
 	public void delete(long id) {
-		Prescription prescription = prescriptionRepository.findOne(id);
+		Prescription prescription = prescriptionRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 		for (PrescriptionEntry pe : prescription.getPrescriptionEntries()) {
-			prescriptionEntryRepository.delete(pe.getId());
+			prescriptionEntryRepository.deleteById(pe.getId());
 		}
-		prescriptionRepository.delete(id);
+		prescriptionRepository.deleteById(id);
 	}
 	
 	@Override

@@ -61,12 +61,12 @@ public class SettingsServiceImpl implements SettingsService {
 
 	@Override
 	public Settings findOne(long id) {
-		return settingsRepository.findOne(id);
+		return settingsRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
 	public void delete(long id) {
-		settingsRepository.delete(id);
+		settingsRepository.deleteById(id);
 	}
 
 	@Override

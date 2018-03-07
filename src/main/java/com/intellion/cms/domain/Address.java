@@ -7,10 +7,7 @@ import javax.persistence.Id;
 
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 
-import lombok.Data;
-
 @Entity
-
 public class Address extends EntityWithSurrogatePK {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

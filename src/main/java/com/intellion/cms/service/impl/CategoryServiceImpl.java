@@ -5,13 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.intellion.cms.domain.Category;
-import com.intellion.cms.domain.Medication;
 import com.intellion.cms.repository.CategoryRepository;
 import com.intellion.cms.service.CategoryService;
 
 @Component("categoryService")
-//@Transactional
-
 public class CategoryServiceImpl implements CategoryService{
 	private final CategoryRepository categoryRepository;
 	private static final Logger logger = LoggerFactory.getLogger(CategoryServiceImpl.class);
@@ -34,13 +31,13 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void delete(long id) {
-		categoryRepository.delete(id);
+		categoryRepository.deleteById(id);
 		
 	}
 	
 	@Override
 	public Category findOne(long id) {
-		return categoryRepository.findOne(id);
+		return categoryRepository.findById(id).orElse(null);
 	}
 	
 	

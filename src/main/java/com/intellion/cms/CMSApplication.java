@@ -82,7 +82,7 @@ public class CMSApplication implements CommandLineRunner {
 		SpringApplication.run(CMSApplication.class, args);
 	}
 
-	public void run1(String... arg0) throws Exception {
+	public void run(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
@@ -153,6 +153,16 @@ public class CMSApplication implements CommandLineRunner {
 		p1.getAddressList().add(address1);
 		p1 = patientRepository.save(p1);
 		
+		Patient p2 = new Patient();
+		p2.setName("Balakumar");
+		p2.setMobileNumber1("9876543211");
+		p2.setTitle(Title.Mr);
+		p2.setBloodGroup(BloodGroup.Bpositive);
+		p2.setGender(Gender.Male);
+		p2.setDob(LocalDate.of(1980, 1, 15));
+		p2.getAddressList().add(address1);
+		p2 = patientRepository.save(p2);
+		
 		Appointment a = new Appointment(LocalDateTime.now(), d, p);
 		a = appointmentRepository.save(a);
 		Appointment a1 = new Appointment(LocalDateTime.now().plusDays(1), d, p);
@@ -176,19 +186,26 @@ public class CMSApplication implements CommandLineRunner {
 		m2 = medicationRepository.save(m2);
 		
 		
-		Label l = new Label();
-		l.setLabelname("POOR");
-		List<Patient> patList = new ArrayList<Patient>();
-		patList.add(p); patList.add(p1);
-		//l.setPatientList(patList);
-		l = labelRepository.save(l);
+		Label poorLabel = new Label();
+		poorLabel.setLabelname("POOR");
+		Set<Patient> patList = new HashSet<Patient>();
+		patList.add(p); 
+		patList.add(p1);
+		poorLabel.setPatientList(patList);
+		poorLabel = labelRepository.save(poorLabel);
 		
-		Label l1 = new Label();
-		l1.setLabelname("RICH");
+		Label richLabel = new Label();
+		richLabel.setLabelname("RICH");
+		richLabel.setPatientList(patList);
+		richLabel = labelRepository.save(richLabel);
 		
-		patList.add(p); patList.add(p1);
-		l1.setPatientList(patList);
-		l1 = labelRepository.save(l1);
+		Set<Label> labels = new HashSet<>();
+		labels.add(poorLabel);
+		labels.add(richLabel);
+		p.setLabels(labels);
+		p1.setLabels(labels);
+		p = patientRepository.save(p);
+		p1 = patientRepository.save(p1);
 		
 		Prescription prescription = new Prescription();
 		prescription.setDoctor(d);
@@ -234,7 +251,7 @@ public class CMSApplication implements CommandLineRunner {
 		pe2 = prescriptionEntryRepository.save(pe2);
 		run1(arg0);
 	}
-	public void run(String... arg0) throws Exception {
+	public void run1(String... arg0) throws Exception {
 		
 		
 		List<Settings> settingsListByCat =  (List<Settings>)this.settingsRepository.findByCategory("sms");

@@ -4,9 +4,6 @@ import javax.persistence.Entity;
 
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
 
-import lombok.Data;
-
-
 @Entity(name="smsdetails")
 public class SmsDetails extends EntityWithSurrogatePK {
 

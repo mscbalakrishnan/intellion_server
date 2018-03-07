@@ -54,12 +54,12 @@ public class LabelServiceImpl implements LabelService {
 
 	@Override
 	public Label findOne(long id) {
-		return labelRepository.findOne(id);
+		return labelRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
 	public void delete(long id) {
-		labelRepository.delete(id);
+		labelRepository.deleteById(id);
 	}
 	
 

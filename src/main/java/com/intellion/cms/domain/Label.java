@@ -1,31 +1,22 @@
 package com.intellion.cms.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.intellion.cms.domain.base.EntityWithSurrogatePK;
-@Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "labelname" ))
-public class Label extends EntityWithSurrogatePK{
-	/**
-	 * 
-	 */
-	private String labelname;
-	
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	@JoinColumn(name="patient_id")
-	private List<Patient> patientList = new ArrayList<>();
-	
-	
 
+@Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "labelname"))
+public class Label extends EntityWithSurrogatePK {
+	private String labelname;
+
+	@ManyToMany(mappedBy = "labels", fetch=FetchType.EAGER)
+	private Set<Patient> patientList;
 
 	public String getLabelname() {
 		return labelname;
@@ -35,13 +26,12 @@ public class Label extends EntityWithSurrogatePK{
 		this.labelname = labelname;
 	}
 
-	public List<Patient> getPatientList() {
+	public Set<Patient> getPatientList() {
 		return patientList;
 	}
 
-	public void setPatientList(List<Patient> patientList) {
+	public void setPatientList(Set<Patient> patientList) {
 		this.patientList = patientList;
-	}	
-	
+	}
 
 }

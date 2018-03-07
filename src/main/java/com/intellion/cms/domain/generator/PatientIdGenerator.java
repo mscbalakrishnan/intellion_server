@@ -15,6 +15,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.MappingException;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.Configurable;
 import org.hibernate.id.IdentifierGenerator;
 import org.hibernate.service.ServiceRegistry;
@@ -33,7 +34,7 @@ public class PatientIdGenerator implements IdentifierGenerator/*, Configurable*/
 	public void configure(Type type, Properties props, ServiceRegistry serviceRegistry) throws MappingException {
 		setTableName( props.getProperty( "tableName" ) );
 	}*/
-    public Serializable generate( SessionImplementor session, Object arg1 )
+    public Serializable generate(SharedSessionContractImplementor session, Object arg1 )
             throws HibernateException {
         // we want to open a new connection / transaction
         logger.debug("PatientIdGenerator generate method");

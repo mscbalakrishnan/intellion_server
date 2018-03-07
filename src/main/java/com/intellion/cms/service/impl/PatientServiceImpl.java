@@ -66,12 +66,12 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Patient findOne(String id) {
-		return patientRepository.findOne(id);
+		return patientRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 	}
 
 	@Override
 	public void delete(String id) {
-		patientRepository.delete(id);
+		patientRepository.deleteById(id);
 	}
 
 	@Override
