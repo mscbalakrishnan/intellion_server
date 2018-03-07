@@ -66,8 +66,8 @@ public class NotifyServiceImpl implements NotifyService {
 	
 //	second (0-59) / minute (0-59) / hour (0-23) / day of month (1-31) / month (1-12) / day of week (0-6)
 //	Testing every twenty  seconds...
-	//@Scheduled(cron="*/50 * * * * *")
-	@Scheduled(cron="0 0 9-18 * * *")
+	@Scheduled(cron="*/50 * * * * *")
+	//@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void sendSMS(){
 		logger.debug("sendSMS() called...");
@@ -76,7 +76,7 @@ public class NotifyServiceImpl implements NotifyService {
 			logger.debug("SMS DISABLED !!! ");
 			return;
 		}
-		
+		String msgCode = "";
 		for (SmsDetails smsDetails:smsDetailsService.getPendingSms()) {
 			
 			String urlStr = properties.getProperty("url");
@@ -107,11 +107,30 @@ public class NotifyServiceImpl implements NotifyService {
 		        while((current = in.readLine()) != null) {
 		        	urlString += current;
 		        }
+		        
+		        if(urlString.length() > 0){
+		        	
+		        	urlString = urlString.toUpperCase();
+		        	if(urlString.startsWith("S.")){
+	    				String[] codeToken = urlString.split(" ");
+	    				if(null != codeToken && codeToken.length > 0){
+	    					msgCode = codeToken[0];
+	    				}
+		    			smsDetails.setStatus(SmsStatus.SUCCESS.name());
+		    			smsDetails.setRetryCount(0);
+		    			
+		        	}else{
+		    			smsDetails.setStatus(SmsStatus.FAILURE.name());
+		    			smsDetails.setRetryCount(smsDetails.getRetryCount()-1);
+		        	}
+		        	
+		        }
 		        logger.debug("output of sms is {}", urlString);
-		        smsDetails.setStatus(SmsStatus.SUCCESS.name());
+		       
 				smsDetailsService.save(smsDetails);
 			} catch (IOException  e) {
 				logger.error("Unable to send sms", e);
+				smsDetails.setStatus(SmsStatus.FAILURE.name());
 				smsDetails.setRetryCount(smsDetails.getRetryCount()-1);
 				smsDetailsService.save(smsDetails);
 			}
@@ -148,7 +167,8 @@ public class NotifyServiceImpl implements NotifyService {
 	}	
 	
 
-	@Scheduled(cron="*/45 * * * * *")
+	//@Scheduled(cron="*/45 * * * * *")
+	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void periodicReminderAppointment(){
 		logger.debug("periodicReminderAppointment() called...");

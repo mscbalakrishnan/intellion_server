@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.intellion.cms.domain.SmsDetails;
 
 public interface SmsDetailsRepository extends JpaRepository<SmsDetails, Long> {	
-	List<SmsDetails> findByDateBeforeAndStatusNotAndRetryCountLessThan(long currentDate,String status,int retryCount);
+	List<SmsDetails> findByDateBeforeAndStatusNotAndRetryCountGreaterThan(long currentDate,String status,int retryCount);
 	List<SmsDetails> findByNameContainingAndStatusNotLike(String name, String status);
 	
 }

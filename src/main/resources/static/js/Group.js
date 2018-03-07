@@ -3,6 +3,12 @@ var groupVo;
 function initGroupVo() {
 	groupVo = {
 		name : ko.observable(""),
+		groupList:ko.observableArray([]),
+		grpIdSMS : ko.observable(""),
+		smsType : ko.observable(""),
+		smsMsg : ko.observable(""),
+		grpSelectedId : ko.observable(""), 
+		smsTypeList:ko.observableArray([{"id":"PROMO","name":"PROMOTIONAL"},{"id":"TXN","name":"TRANSACTIONAL"}]),
 		id : ""
 	}
 }
@@ -27,24 +33,34 @@ var Group = function() {
 				var dataArr=resultGlobalClass.response;			
 						
 				$("#addGroupBtn").bind("click",function(){
+					
 					self.loadGroupPage();
 				});
 				
 				var dataArray =  dataArr;
 				if(dataArray.length > 0 ){
 					initDataGridModel();
+					
+					for (var i = 0, len = dataArray.length; i < len; i++) {
+						  var idgrp = dataArray[i]["id"];
+						  var namegrp = dataArray[i]["name"];
+						  groupVo.groupList.push({name:namegrp,id:idgrp});
+						  
+						}
 					var dgm = $.extend(dataGridModel,{
 							dataArray : dataArray ,
 							gridHeaders : {"name":"Group Name"},
 							hiddenColumns : ["id","patientIdList","patientDtoList"],
 							isDeleteButton : true,
-							isViewButton : false,
+							isViewButton : true,
+							viewIconClass : "glyphicon glyphicon-envelope viewIcon",
 							isSearchVisible:true,
 							isCustomPagination : false,
 							callbackFunction : function(data,event,type){
-								
-								if(type == 'delete')
-								{	
+															
+								if(type == 'view'){
+									self.loadSendSMSPage(data);
+								}else if(type == 'delete'){	
 										WsUtils.deleteOperation(function(){
 										
 											var requestUrl = "/intelhosp/label/"+data.id;
@@ -152,7 +168,56 @@ var Group = function() {
 	}	
 	
 	
+	self.loadSendSMSPage = function(data){
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function() {
+				var responseObj = resultGlobalClass.response;
+				WsUtils.showPopupWindow(function() {
+
+				});
+				$("#modelData").html(responseObj);
+				$(".modal-footer").html("");
+				ko.cleanNode($("#sendSMSForm")[0]);
+				ko.applyBindings(groupVo, $("#sendSMSForm")[0]);
+				if(data && data.id){
+					groupVo.grpIdSMS(data["id"]);	
+				}
+				
+			},
+			requestUrl : "../pages/templates/send_sms.html",
+			requestData : {},
+			resultType : "text",
+		});
+		ServiceCalls.loadHtmlPage();
+	};	
 	
-	
+	self.sendsms = function(callingFrom){
+		if(WsUtils.validate("sendSMSForm"))
+			return;
+
+		var locGrpId = groupVo.grpIdSMS();
+		var locSmsType = groupVo.smsType();
+		var locSmsMsg = groupVo.smsMsg();
+		
+		var data = {id : locGrpId, smsContent : locSmsMsg, smsType:locSmsType};
+
+		var requestUrl = "/intelhosp/label/grouppromo";
+		
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				WsUtils.showAlert("SMS Request Submitted Successfully");
+				$(".alert").delay(3000).fadeOut("slow");
+				WsUtils.hidePopup();
+				self.loadGroupList();	
+			},
+			requestUrl : requestUrl,
+			requestMethod:"POST",
+			requestData : {
+				"data" : data,
+			},resultType : "json",
+		});
+		ServiceCalls.call();	
+		
+	}	
 	
 }
