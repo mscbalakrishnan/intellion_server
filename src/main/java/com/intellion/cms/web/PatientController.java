@@ -221,7 +221,7 @@ public class PatientController {
 		p.setName(patient.getName());
 		p.setMobileNumber1(patient.getMobileNumber1());
 		p.setProfileId(patient.getProfileId());
-		p.setLabel(patient.getLabel());
+		p.setLabels(patient.getLabels());
 		p.setBloodGroup(patient.getBloodGroup());
 		p.setGender(patient.getGender());
 		p.setOccupation(patient.getOccupation());
