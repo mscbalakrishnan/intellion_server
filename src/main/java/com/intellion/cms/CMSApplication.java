@@ -82,7 +82,7 @@ public class CMSApplication implements CommandLineRunner {
 		SpringApplication.run(CMSApplication.class, args);
 	}
 
-	public void run(String... arg0) throws Exception {
+	public void run1(String... arg0) throws Exception {
 		logger.info("Starting the main run method...");
 		Doctor doctor = new Doctor();
 		doctor.setName("Kumaraguru");
@@ -251,7 +251,7 @@ public class CMSApplication implements CommandLineRunner {
 		pe2 = prescriptionEntryRepository.save(pe2);
 		run1(arg0);
 	}
-	public void run1(String... arg0) throws Exception {
+	public void run(String... arg0) throws Exception {
 		
 		
 		List<Settings> settingsListByCat =  (List<Settings>)this.settingsRepository.findByCategory("sms");

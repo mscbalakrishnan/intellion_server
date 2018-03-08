@@ -44,9 +44,12 @@ public class LabelDto implements Serializable {
 	public LabelDto(Label label) {
 		setId(label.getId());
 		setName(label.getLabelname());
-		for (Patient patient : label.getPatientList()) {
-			getPatientIdList().add(patient.getId());
+		if(null != label.getPatientList() && label.getPatientList().size() > 0){
+			for (Patient patient : label.getPatientList()) {
+				getPatientIdList().add(patient.getId());
+			}
 		}
+		
 	}
 
 	public static Label Dto2Pojo(LabelDto labelDto) {

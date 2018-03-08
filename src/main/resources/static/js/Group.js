@@ -97,7 +97,7 @@ var Group = function() {
 				   WsUtils.showAlert(Language.noData);
 				}	
 			},
-			requestUrl : "/intelhosp/label/labeldto",
+			requestUrl : "/intelhosp/label",
 			requestMethod: "GET",
 			isAsyncCall:false,
 			requestData : {
@@ -143,7 +143,15 @@ var Group = function() {
 			methodType = "PUT";
 		}
 		
+		
 		var data = {name : groupVo.name(),id : groupVo.id};
+		
+		/*if(methodType == "POST"){
+			data = {name : groupVo.name(),id : groupVo.id,patientIdList: ["00020318","00030318"]};
+		}*/
+		
+		
+		
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
