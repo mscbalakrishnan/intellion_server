@@ -55,9 +55,18 @@ var SettingsController = function(){
 		category = category.toLowerCase();
 		settingsParamValues.forEach(val => {
 			var id = val.paramName;
+			if(val.paramValue == 'true'){
+				$("#"+id).attr("checked","checked");
+			}
+			
 			var value = val.paramValue;
 			$("#"+id).val(value);
 			$("#"+id).attr("idValue",val.id);
+			//$("#reminderdays_div").hide();
+			if( val.paramName == 'sms_periodic_reminder' && val.paramValue == 'true'){
+				$("#reminderdays_div").show();
+			}
+
 		});
 		var category ;
 		
@@ -99,6 +108,7 @@ var SettingsController = function(){
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
 				WsUtils.showAlert('Saved Successfully.');
+				new SettingsController().cancelSettings(category)
 				
 			},
 			requestUrl : "/intelhosp/settings",
@@ -177,5 +187,11 @@ var Settings = function() {
 		});
 		ServiceCalls.call();
 		
+	};
+	self.showHideReminderDays = function() {
+		$("#reminderdays_div").hide();
+		if( $("#sms_periodic_reminder").is(":checked")) {
+			$("#reminderdays_div").show();
+		}
 	}
 }
