@@ -2,6 +2,7 @@ var medications = [];
 var patientId = "";
 var doctorId = "";
 var currentPrescriptionPage = "";
+var currentPrescriptionMode = "";
 var clinicDetails;
 
 var presModel = function() {
@@ -10,8 +11,13 @@ var presModel = function() {
 			self.items = ko.observableArray([]),
 			self.addNewItem = function(data) {
 				console.log(data);
-				self.items.push(new item(0, "", false, 0, false, 0, false, 0,
-						"", "Number", "Number", "Number", 0));
+				if(self.items().length >= 3){
+					WsUtils.showAlert('Maximum number of medication attained.');
+				}else {
+					self.items.push(new item(0, "", false, 0, false, 0, false, 0,
+							"", "Number", "Number", "Number", 0));
+				}
+				
 
 			}.bind(this),
 			
@@ -216,11 +222,13 @@ var Prescriptions = function() {
 	self.loadPrescriptionForm = function(divToLoad, pageType) {
 
 		// loadMedicationsAndInitPresVo();
-		
-		if(currentPrescriptionPage == 'edit'){
+		currentPrescriptionPage = pageType;
+		currentPrescriptionMode = "";
+		doctorId = "";
+		if(currentPrescriptionMode == 'edit'){
 			$("#popupcontent").html("");
 			$("#wholepagepopup").hide();
-			currentPrescriptionPage = "";
+			currentPrescriptionMode = "";
 			return;
 		}
 
@@ -250,7 +258,7 @@ var Prescriptions = function() {
 							patientId = selectedItem.id;
 						});
 				
-
+				//alert(pageType);
 				if (pageType == 'profile') {
 					$('.tab-pane').removeClass('active');
 					$('#prescriptions').addClass("active");
@@ -262,13 +270,13 @@ var Prescriptions = function() {
 					$("#patient").attr("disabled","disabled");
 					$("#cancelPresForm").click(function(){
 						
-						new Prescriptions().loadPrescriptionForm('prescriptions','profile');
+						new Prescriptions().loadPrescriptionForm('prescriptions',currentPrescriptionPage);
 					})
 				} else {
 					
 					$("#cancelPresForm").click(function(){
 						
-						new Prescriptions().loadPrescriptionForm('content');
+						new Prescriptions().loadPrescriptionForm('content',currentPrescriptionPage);
 					});
 					
 					
@@ -360,15 +368,24 @@ var Prescriptions = function() {
 					$("#wholepagepopup").hide();
 					
 				}
-				if(currentPrescriptionPage != 'edit'){
-					new Prescriptions().loadPrescriptionForm('content');
-					
-				}	
-				if(currentPrescriptionPage === 'edit'){
-					new Prescriptions().loadPrescriptionListGrid('content');					
+				
+				if(currentPrescriptionPage != "profile") {
+					new Prescriptions().loadPrescriptionListGrid('content',currentPrescriptionPage);
 				}
 				
-				currentPrescriptionPage = "";
+				if(currentPrescriptionPage === "profile") {
+					new Prescriptions().loadPrescriptionListGrid('prescriptionList',patientId,'','profile')
+				}
+				
+				/*if(currentPrescriptionMode != 'edit'){
+					new Prescriptions().loadPrescriptionForm('content',currentPrescriptionPage);
+					
+				}	
+				if(currentPrescriptionMode === 'edit'){
+					new Prescriptions().loadPrescriptionListGrid('content',currentPrescriptionPage);					
+				}*/
+				
+				currentPrescriptionMode = "";
 			},
 			requestUrl : "/intelhosp/prescription",
 			requestMethod : methodType,
@@ -403,6 +420,7 @@ var Prescriptions = function() {
 	};
 	self.loadPrescriptionListGrid = function(divToLoad, patId, docId, pagetype) {
 
+		currentPrescriptionPage = pagetype;
 		initPresVo();
 		// loadMedicationsAndInitPresVo();
 		patientId = "";
@@ -415,6 +433,10 @@ var Prescriptions = function() {
 				if (pagetype == 'profile') {
 					$(".tab-pane").removeClass("active");
 					$("#prescriptionList").addClass("active");
+					$('#presProfMenu').removeClass("active");
+					$('#presProfListMenu').addClass("active");
+					$("#prescriptions").html("");
+					
 					if (selectedPatientProfile) {
 						patId = selectedPatientProfile.id;
 					} // selectedPatientProfile declared in profile.js
@@ -503,7 +525,12 @@ var Prescriptions = function() {
 			resultGlobalObject = $.extend(resultGlobalClass, {
 				callback : function() {
 					WsUtils.showAlert("Delete Success");
-					self.loadPrescriptionListGrid("content");
+					if(currentPrescriptionPage === 'profile') {
+						self.loadPrescriptionListGrid("prescriptionList",patientId, doctorId, currentPrescriptionPage);
+					} else {
+						self.loadPrescriptionListGrid("content",patientId, doctorId, currentPrescriptionPage);
+					}
+					
 				},
 				requestUrl : url,
 				requestMethod : methodType,
@@ -526,7 +553,8 @@ var Prescriptions = function() {
 
 		console.log(prescriptionDetails);
 		$('.searchBtn').popover('hide');
-		currentPrescriptionPage = "edit";
+		currentPrescriptionMode = "edit";
+		currentPrescriptionPage = pageType;
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
@@ -550,12 +578,14 @@ var Prescriptions = function() {
 				patientId = prescriptionDetails.patientVo().id;
 				doctorId = prescriptionDetails.doctorVo().id;
 
-				$("#doctor").val(prescriptionDetails.doctorVo().name);
-				$("#patient").val(prescriptionDetails.patientVo().name);
 				presVO.id = prescriptionDetails.id;
 
 				ko.cleanNode($("#" + divToLoad)[0]);
 				ko.applyBindings(presVO, $("#" + divToLoad)[0]);
+				
+				$("#doctor").val(prescriptionDetails.doctorVo().name);
+				$("#patient").val(prescriptionDetails.patientVo().name);
+
 
 				WsUtils.configureAutoComplete("doctor",
 						"../intelhosp/doctors/doctorname/find", function(

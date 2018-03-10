@@ -157,6 +157,7 @@ var Patient = function() {
 							callbackFunction : function(data,event,type){
 								if(type == 'view'){
 									new Profile().loadPatientProfilePage(data);
+									currentPrescriptionPage = "profile";
 									//new Prescriptions().loadPrescriptionListGrid('content',data.id);
 								}
 								else if(type == 'delete')
