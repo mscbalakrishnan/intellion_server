@@ -1,0 +1,63 @@
+
+<style type="text/css">
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.bordererTable {
+	border: 1px solid #cdcdcd;
+	text-align: center;
+}
+
+table th, table td {
+	padding: 2px;
+	text-align: center;
+}
+
+
+</style>
+
+<form name="group">
+
+	<div id="patientGroupDiv">
+		<div class="form-group" id="groupForm">
+			<label>Group Name *</label> 
+			<select class="form-control" data-bind="options:groupsList,optionsText:'name',optionsValue:'id',value:groupId" 
+			onchange="new Group().loadSelectedGroupsPatients()">
+			</select> 
+			<span class="help-block"></span>
+		</div>
+
+		<div class="form-group" id="groupForm">
+			<label>Patient Name *</label> <input class="form-control"
+				id="patientName" placeholder="Enter patient name"
+				validation="required" type="empty"> <span class="help-block"></span>
+		</div>
+
+		<table data-bind="foreach: { data: patients  }">
+			<tr >
+
+			<td><div class="col-xs-3">
+						<span class=" col-sm-10" data-bind="text:name"></span>
+					</div></td>
+				<td><div class="col-xs-3 deleteIconClass">
+						delete
+					</div></td>
+			</tr>
+		</table>
+
+		<div class="box-footer">
+			<div class="col-md-2"></div>
+			<div class="col-md-4">
+				<button type="button" class="btn btn-block btn-info"
+					onclick="new Group().saveGroupPatients()">Submit</button>
+			</div>
+			<div class="col-md-4">
+				<button type="button" class="btn btn-block btn-danger btn-flat"
+					onclick="">Cancel</button>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
+	</div>
+</form>
