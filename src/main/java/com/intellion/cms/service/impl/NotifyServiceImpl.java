@@ -143,7 +143,13 @@ public class NotifyServiceImpl implements NotifyService {
 	@Scheduled(cron="0 0 9-18 * * *")
 	@Override
 	public void patientBirthDateCheckScheduler(){
+		
 		logger.debug("patientBirthDateCheckScheduler() called...");
+		Properties properties =  getSmsParams();
+		if (!Boolean.parseBoolean(properties.getProperty("sms_birthday_alarm"))){
+			logger.debug("BIRTHDAY ALARM DISABLED !!! ");
+			return;
+		}
 		LocalDate currLocalDate = LocalDate.now();
 		List<Patient> patList = patientService.findByDOB(currLocalDate);
 		
