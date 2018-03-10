@@ -1,8 +1,10 @@
 package com.intellion.cms.web;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.intellion.cms.domain.Appointment;
+import com.intellion.cms.domain.Doctor;
+import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.SmsDetails;
 import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.domain.dto.AppointmentDto;
@@ -52,6 +57,8 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 	@Autowired
 	private SmsDetailsRepository smsDetailsRepository;
+	@Value("${appointment.duration:120}")
+ 	private int appointmenDuration;
 	/**
 	 * @param request
 	 * @return
@@ -177,8 +184,19 @@ public class AppointmentController {
 	@ResponseBody
 	public AppointmentDto addAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , appointmentInputDto.toString());
-		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctorService.findOne(appointmentInputDto.getDoctorId()),patientService.findOne(appointmentInputDto.getPatientId()));
-		appointment = this.appointmentService.save(appointment);
+		Doctor doctor = doctorService.findOne(appointmentInputDto.getDoctorId());
+		Patient patient = patientService.findOne(appointmentInputDto.getPatientId());
+		LocalDateTime from = appointmentInputDto.getTime().minusMinutes(appointmenDuration-1);
+		LocalDateTime to = appointmentInputDto.getTime().minusMinutes(1);
+		Iterable<Appointment> iterable = appointmentService.findByTimeBetweenAndDoctorNameOrPatientName(from, to, doctor.getName(), patient.getName());
+		Iterator<Appointment> iterator = iterable.iterator();
+		if (iterator.hasNext()) {
+			Appointment existsAppointment = iterator.next();
+			logger.error("An appointment was already exists for the doctor or patient at the givent time {}", existsAppointment);
+			throw new IllegalArgumentException("An appointment was already exists for the doctor or patient at the givent time");
+		}
+		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctor,patient);
+		appointment = appointmentService.save(appointment);
 		if (appointment != null) {
 			// Success process sms
 			if (appointmentInputDto.isSmsToDoctor()) {

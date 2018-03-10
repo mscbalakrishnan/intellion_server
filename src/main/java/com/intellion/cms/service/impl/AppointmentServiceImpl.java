@@ -114,4 +114,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public Iterable<Appointment> findByDoctorNameAndPatientName(String doctorName, String patietName) {
 		return appointmentRepository.findByDoctor_Name_AndPatient_Name(doctorName, patietName);
 	}
+
+	@Override
+	public Iterable<Appointment> findByTimeBetweenAndDoctorNameOrPatientName(LocalDateTime from, LocalDateTime to,
+			String doctorName, String patietName) {
+		return appointmentRepository.findByTimeBetweenAndDoctorNameOrPatientName123(from,to, doctorName, patietName);
+	}
 }
