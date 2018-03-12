@@ -342,6 +342,11 @@ public class CMSApplication implements CommandLineRunner {
 			smsPeriodicRemainder.setParamValue("false");
 			smsPeriodicRemainder = settingsParamsRepository.save(smsPeriodicRemainder);
 			
+			SettingsParams smsPeriodicRemainderDays = new SettingsParams();
+			smsPeriodicRemainderDays.setParamName("sms_periodic_reminder_Days");
+			smsPeriodicRemainderDays.setParamValue("3");
+			smsPeriodicRemainderDays = settingsParamsRepository.save(smsPeriodicRemainderDays);
+			
 			Settings settings = new Settings();
 			settings.setCategory("sms");
 			settings.getSettingsParams().add(smsGlobalSwitch);
@@ -353,6 +358,7 @@ public class CMSApplication implements CommandLineRunner {
 			settings.getSettingsParams().add(smsPriority);
 			settings.getSettingsParams().add(smsBirthdayAlarm);
 			settings.getSettingsParams().add(smsPeriodicRemainder);
+			settings.getSettingsParams().add(smsPeriodicRemainderDays);
 			settings = settingsRepository.save(settings);
 			
 			

@@ -209,13 +209,17 @@
 							<div class="col-xs-3" id="reminderdays_div" style="display:none">
 								<div class="form-group">
 									<label>Reminder Days : </label>
-									<select id="reminder_days">
-										<option value="">Select Days</option>
+									<select class="field" id="sms_periodic_reminder_Days">
+										<option value="1">1 Days</option>
 										<option value="3">3 Days</option>
 										<option value="5">5 Days</option>
 										<option value="7">7 Days</option>
 										<option value="15">15 Days</option>
+										
 									</select>
+									<!-- <select class="form-control" id="reminderDays"
+									data-bind="options:reminderDaysList,optionsText:'name',optionsValue:'id',value:reminderDays">
+								</select> -->
 								</div>
 							</div>
 						</div>

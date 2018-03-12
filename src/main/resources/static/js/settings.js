@@ -11,7 +11,8 @@ function initSettingsVO(){
 			settingsParamsDtos : []
 	};
 	return settingsVO;
-}
+};
+initSettingsVO();
 
 var SettingsController = function(){
 	
@@ -43,6 +44,7 @@ var SettingsController = function(){
 	}
 	
 	self.addSettingsParam = function(id, paramName, paramValue){
+		
 		var settingsParam = {
 				id :  id,
 				paramName : paramName,
@@ -55,6 +57,7 @@ var SettingsController = function(){
 		category = category.toLowerCase();
 		settingsParamValues.forEach(val => {
 			var id = val.paramName;
+			//alert(val.paramValue);
 			if(val.paramValue == 'true'){
 				$("#"+id).attr("checked","checked");
 			}
@@ -62,9 +65,11 @@ var SettingsController = function(){
 			var value = val.paramValue;
 			$("#"+id).val(value);
 			$("#"+id).attr("idValue",val.id);
-			//$("#reminderdays_div").hide();
 			if( val.paramName == 'sms_periodic_reminder' && val.paramValue == 'true'){
 				$("#reminderdays_div").show();
+			}
+			if( val.paramName == 'sms_periodic_reminder_Days'){
+				$("#sms_periodic_reminder_Days").val(val.paramValue);
 			}
 
 		});
@@ -83,10 +88,7 @@ var SettingsController = function(){
 		var settingsVO = settingDetailsArr[category];
 		console.log(settingsVO)
 		var settingsParam = [];
-		/*if(!settingsVO || !settingsVO.id){
-			settingsVO = initSettingsVO();
-		}*/
-				
+		
 		
 		settingsVO.category = category;
 		settingsVO.settingsParamsDtos = settingsParam;
