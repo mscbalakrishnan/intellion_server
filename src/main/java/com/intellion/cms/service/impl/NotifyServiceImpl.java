@@ -162,7 +162,7 @@ public class NotifyServiceImpl implements NotifyService {
 				SmsDetails smsDetails = new SmsDetails();
 				smsDetails.setContactList(patientPhoneNumber);
 				smsDetails.setDetail(bdayWishMsg);
-				smsDetails.setRetryCount(5);
+				smsDetails.setRetryCount(3);
 				smsDetails.setDate(new Date().getTime());
 				smsDetails.setName(SmsContentUtil.SMS_BDAY_NAME_PREFIX + patient.getId());
 				smsDetails.setStatus(SmsStatus.PENDING.name());
@@ -178,17 +178,23 @@ public class NotifyServiceImpl implements NotifyService {
 	@Override
 	public void periodicReminderAppointment(){
 		logger.debug("periodicReminderAppointment() called...");
+		Properties properties =  getSmsParams();
 		LocalDate currLocalDate = LocalDate.now();
-		int periodicInterval = 7;
-		//LocalDate currLocalDateWithInterval = currLocalDate.plusDays(periodicInterval);
-		LocalDate currLocalDateWithInterval = currLocalDate.plusDays(periodicInterval);
+		if (!Boolean.parseBoolean(properties.getProperty("sms_periodic_reminder"))){
+			logger.debug("PERIODIC REMINDER SMS DISABLED !!! ");
+			return;
+		}
+		
+		String periodicInterval = properties.getProperty("sms_periodic_reminder_Days");
+		int periodicIntervalInnum = Integer.parseInt(periodicInterval);
+		
+		LocalDate currLocalDateWithInterval = currLocalDate.plusDays(periodicIntervalInnum);
 		Iterable<Appointment> appointmentList = appointmentService.findByTimeBetween(currLocalDateWithInterval,currLocalDateWithInterval);
 		
 		for (Appointment appointment:appointmentList) {
 			
 			Patient patient = appointment.getPatient();
 			String patientPhoneNumber = patient.getMobileNumber1();
-			System.out.println("..............");
 			
 			if(patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
 				String periodicRemainderMsg = SmsContentUtil.getInstance().getAppointmentReminderMessage("appointment_reminder.vm", patient.getName(),currLocalDateWithInterval.toString());
@@ -196,7 +202,7 @@ public class NotifyServiceImpl implements NotifyService {
 				SmsDetails smsDetails = new SmsDetails();
 				smsDetails.setContactList(patientPhoneNumber);
 				smsDetails.setDetail(periodicRemainderMsg);
-				smsDetails.setRetryCount(5);
+				smsDetails.setRetryCount(3);
 				smsDetails.setDate(new Date().getTime());
 				smsDetails.setName(SmsContentUtil.SMS_APPOINTMENT_REMINDER_NAME_PREFIX + patient.getId());
 				smsDetails.setStatus(SmsStatus.PENDING.name());
