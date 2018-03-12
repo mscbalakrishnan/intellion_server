@@ -83,7 +83,7 @@ public class SettingsDto implements Serializable {
 		return settings;
 	}
 	public static Settings Dto2Pojo(Settings existSettings, SettingsDto settingsDto) {
-		if(existSettings.getId() != settingsDto.getId()) {
+		if(existSettings.getId().longValue() != settingsDto.getId().longValue()) {
 			return null;
 		}
 		for (SettingsParamsDto sdto:settingsDto.getSettingsParamsDtos()){

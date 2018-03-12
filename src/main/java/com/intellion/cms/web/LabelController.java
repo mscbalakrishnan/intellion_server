@@ -144,7 +144,16 @@ public class LabelController {
 		}
 		return patientDtos;
 	}	
+
 	
+	@PutMapping(value="/{labelid}/{patid}")
+	@ResponseBody
+	public String setPatientByLabel(@PathVariable("labelid") long labelId, @PathVariable("patid") String patId, HttpServletRequest request) {
+		Label label = labelService.findOne(labelId);
+		Set<PatientDto> patientDtos = new HashSet<>();
+		//yet to add code for binding new patid to groupid
+		return "success";
+	}		
 	
 	@PostMapping(value="/grouppromo")
 	@ResponseBody

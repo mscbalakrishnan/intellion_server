@@ -26,11 +26,9 @@ var patientGroupVo;
 function initPatientGroupVo() {
 	patientGroupVo = {
 		groupIdPat : ko.observable(""),
+		groupNamePat : ko.observable(""),
 		patients : ko.observableArray(""),
-		groupsList : ko.observableArray([ {
-			id : 1,
-			name : "dsfsdf"
-		} ])
+		groupsList : ko.observableArray("")
 	}
 }
 
@@ -291,12 +289,15 @@ var Group = function() {
 							patientGroupVo.patients.push({
 								id : selectedItem.id,
 								name : selectedItem.name
+								
 							});
 							$("patientName").val("");
+							self.saveGroupPatients(selectedItem.id);
+							
 							// doctorId = selectedItem.id;
 						});
 
-				self.loadGroupsData(responseObj);
+				self.loadGroupsData();
 			},
 			requestUrl : "../pages/templates/patient_group_add.html",
 			requestData : {},
@@ -305,12 +306,14 @@ var Group = function() {
 		ServiceCalls.loadHtmlPage();
 	};
 	self.loadSelectedGroupsPatients = function(selectedGrpId) {
+		
 		var url = "/intelhosp/label/"+selectedGrpId;
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				
 				var responseObj = resultGlobalClass.response;
+				patientGroupVo.patients.removeAll();
 				if(responseObj.length > 0){
 					var patList =responseObj;
 					patList.forEach(val => {
@@ -329,14 +332,18 @@ var Group = function() {
 		});
 		ServiceCalls.call();
 	}
-	self.saveGroupPatients = function() {
+	self.saveGroupPatients = function(selectedPatId) {
+		var grpIdPatLoc = patientGroupVo.groupIdPat();
+		alert(grpIdPatLoc);
+		alert(selectedPatId);
+		var URL = "/intelhosp/label/"+grpIdPatLoc+"/"+selectedPatId;
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
 				alert('saved')
 
 			},
-			requestUrl : "/intelhosp/label",
+			requestUrl : URL,
 			requestMethod : "PUT",
 			requestData : {},
 			resultType : "json",
@@ -345,11 +352,12 @@ var Group = function() {
 		ServiceCalls.call();
 	}
 
-	self.loadGroupsData = function(data) {
-		//alert(data);
+	self.loadGroupsData = function() {
+		alert("loadGroupsData");
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
+				alert("resp:"+responseObj);
 				patientGroupVo.groupsList(responseObj);
 
 			},
@@ -361,5 +369,9 @@ var Group = function() {
 
 		ServiceCalls.call();
 	}
+	
+	self.delGroupPatients = function(selectedPatId) {
+		alert("delGroupPatients");
+	}	
 
 }
