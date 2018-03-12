@@ -25,11 +25,8 @@ var patientGroupVo;
 
 function initPatientGroupVo() {
 	patientGroupVo = {
-		groupId : ko.observable(""),
-		patients : ko.observableArray([ {
-			id : 1,
-			name : "dsfsdf"
-		} ]),
+		groupIdPat : ko.observable(""),
+		patients : ko.observableArray(""),
 		groupsList : ko.observableArray([ {
 			id : 1,
 			name : "dsfsdf"
@@ -102,33 +99,19 @@ var Group = function() {
 																type) {
 
 															if (type == 'view') {
-																self
-																		.loadSendSMSPage(data);
+																self.loadSendSMSPage(data);
 															} else if (type == 'delete') {
-																WsUtils
-																		.deleteOperation(
+																WsUtils.deleteOperation(
 																				function() {
 
-																					var requestUrl = "/intelhosp/label/"
-																							+ data.id;
-																					console
-																							.log(requestUrl)
-
+																					var requestUrl = "/intelhosp/label/"+ data.id;
+																					console.log(requestUrl)
 																					resultGlobalObject = $
-																							.extend(
-																									resultGlobalClass,
-																									{
+																							.extend(resultGlobalClass,{
 																										callback : function() {
-																											WsUtils
-																													.showAlert("Delete Success");
-																											$(
-																													".alert")
-																													.delay(
-																															3000)
-																													.fadeOut(
-																															"slow");
-																											self
-																													.loadGroupList();
+																											WsUtils.showAlert("Delete Success");
+																											$(".alert").delay(3000).fadeOut("slow");
+																											self.loadGroupList();
 																										},
 																										requestUrl : requestUrl,
 																										requestMethod : "DELETE",
@@ -137,21 +120,17 @@ var Group = function() {
 																										},
 																										resultType : "json",
 																									});
-																					ServiceCalls
-																							.call();
+																					ServiceCalls.call();
 
-																				},
-																				"");
+																				},"");
 
 															} else if (type = "rowSelect") {
-																self
-																		.loadGroupPage(data);
+																self.loadGroupPage(data);
 
 															}
 														},
 													});
-									dataGridController.showDataGrid(dgm,
-											"groupGrid", "groupgrid", false);
+									dataGridController.showDataGrid(dgm,"groupGrid", "groupgrid", false);
 								} else {
 									WsUtils.showAlert(Language.noData);
 								}
@@ -207,10 +186,10 @@ var Group = function() {
 			id : groupVo.id
 		};
 
-		/*
-		 * if(methodType == "POST"){ data = {name : groupVo.name(),id :
-		 * groupVo.id,patientIdList: ["00020318","00030318"]}; }
-		 */
+		
+		 if(methodType == "POST"){ data = {name : groupVo.name(),id :
+		 groupVo.id,patientIdList: ["00010318","00010218"]}; }
+		 
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
@@ -293,9 +272,11 @@ var Group = function() {
 	};
 
 	self.loadPatientGroupPage = function() {
+		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
+				
 				$("#patientGroupAddContainer").html(responseObj);
 				$(".tab-pane").removeClass("active");
 				$("#patientGroupAddContainer").addClass("active");
@@ -323,19 +304,25 @@ var Group = function() {
 		});
 		ServiceCalls.loadHtmlPage();
 	};
-	self.loadSelectedGroupsPatients = function() {
+	self.loadSelectedGroupsPatients = function(selectedGrpId) {
+		var url = "/intelhosp/label/"+selectedGrpId;
+
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
-				var responseObj = resultGlobalClass.response;
-				//
-				if(responseObj.patientIdList){
-					patientGroupVo.patients(responseObj.patientIdList);
-				}
 				
-				//patientGroupVo.patients(responseObj);
-
+				var responseObj = resultGlobalClass.response;
+				if(responseObj.length > 0){
+					var patList =responseObj;
+					patList.forEach(val => {
+						var patId = val.id;
+						var patName = val.name;
+						patientGroupVo.patients.push({id:patId,name:patName});
+					});				
+				}else{
+					patientGroupVo.patients.removeAll();
+				}
 			},
-			requestUrl : "/intelhosp/label",
+			requestUrl :url,
 			requestMethod : "GET",
 			requestData : {},
 			resultType : "json",
@@ -359,6 +346,7 @@ var Group = function() {
 	}
 
 	self.loadGroupsData = function(data) {
+		//alert(data);
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;

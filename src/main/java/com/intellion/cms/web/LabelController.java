@@ -28,6 +28,7 @@ import com.intellion.cms.domain.Patient;
 import com.intellion.cms.domain.SmsDetails;
 import com.intellion.cms.domain.SmsStatus;
 import com.intellion.cms.domain.dto.LabelDto;
+import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.domain.dto.SmsGroupDto;
 import com.intellion.cms.repository.SmsDetailsRepository;
 import com.intellion.cms.service.LabelService;
@@ -128,6 +129,21 @@ public class LabelController {
 		}
 		labelService.delete(labelId);
 	}
+	
+	
+	@GetMapping(value="/{labelid}")
+	@ResponseBody
+	public Set<PatientDto> getPatientByLabel(@PathVariable("labelid") long labelId, HttpServletRequest request) {
+		Label label = labelService.findOne(labelId);
+		Set<PatientDto> patientDtos = new HashSet<>();
+		if(null != label && null != label.getPatientList() && label.getPatientList().size() > 0){
+			for (Patient patient : label.getPatientList()) {
+				patientDtos.add(new PatientDto(patient));
+				
+			}
+		}
+		return patientDtos;
+	}	
 	
 	
 	@PostMapping(value="/grouppromo")

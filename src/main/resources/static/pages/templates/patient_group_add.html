@@ -23,8 +23,8 @@ table th, table td {
 	<div id="patientGroupDiv">
 		<div class="form-group" id="groupForm">
 			<label>Group Name *</label> 
-			<select class="form-control" data-bind="options:groupsList,optionsText:'name',optionsValue:'id',value:groupId" 
-			onchange="new Group().loadSelectedGroupsPatients()">
+			<select class="form-control" data-bind="options:groupsList,optionsText:'name',optionsValue:'id',value:groupIdPat" 
+			onchange="new Group().loadSelectedGroupsPatients(this.value)">
 			</select> 
 			<span class="help-block"></span>
 		</div>
