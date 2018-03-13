@@ -21,9 +21,9 @@ function initGroupVo() {
 
 initGroupVo();
 
-var patientGroupVo;
+//var patientGroupVo;
 
-function initPatientGroupVo() {
+/*function initPatientGroupVo() {
 	patientGroupVo = {
 		groupIdPat : ko.observable(""),
 		groupNamePat : ko.observable(""),
@@ -32,7 +32,7 @@ function initPatientGroupVo() {
 	}
 }
 
-initPatientGroupVo();
+initPatientGroupVo();*/
 
 var Group = function() {
 
@@ -269,7 +269,7 @@ var Group = function() {
 
 	};
 
-	self.loadPatientGroupPage = function() {
+	/*self.loadPatientGroupPage = function() {
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
@@ -307,6 +307,7 @@ var Group = function() {
 	};
 	self.loadSelectedGroupsPatients = function(selectedGrpId) {
 		
+		alert("loadSelectedGroupsPatients");
 		var url = "/intelhosp/label/"+selectedGrpId;
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
@@ -372,6 +373,6 @@ var Group = function() {
 	
 	self.delGroupPatients = function(selectedPatId) {
 		alert("delGroupPatients");
-	}	
+	}	*/
 
 }

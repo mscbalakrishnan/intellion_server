@@ -148,12 +148,43 @@ public class LabelController {
 	
 	@PutMapping(value="/{labelid}/{patid}")
 	@ResponseBody
-	public String setPatientByLabel(@PathVariable("labelid") long labelId, @PathVariable("patid") String patId, HttpServletRequest request) {
+	public String setPatientByLabel(@PathVariable("labelid") long labelId, @PathVariable("patid") String patientId, HttpServletRequest request) {
+		logger.debug("*********** setPatientByLabel");
 		Label label = labelService.findOne(labelId);
-		Set<PatientDto> patientDtos = new HashSet<>();
-		//yet to add code for binding new patid to groupid
+		Patient patient = patientService.findOne(patientId);
+		if(null != label && null != label.getPatientList()){
+			if(null != patient && null != patient.getLabels()){
+
+				label.getPatientList().add(patient);
+				label = labelService.save(label);
+				
+				patient.getLabels().add(label);
+				patient = patientService.save(patient);
+			}
+		}
+		
 		return "success";
 	}		
+	
+	@DeleteMapping(value="/{labelid}/{patid}")
+	@ResponseBody
+	public String removePatientFromLabel(@PathVariable("labelid") long labelId, @PathVariable("patid") String patientId, HttpServletRequest request) {
+		logger.debug("*********** removePatientFromLabel");
+		Label label = labelService.findOne(labelId);
+		Patient patient = patientService.findOne(patientId);
+		if(null != label && null != label.getPatientList()){
+			if(null != patient && null != patient.getLabels()){
+
+				label.getPatientList().remove(patient);
+				label = labelService.save(label);
+				
+				patient.getLabels().remove(label);
+				patient = patientService.save(patient);
+			}
+		}
+		
+		return "success";
+	}	
 	
 	@PostMapping(value="/grouppromo")
 	@ResponseBody
