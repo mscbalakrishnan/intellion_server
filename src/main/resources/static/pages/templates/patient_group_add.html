@@ -21,20 +21,50 @@ table th, table td {
 <form name="group">
 
 	<div id="patientGroupDiv">
-		<div class="form-group" id="groupForm">
+	
+	<div class="box-body">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-xs-5">
+					<label>Group Name </label> 
+					<select class="form-control" data-bind="options:groupsList,optionsText:'name',optionsValue:'id',value:groupIdPat" >
+					</select> 
+					<span class="help-block"></span>
+				</div>
+
+				<div class="col-md-1">
+					<label></label>
+					<button type="button" class="btn btn-block btn-info"
+						onclick="new PatientGroup().loadSelectedGroupsPatients();">Apply</button>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col-xs-5">
+					<label>Patient Name </label> <input class="form-control"
+					id="patientName" placeholder="Enter patient name"
+					validation="required" type="empty"> <span class="help-block"></span>
+				</div>
+
+
+			</div>			
+		</div>
+	</div>
+		<!-- <div class="form-group" id="groupForm">
 			<label>Group Name *</label> 
-			<select class="form-control" data-bind="options:groupsList,optionsText:'name',optionsValue:'id',value:groupIdPat" 
-			onchange="new Group().loadSelectedGroupsPatients(this.value)">
+			<select class="form-control" data-bind="options:groupsList,optionsText:'name',optionsValue:'id',value:groupIdPat" >
 			</select> 
 			<span class="help-block"></span>
 		</div>
+		
+
 
 		<div class="form-group" id="groupForm">
 			<label>Patient Name *</label> <input class="form-control"
 				id="patientName" placeholder="Enter patient name"
 				validation="required" type="empty"> <span class="help-block"></span>
 		</div>
-
+ -->
 		<table data-bind="foreach: { data: patients  }">
 			<tr >
 
@@ -43,23 +73,23 @@ table th, table td {
 					</div></td>
 				<td><div class="col-xs-3 deleteIconClass">
 						
-						<button type="button" class="btn btn-danger"
-				data-bind="event: { click: function(data, event) { new Group().delGroupPatients(data.id);}}">Delete</button>
+						<!-- <button type="button" class="btn btn-danger" data-bind="value:id" id="delval" onclick="new PatientGroup().delGroupPatients(this);">Remove</button> -->
+						<button type="button" class="btn btn-danger" data-bind="event: { click: function(data, event) { new PatientGroup().delGroupPatients(data.id);}}">Remove</button> 
 					</div></td>
 			</tr>
 		</table>
 
 		<div class="box-footer">
-			<div class="col-md-2"></div>
+<!-- 			<div class="col-md-2"></div>
 			<div class="col-md-4">
 				<button type="button" class="btn btn-block btn-info"
-					onclick="new Group().saveGroupPatients()">Submit</button>
+					onclick="new PatientGroup().saveGroupPatients()">Submit</button>
 			</div>
 			<div class="col-md-4">
 				<button type="button" class="btn btn-block btn-danger btn-flat"
 					onclick="">Cancel</button>
 			</div>
-			<div class="col-md-2"></div>
+			<div class="col-md-2"></div> -->
 		</div>
 	</div>
 </form>
