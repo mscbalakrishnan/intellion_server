@@ -15,7 +15,7 @@ var PatientGroup = function() {
 
 	var self = this;
 	self.loadPatientGroupPage = function() {
-		
+		initPatientGroupVo();
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
@@ -30,13 +30,11 @@ var PatientGroup = function() {
 				WsUtils.configureAutoComplete("patientName",
 						"../intelhosp/patients/patientname/find", function(
 								selectedItem) {
-							alert('you have choosen ' + selectedItem.name);
 							patientGroupVo.patients.push({
 								id : selectedItem.id,
 								name : selectedItem.name
 								
 							});
-							$("patientName").val("");
 							self.saveGroupPatients(selectedItem.id);
 							
 
@@ -55,8 +53,6 @@ var PatientGroup = function() {
 		
 		
 		var selectedGrpId = patientGroupVo.groupIdPat();
-		alert("grpIdPatLoc:"+selectedGrpId);
-		
 		var url = "/intelhosp/label/"+selectedGrpId;
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
@@ -73,7 +69,10 @@ var PatientGroup = function() {
 					});				
 				}else{
 					patientGroupVo.patients.removeAll();
+					WsUtils.showAlert(Language.noData);
 				}
+				$("#patientName").val('');
+				
 			},
 			requestUrl :url,
 			requestMethod : "GET",
@@ -84,14 +83,13 @@ var PatientGroup = function() {
 	}
 	self.saveGroupPatients = function(selectedPatId) {
 		var grpIdPatLoc = patientGroupVo.groupIdPat();
-		alert(grpIdPatLoc);
-		alert(selectedPatId);
 		var URL = "/intelhosp/label/"+grpIdPatLoc+"/"+selectedPatId;
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
-				alert('saved')
-
+				WsUtils.showAlert('Saved Successfully.');
+				WsUtils.hidePopup();				
+				self.loadSelectedGroupsPatients();
 			},
 			requestUrl : URL,
 			requestMethod : "PUT",
@@ -103,11 +101,9 @@ var PatientGroup = function() {
 	}
 
 	self.loadGroupsData = function() {
-		//alert("loadGroupsData");
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
-				//alert("resp:"+responseObj);
 				patientGroupVo.groupsList(responseObj);
 
 			},
@@ -124,15 +120,12 @@ var PatientGroup = function() {
 
 		var grpIdPatLoc = patientGroupVo.groupIdPat();
 		var selectedPatIdLoc = selectedPatId;
-
-		alert(selectedPatIdLoc);
-		alert(grpIdPatLoc);
 		var URL = "/intelhosp/label/"+grpIdPatLoc+"/"+selectedPatIdLoc;
-		alert(URL);
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
-				alert('Deleted Successfully');
+				WsUtils.showAlert('Removed Successfully.');
+				WsUtils.hidePopup();				
 				self.loadSelectedGroupsPatients();
 
 			},

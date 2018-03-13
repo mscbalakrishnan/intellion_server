@@ -184,10 +184,6 @@ var Group = function() {
 			id : groupVo.id
 		};
 
-		
-		 if(methodType == "POST"){ data = {name : groupVo.name(),id :
-		 groupVo.id,patientIdList: ["00010318","00010218"]}; }
-		 
 
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
