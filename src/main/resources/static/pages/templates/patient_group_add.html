@@ -43,7 +43,8 @@ table th, table td {
 					</div></td>
 				<td><div class="col-xs-3 deleteIconClass">
 						
-						<button type="button" class="btn btn-danger" onclick="new Group().delGroupPatients();">Delete</button>
+						<button type="button" class="btn btn-danger"
+				data-bind="event: { click: function(data, event) { new Group().delGroupPatients(data.id);}}">Delete</button>
 					</div></td>
 			</tr>
 		</table>
