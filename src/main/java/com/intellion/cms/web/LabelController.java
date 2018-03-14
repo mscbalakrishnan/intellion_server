@@ -89,9 +89,12 @@ public class LabelController {
 	public LabelDto editLabel(@RequestBody LabelDto labelDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}", labelDto );
 		Label label = labelService.findOne(labelDto.getId());
-		Set<Patient> old_patients = label.getPatientList();
-		Set<String> old_patient_ids = old_patients.stream().map(Patient -> Patient.getId()).collect(Collectors.toSet());
+		
 		label.setLabelname(labelDto.getName());
+		label = labelService.save(label);
+		return new LabelDto(label);
+		/*Set<Patient> old_patients = label.getPatientList();
+		Set<String> old_patient_ids = old_patients.stream().map(Patient -> Patient.getId()).collect(Collectors.toSet());		
 		Set<Patient> patients = new HashSet<Patient>();
 		for (String patientId: labelDto.getPatientIdList()){
 			patients.add(patientService.findOne(patientId));
@@ -116,7 +119,7 @@ public class LabelController {
 			}
 		}
 		label = labelService.findOne(label.getId());
-		return new LabelDto(label);
+		return new LabelDto(label);*/
 	}		
 	
 	@DeleteMapping(value="/{labelid}")

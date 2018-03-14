@@ -259,6 +259,17 @@ var WsUtils = {
 			WsUtils.gotoPageTop();
 			$(".alert").delay(3000).fadeOut("slow");
 		},
+		showAlertWithDefineDelay : function(msg,seconds)
+		{
+			
+			if($(".alert").html() != undefined)
+			{
+				$(".alert").remove();
+			}
+			$("#pageErrorMessage").html(WsUtils.str_alert_msg(msg, "I"));
+			WsUtils.gotoPageTop();
+			$(".alert").delay(seconds).fadeOut("slow");
+		},
 		showPopupAlert : function(msg)
 		{
 			

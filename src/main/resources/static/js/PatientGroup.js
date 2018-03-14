@@ -87,7 +87,7 @@ var PatientGroup = function() {
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
-				WsUtils.showAlert('Saved Successfully.');
+				WsUtils.showAlertWithDefineDelay('Saved Successfully.',800);
 				WsUtils.hidePopup();				
 				self.loadSelectedGroupsPatients();
 			},
@@ -124,7 +124,7 @@ var PatientGroup = function() {
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
-				WsUtils.showAlert('Removed Successfully.');
+				WsUtils.showAlertWithDefineDelay('Removed Successfully.',500);
 				WsUtils.hidePopup();				
 				self.loadSelectedGroupsPatients();
 

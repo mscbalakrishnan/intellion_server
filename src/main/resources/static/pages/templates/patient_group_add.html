@@ -3,6 +3,7 @@
 table {
 	width: 100%;
 	border-collapse: collapse;
+	border-spacing: 5px;
 }
 
 .bordererTable {
@@ -14,7 +15,6 @@ table th, table td {
 	padding: 2px;
 	text-align: center;
 }
-
 
 </style>
 
@@ -65,31 +65,30 @@ table th, table td {
 				validation="required" type="empty"> <span class="help-block"></span>
 		</div>
  -->
-		<table data-bind="foreach: { data: patients  }">
-			<tr >
+		<table border="1">
+		
+		 <thead   bgcolor="#3c8dbc">
+        <tr data-bind="visible:patients().length" >
+        	<th>Patient Name</th>
+        	<th></th>
+        </tr>
+     </thead>
+     <tbody data-bind="foreach: { data: patients  }">
+			<tr>
 
-			<td><div class="col-xs-3">
-						<span class=" col-sm-10" data-bind="text:name"></span>
+			<td><div class="col-sm-5">
+						<span class=" col-sm-7" data-bind="text:name"></span>
 					</div></td>
-				<td><div class="col-xs-3 deleteIconClass">
-						
-						<!-- <button type="button" class="btn btn-danger" data-bind="value:id" id="delval" onclick="new PatientGroup().delGroupPatients(this);">Remove</button> -->
-						<button type="button" class="btn btn-danger" data-bind="event: { click: function(data, event) { new PatientGroup().delGroupPatients(data.id);}}">Remove</button> 
+				<td><div class="col-xs-5 deleteIconClass">
+						<button type="button" class="btn btn-danger" data-bind="event: { click: function(data, event) { new PatientGroup().delGroupPatients(data.id);}}">Remove</button>
+						<!-- <img src="../img/delete.png" alt="Delete"> -->
 					</div></td>
 			</tr>
+			</tbody>
 		</table>
 
 		<div class="box-footer">
-<!-- 			<div class="col-md-2"></div>
-			<div class="col-md-4">
-				<button type="button" class="btn btn-block btn-info"
-					onclick="new PatientGroup().saveGroupPatients()">Submit</button>
-			</div>
-			<div class="col-md-4">
-				<button type="button" class="btn btn-block btn-danger btn-flat"
-					onclick="">Cancel</button>
-			</div>
-			<div class="col-md-2"></div> -->
+
 		</div>
 	</div>
 </form>
