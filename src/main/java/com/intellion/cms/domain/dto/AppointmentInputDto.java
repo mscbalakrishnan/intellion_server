@@ -50,4 +50,9 @@ public class AppointmentInputDto implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	@Override
+	public String toString() {
+		return "AppointmentInputDto [id=" + id + ", time=" + time + ", doctorId=" + doctorId + ", patientId="
+				+ patientId + ", smsToPatient=" + smsToPatient + ", smsToDoctor=" + smsToDoctor + "]";
+	}
 }

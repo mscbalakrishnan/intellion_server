@@ -61,7 +61,7 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Iterable<Patient> findAll() {
-		return patientRepository.findAll();
+		return patientRepository.findAllByOrderByLastModifiedTimeDesc();
 	}
 
 	@Override

@@ -14,5 +14,6 @@ public interface PatientRepository extends CrudRepository<Patient, String>{
 	List<Patient> findByNameContaining(String name);
 	List<Patient> findByNameContainingIgnoreCase(String name);
 	List<Patient> findByDob(LocalDate currDate);
+	List<Patient> findAllByOrderByLastModifiedTimeDesc();
 //	Page<Patient> findAll(Pageable pageable);
 }

@@ -220,6 +220,7 @@ public class AppointmentController {
 	public AppointmentDto editAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
 		Appointment appointment = appointmentService.findOne(appointmentInputDto.getId());
+		logger.debug("*********** Appointment Object from Database EDIT {}" , appointment.toString());
 		appointment.setTime(appointmentInputDto.getTime());
 		appointment.setDoctor(doctorService.findOne(appointmentInputDto.getDoctorId()));
 		appointment.setPatient(patientService.findOne(appointmentInputDto.getPatientId()));

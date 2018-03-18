@@ -54,7 +54,7 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	@Override
 	public Iterable<Doctor> findAll() {
-		return doctorRepository.findAll();
+		return doctorRepository.findAllByOrderByLastModifiedTimeDesc();
 	}
 	@Override
 	public Doctor findOne(long id) {
