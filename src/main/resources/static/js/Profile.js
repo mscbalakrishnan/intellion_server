@@ -58,6 +58,8 @@ var Profile = function() {
 					else
 						patientVo.gender(1);
 						
+					$("#patDispName").html(data["name"]);
+					$("#patDispPhName").html(data["mobile"]);
 					patientVo.id (data["id"]),
 					patientVo.name ( data["name"]),
 					patientVo.title ( data["title"]),
