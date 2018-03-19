@@ -60,10 +60,10 @@ public class Appointment extends EntityWithSurrogatePK {
 	}
 	
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "Appointment [time=" + time + ", doctor=" + doctor.getName() + ", patient=" + patient + "]";
-	}
+	}*/
 	public Appointment(LocalDateTime time, Doctor doctor, Patient patient) {
 		super();
 		this.time = time;
