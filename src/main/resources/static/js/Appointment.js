@@ -153,6 +153,7 @@ var Appointment = function() {
 		
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function(){
+				initAppointmentVo();
 				WsUtils.showAlert("Delete Success");
 				$(".alert").delay(3000).fadeOut("slow");
 				WsUtils.hidePopup();
@@ -348,7 +349,7 @@ var Appointment = function() {
 
 				var data = resultGlobalClass.response;
 
-				//self.displayAppointments(data);
+				initAppointmentVo();
 				location.reload();
 				
 				if (!appointmentVo.id()) {
@@ -358,6 +359,8 @@ var Appointment = function() {
 			        resultGlobalObject.requestMethod = "GET";
 			        $('#calendar').fullCalendar('refetchEvents');
 				}
+
+				
 				
 				WsUtils.hidePopup();
 
