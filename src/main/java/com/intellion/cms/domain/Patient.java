@@ -83,7 +83,7 @@ public class Patient extends BaseEntity {
 	private boolean needWelcomeMessage;
 	private boolean birthdayWish;
 	private PeriodicRemainder remainder;
-
+	private boolean enabled;
 	@OneToMany(mappedBy="patient",fetch=FetchType.LAZY)
 	private Set<Appointment> appointments;
 	
@@ -97,6 +97,14 @@ public class Patient extends BaseEntity {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Title getTitle() {
@@ -287,12 +295,12 @@ public class Patient extends BaseEntity {
 	public String toString() {
 		return "Patient [id=" + id + ", title=" + title + ", name=" + name + ", guardianName=" + guardianName
 				+ ", addressList=" + addressList + ", mobileNumber1=" + mobileNumber1 + ", mobileNumber2="
-				+ mobileNumber2 + ", mobileNumber3=" + mobileNumber3 + ", profileId=" + profileId + ", label=" + labels
+				+ mobileNumber2 + ", mobileNumber3=" + mobileNumber3 + ", profileId=" + profileId + ", labels=" + labels
 				+ ", bloodGroup=" + bloodGroup + ", gender=" + gender + ", Occupation=" + Occupation + ", dob=" + dob
 				+ ", email=" + email + ", age=" + age + ", medicalHistory=" + medicalHistory + ", medicalAlert="
-				+ medicalAlert + ", allergies=" + allergies + ", needWelcomeMessage=" + needWelcomeMessage
-				+ ", birthdayWish=" + birthdayWish + ", remainder=" + remainder + ", appointments=" + appointments + ", dentalHistory=" + dentalHistory
-				+ "]";
+				+ medicalAlert + ", allergies=" + allergies + ", dentalHistory=" + dentalHistory
+				+ ", needWelcomeMessage=" + needWelcomeMessage + ", birthdayWish=" + birthdayWish + ", remainder="
+				+ remainder + ", enabled=" + enabled + ", appointments=" + appointments + "]";
 	}
 
 }

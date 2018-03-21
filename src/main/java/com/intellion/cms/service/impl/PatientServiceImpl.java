@@ -61,7 +61,7 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public Iterable<Patient> findAll() {
-		return patientRepository.findAllByOrderByLastModifiedTimeDesc();
+		return patientRepository.findAllByEnabledTrueOrderByLastModifiedTimeDesc();
 	}
 
 	@Override
@@ -71,12 +71,14 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public void delete(String id) {
-		patientRepository.deleteById(id);
+//		patientRepository.deleteById(id);
+		patientRepository.disablePatient(id, false);
 	}
 
 	@Override
 	public void delete(Patient patient) {
-		patientRepository.delete(patient);
+//		patientRepository.delete(patient);
+		patientRepository.disablePatient(patient.getId(), false);
 	}
 
 	@Override

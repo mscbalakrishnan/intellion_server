@@ -44,10 +44,18 @@ public class Doctor extends EntityWithSurrogatePK {
 	private String mobileNumber3;
 	
 	private String colorCode;
-	
+	private boolean enabled;
 	
 	@OneToMany(mappedBy="doctor",fetch=FetchType.LAZY,cascade = CascadeType.REMOVE)
 	private Set<Appointment> appointments;
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 	public String getName() {
 		return name;
@@ -148,11 +156,11 @@ public class Doctor extends EntityWithSurrogatePK {
 
 	@Override
 	public String toString() {
-		return "Doctor [name=" + name + ", title=" + title + ", email=" + email + ", qualification=" + qualification
+		return "Doctor [name=" + name + ", title=" + title + ", categoryId=" + categoryId + ", email=" + email
+				+ ", qualification=" + qualification + ", additionalQualification=" + additionalQualification
 				+ ", fees=" + fees + ", mobile1=" + mobile1 + ", mobileNumber2=" + mobileNumber2 + ", mobileNumber3="
-				+ mobileNumber3 +", appointments=" + appointments + ", categoryId=" + categoryId + ", colorCode=" + colorCode +  ", additionalQualification=" + additionalQualification +"]";
+				+ mobileNumber3 + ", colorCode=" + colorCode + ", enabled=" + enabled + ", appointments=" + appointments
+				+ "]";
 	}
-
-	
 
 }
