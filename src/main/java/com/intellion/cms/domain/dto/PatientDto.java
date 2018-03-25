@@ -126,6 +126,7 @@ public class PatientDto implements Serializable {
 		p.setNeedWelcomeMessage(patient.isNeedWelcomeMessage());
 		p.setBirthdayWish(patient.isBirthdayWish());
 		p.setRemainder(patient.getRemainder());
+		p.setEnabled(true);
 		
 		return p;
 	}

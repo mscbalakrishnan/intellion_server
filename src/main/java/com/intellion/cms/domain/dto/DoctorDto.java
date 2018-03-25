@@ -49,6 +49,7 @@ public class DoctorDto implements Serializable {
 		d.setMobile1(doctor.getMobile());
 		d.setCategoryId(doctor.getCategoryId());
 		d.setColorCode(doctor.getColorCode());
+		d.setEnabled(true);
 		return d;
 	}
 	public Long getId() {

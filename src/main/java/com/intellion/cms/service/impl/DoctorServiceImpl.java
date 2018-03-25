@@ -62,16 +62,14 @@ public class DoctorServiceImpl implements DoctorService{
 	}
 	@Override
 	public void delete(long id) {
-//		doctorRepository.deleteById(id);
 		doctorRepository.disableDoctor(id, false);
 	}
 	@Override
 	public void delete(Doctor doctor) {
-//		doctorRepository.delete(doctor);
 		doctorRepository.disableDoctor(doctor.getId(), false);
 	}
 	@Override
 	public List<Doctor> findByDoctorName(String name) {
-		return doctorRepository.findByNameContainingIgnoreCase(name);
+		return doctorRepository.findByNameContainingIgnoreCaseAndEnabledTrue(name);
 	}
 }

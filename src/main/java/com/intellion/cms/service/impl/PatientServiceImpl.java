@@ -83,7 +83,8 @@ public class PatientServiceImpl implements PatientService {
 
 	@Override
 	public List<Patient> findByName(String name) {
-		return patientRepository.findByNameContainingIgnoreCase(name);
+		//return patientRepository.findByNameContainingIgnoreCase(name);
+		return patientRepository.findByNameContainingIgnoreCaseAndEnabledTrue(name);
 	}
 	
 	@Override

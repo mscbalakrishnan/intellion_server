@@ -15,6 +15,7 @@ import com.intellion.cms.domain.Doctor;
 public interface DoctorRepository extends CrudRepository<Doctor, Long>{
 	List<Doctor> findByNameContaining(String name);
 	List<Doctor> findByNameContainingIgnoreCase(String name);
+	List<Doctor> findByNameContainingIgnoreCaseAndEnabledTrue(String name);
 	List<Doctor> findAllByEnabledTrueOrderByLastModifiedTimeDesc();
 	@Modifying
 	@Transactional
