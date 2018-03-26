@@ -250,7 +250,7 @@ public class AppointmentController {
 		if (doctorPhoneNumber != null && !doctorPhoneNumber.trim().isEmpty()) {
 			SmsDetails smsDetails = new SmsDetails();
 			smsDetails.setContactList(doctorPhoneNumber);
-			smsDetails.setRetryCount(5);
+			smsDetails.setRetryCount(3);
 			smsDetails.setDetail(msg);
 			smsDetails.setDate(new Date().getTime());
 			smsDetails.setName(smsIdentifier + doctorId.toString());
@@ -270,7 +270,7 @@ public class AppointmentController {
 			SmsDetails smsDetails = new SmsDetails();
 			smsDetails.setContactList(patientPhoneNumber);
 			smsDetails.setDetail(msg);
-			smsDetails.setRetryCount(5);
+			smsDetails.setRetryCount(3);
 			smsDetails.setDate(new Date().getTime());
 			smsDetails.setName(smsIdentifier + patientId);
 			smsDetails.setStatus(SmsStatus.PENDING.name());

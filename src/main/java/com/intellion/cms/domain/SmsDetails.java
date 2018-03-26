@@ -15,6 +15,7 @@ public class SmsDetails extends EntityWithSurrogatePK {
 	private String failureCause;
 	private int statusCode;
 	private String contactList;
+	private String responseString;
 	public String getName() {
 		return name;
 	}
@@ -62,6 +63,12 @@ public class SmsDetails extends EntityWithSurrogatePK {
 	}
 	public void setContactList(String contactList) {
 		this.contactList = contactList;
+	}
+	public String getResponseString() {
+		return responseString;
+	}
+	public void setResponseString(String responseString) {
+		this.responseString = responseString;
 	}
 	
 	

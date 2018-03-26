@@ -133,12 +133,11 @@ public class PatientController {
 				SmsDetails smsDetails = new SmsDetails();
 				smsDetails.setContactList(patientPhoneNumber);
 				smsDetails.setDetail(msg);
-				smsDetails.setRetryCount(5);
+				smsDetails.setRetryCount(3);
 				smsDetails.setDate(new Date().getTime());
 				smsDetails.setName(SmsContentUtil.SMS_REG_NAME_PREFIX + patient.getId());
 				smsDetails.setStatus(SmsStatus.PENDING.name());
 				smsDetailsRepository.save(smsDetails);
-				//notifyService.sendSMS(patientPhoneNumber, msg);
 			}
 		}
 		
@@ -161,13 +160,9 @@ public class PatientController {
 		if(existingPatient.getAddressList()!=null&&existingPatient.getAddressList().size()>0){
 			address = existingPatient.getAddressList().get(0);
 			if (addressDto == null) {
-//				this.addressRepository.delete(address);
-//				patient.getAddressList().remove(0);
-//				patient = this.patientService.save(patient);
 				patient = PatientDto.Dto2Pojo(patientDto);
 				updateModifiedParams(existingPatient, patient);
 				existingPatient.getAddressList().remove(0);
-//				patient.getAddressList().add(address);
 				patient = this.patientService.save(existingPatient);
 			} else {
 				address.setApprtmentName(patientDto.getAddress1());
@@ -178,7 +173,6 @@ public class PatientController {
 				address = addressRepository.save(address);
 				patient = PatientDto.Dto2Pojo(patientDto);
 				updateModifiedParams(existingPatient, patient);
-//				patient.getAddressList().add(address);
 				patient = this.patientService.save(existingPatient);
 			}
 		} else if (addressDto !=null){
@@ -190,29 +184,9 @@ public class PatientController {
 		} else if (addressDto == null){
 			patient = PatientDto.Dto2Pojo(patientDto);
 			updateModifiedParams(existingPatient, patient);
-//			patient.getAddressList().add(address);
 			patient = this.patientService.save(existingPatient);
 		}
 		
-		/*if (addressDto != null) {
-			address = addressRepository.save(AddressDto.Dto2Pojo(addressDto));
-		}
-		
-		Patient patient = PatientDto.Dto2Pojo(patientDto);
-
-		if (address != null) {patient.getAddressList().add(address);}
-		
-		patient = this.patientService.save(patient);
-		if ( patient.getAddressList() != null && patient.getAddressList().size() >0) {
-			Address address = patient.getAddressList().get(0);
-			address.setApprtmentName(patientDto.getAddress1());
-			address.setArea(patientDto.getAddress2());
-			address.setCity(patientDto.getCity());
-			address.setPincode(patientDto.getPincode());
-			address.setLandLine1(patientDto.getLandline());
-			addressRepository.save(address);
-		}*/
-				
 		return new PatientDto(patient);
 	}
 	private void updateModifiedParams(Patient p, Patient patient) {

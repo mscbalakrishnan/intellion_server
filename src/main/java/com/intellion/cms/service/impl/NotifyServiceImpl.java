@@ -48,10 +48,7 @@ public class NotifyServiceImpl implements NotifyService {
     private SmsDetailsService smsDetailsService;
 	@Autowired
 	private SmsDetailsRepository smsDetailsRepository;
-//	private static final Logger logger = LoggerFactory.getLogger(NotifyServiceImpl.class);
-//	private String urlStr = "http://bhashsms.com/api/sendmsg.php";
-//	private String priority = "ndnd";
-//	private String type = "normal";
+
 	
 	public Properties getSmsParams() {
 		Properties properties = new Properties();
@@ -92,7 +89,7 @@ public class NotifyServiceImpl implements NotifyService {
 			urlStr += "&priority=" + properties.getProperty("priority");
 			urlStr += "&stype=" + properties.getProperty("type");
 			logger.debug("urlStr for SMS : {}",urlStr);
-			
+			String urlString = "";
 			try {
 				URL url = new URL(urlStr);
 				URLConnection urlConnection = url.openConnection();
@@ -102,7 +99,7 @@ public class NotifyServiceImpl implements NotifyService {
 		        }
 		        
 		        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-		        String urlString = "";
+		        
 		        String current;
 		        while((current = in.readLine()) != null) {
 		        	urlString += current;
@@ -124,14 +121,19 @@ public class NotifyServiceImpl implements NotifyService {
 		    			smsDetails.setRetryCount(smsDetails.getRetryCount()-1);
 		        	}
 		        	
-		        }
+		        }else{
+	    			smsDetails.setStatus(SmsStatus.FAILURE.name());
+	    			smsDetails.setRetryCount(smsDetails.getRetryCount()-1);
+	        	}
+		        
 		        logger.debug("output of sms is {}", urlString);
-		       
+		        smsDetails.setResponseString(urlString);
 				smsDetailsService.save(smsDetails);
-			} catch (IOException  e) {
+			} catch (Exception  e) {
 				logger.error("Unable to send sms", e);
 				smsDetails.setStatus(SmsStatus.FAILURE.name());
 				smsDetails.setRetryCount(smsDetails.getRetryCount()-1);
+				smsDetails.setResponseString(urlString);
 				smsDetailsService.save(smsDetails);
 			}
 		}
