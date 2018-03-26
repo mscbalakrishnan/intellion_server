@@ -11,7 +11,7 @@ var presModel = function() {
 			self.items = ko.observableArray([]),
 			self.addNewItem = function(data) {
 				console.log(data);
-				if(self.items().length >= 3){
+				if(self.items().length >= 5){
 					WsUtils.showAlert('Maximum number of medication attained.');
 				}else {
 					self.items.push(new item(0, "", false, 0, false, 0, false, 0,
