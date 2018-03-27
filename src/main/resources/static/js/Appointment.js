@@ -37,25 +37,10 @@ var Appointment = function() {
 		});
 		ServiceCalls.call();
 		
-		/*var tour = new Tour({
-			  steps: [
-			  {
-			    element: ".user-panel",
-			    title: "Title of my step",
-			    content: "Content of my step"
-			  }
-			]});
-
-			// Initialize the tour
-			tour.init();
-
-			// Start the tour
-			tour.start();*/
 
 	};
 	
 	self.loadAddAppointmentFormForUpdate = function(data){
-	// console.log(data);
 		resultGlobalObject = $.extend(resultGlobalClass, {
 			callback : function() {
 				var responseObj = resultGlobalClass.response;
@@ -364,6 +349,16 @@ var Appointment = function() {
 				
 				WsUtils.hidePopup();
 
+			},
+			//murali change
+			error : function(){
+				var errdata = resultGlobalClass.response;
+				var respText = errdata.responseText;
+				var parsedJSON = JSON.parse(respText);
+				WsUtils.showAlert(parsedJSON.message);
+				WsUtils.hidePopup();
+				
+				
 			},
 			requestUrl : "/intelhosp/appointments",
 			requestMethod : methodType,

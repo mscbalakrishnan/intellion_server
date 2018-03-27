@@ -110,6 +110,8 @@ var ServiceCalls = {
 						tempObj["requestUrl"] = resultGlobalClass.requestUrl;
 						tempObj["gridName"] = resultGlobalClass.gridName;
 						tempObj["callback"] = resultGlobalClass.callback;
+						//murali change
+						tempObj["error"] = resultGlobalClass.error;
 						
 						
 						gridServiceCallCollection[resultGlobalClass.gridName] = tempObj;	
@@ -140,19 +142,7 @@ var ServiceCalls = {
 					success : function(data){
 						
 						var hasLoginPageRedirection = false;
-						/*try{
-							var cookieVal = getCookie("response");
-							if(cookieVal.page == 'ajax'){
-								if(cookieVal.res == "login"){
-									//alert('redirecting')
-									localStorage.removeItem("UserId");
-									window.location.href = "../index.html";
-									hasLoginPageRedirection = true;
-								}
-							}
-						}catch(e){alert(e.message)}*/
 						
-						//console.log(data);
 						
 						resultGlobalObject.response = data;
 						
@@ -179,6 +169,18 @@ var ServiceCalls = {
 					error : function(XMLHttpRequest, textStatus, errorThrown){
 						
 						loader.hideLoader();
+						//murali change
+						if(resultGlobalClass.error != "")
+						{
+							if($.isFunction(resultGlobalClass.error))
+							{
+								
+								resultGlobalClass.response = XMLHttpRequest;
+								resultGlobalClass.error.apply();
+								
+							}	
+								
+						}
 						
 						if(XMLHttpRequest.status == 200){
 							if(resultGlobalClass.callback != "")
