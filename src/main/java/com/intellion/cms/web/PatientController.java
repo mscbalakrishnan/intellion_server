@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +31,6 @@ import com.intellion.cms.domain.dto.AddressDto;
 import com.intellion.cms.domain.dto.PatientDto;
 import com.intellion.cms.repository.AddressRepository;
 import com.intellion.cms.repository.SmsDetailsRepository;
-import com.intellion.cms.service.AppointmentService;
-import com.intellion.cms.service.DoctorService;
-import com.intellion.cms.service.NotifyService;
 import com.intellion.cms.service.PatientService;
 import com.intellion.cms.util.SmsContentUtil;
 
@@ -48,15 +46,11 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 	@Autowired
-	private DoctorService doctorService;
-	@Autowired
-	private AppointmentService appointmentService;
-	@Autowired
-	private NotifyService notifyService;
-	@Autowired
     private AddressRepository addressRepository;
 	@Autowired
 	private SmsDetailsRepository smsDetailsRepository;
+	
+	Properties properties =  null;
 	/**
 	 * List All Patients
 	 * @param request
@@ -119,12 +113,11 @@ public class PatientController {
 		if (addressDto != null) {
 			address = this.addressRepository.save(AddressDto.Dto2Pojo(addressDto));
 		}
-		
+		properties =  SmsContentUtil.getInstance().getSmsParams();
 		Patient patient = PatientDto.Dto2Pojo(patientDto);
 		if (address != null) {patient.getAddressList().add(address);}
 		patient = this.patientService.save(patient);
-		
-		if(null != patient){
+		if(null != patient && Boolean.parseBoolean(properties.getProperty("sms_global_switch"))){
 			String patientPhoneNumber = patient.getMobileNumber1();
 			if(patientDto.isNeedWelcomeMessage() && patientPhoneNumber !=null && !patientPhoneNumber.trim().isEmpty()){
 				String msg = SmsContentUtil.getInstance().getWelcomeMessage("welcome.vm", patient.getName());
@@ -235,4 +228,6 @@ public class PatientController {
 		}
 		return addressDto;
 	}
+	
+
 }

@@ -170,4 +170,15 @@ public class SmsContentUtil {
 		t.merge(context, writer);
 		return writer.toString();
 	}
+	
+	public Properties getSmsParams() {
+		Properties properties = new Properties();
+		for (Settings settings : settingsService.findByCategory("sms")) {
+			for (SettingsParams params : settings.getSettingsParams()) {
+				properties.setProperty(params.getParamName(), params.getParamValue());
+			}
+		}
+		logger.debug("properties: {}", properties);
+		return properties;
+	}
 }

@@ -8,9 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -38,8 +36,7 @@ import com.intellion.cms.util.SmsContentUtil;
 @Component("notifyService")
 public class NotifyServiceImpl implements NotifyService {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-	@Autowired
-    private SettingsService settingsService;
+
 	@Autowired
     private PatientService patientService;
 	@Autowired
@@ -48,8 +45,8 @@ public class NotifyServiceImpl implements NotifyService {
     private SmsDetailsService smsDetailsService;
 	@Autowired
 	private SmsDetailsRepository smsDetailsRepository;
-
-	
+	@Autowired
+    private SettingsService settingsService;
 	public Properties getSmsParams() {
 		Properties properties = new Properties();
 		for (Settings settings : settingsService.findByCategory("sms")) {

@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -59,6 +60,7 @@ public class AppointmentController {
 	private SmsDetailsRepository smsDetailsRepository;
 	@Value("${appointment.duration:120}")
  	private int appointmenDuration;
+	Properties properties =  null;
 	/**
 	 * @param request
 	 * @return
@@ -159,19 +161,22 @@ public class AppointmentController {
 	@ResponseBody
 	public void deleteAppointment(@PathVariable("appointmentid") long appointmentId, HttpServletRequest request) {
 		logger.debug("*********** deleteAppointment Inside");
+		properties =  SmsContentUtil.getInstance().getSmsParams();
 		Appointment appointment = this.appointmentService.findOne(appointmentId);
 		AppointmentDto appointmentDto =  new AppointmentDto(appointment);
 		String doctorPhoneNumber = appointmentDto.getDoctor().getMobile();
 		String patientPhoneNumber = appointmentDto.getPatient().getMobile();
 		
 		this.appointmentService.delete(appointmentId);
+		if(Boolean.parseBoolean(properties.getProperty("sms_global_switch"))){
+			if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() != 0) {
+				sendSmsToDoctor(appointment, "appointment_cancel.vm",SmsContentUtil.SMS_APPOINTMENT_CANCEL_NAME_PREFIX);
+			}
+			if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
+				sendSmsToPatient(appointment, "appointment_cancel.vm",SmsContentUtil.SMS_APPOINTMENT_CANCEL_NAME_PREFIX);
+			}
+		}
 		
-		if (doctorPhoneNumber != null && doctorPhoneNumber.trim().length() != 0) {
-			sendSmsToDoctor(appointment, "appointment_cancel.vm",SmsContentUtil.SMS_APPOINTMENT_CANCEL_NAME_PREFIX);
-		}
-		if (patientPhoneNumber != null && patientPhoneNumber.trim().length() != 0) {
-			sendSmsToPatient(appointment, "appointment_cancel.vm",SmsContentUtil.SMS_APPOINTMENT_CANCEL_NAME_PREFIX);
-		}
 	}
 
 	/**
@@ -184,6 +189,7 @@ public class AppointmentController {
 	@ResponseBody
 	public AppointmentDto addAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to ADD {}" , appointmentInputDto.toString());
+		properties =  SmsContentUtil.getInstance().getSmsParams();
 		Doctor doctor = doctorService.findOne(appointmentInputDto.getDoctorId());
 		Patient patient = patientService.findOne(appointmentInputDto.getPatientId());
 		LocalDateTime from = appointmentInputDto.getTime().minusMinutes(appointmenDuration-1);
@@ -197,7 +203,8 @@ public class AppointmentController {
 		}
 		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctor,patient);
 		appointment = appointmentService.save(appointment);
-		if (appointment != null) {
+		
+		if (appointment != null && Boolean.parseBoolean(properties.getProperty("sms_global_switch"))) {
 			// Success process sms
 			if (appointmentInputDto.isSmsToDoctor()) {
 				sendSmsToDoctor(appointment, "appointment_confirm.vm",SmsContentUtil.SMS_APPOINTMENT_NAME_PREFIX);
@@ -219,6 +226,7 @@ public class AppointmentController {
 	@ResponseBody
 	public AppointmentDto editAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
+		properties =  SmsContentUtil.getInstance().getSmsParams();
 		Appointment appointment = appointmentService.findOne(appointmentInputDto.getId());
 		logger.debug("*********** Appointment Object from Database EDIT {}" , appointment.toString());
 		appointment.setTime(appointmentInputDto.getTime());
@@ -226,7 +234,7 @@ public class AppointmentController {
 		appointment.setPatient(patientService.findOne(appointmentInputDto.getPatientId()));
 		appointment = this.appointmentService.save(appointment);
 		
-		if (appointment != null) {
+		if (appointment != null && Boolean.parseBoolean(properties.getProperty("sms_global_switch"))) {
 			// Success process sms
 			if (appointmentInputDto.isSmsToDoctor()) {
 				sendSmsToDoctor(appointment, "appointment_reschedule.vm",SmsContentUtil.SMS_APPOINTMENT_RESCHEDULE_NAME_PREFIX);
