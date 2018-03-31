@@ -571,7 +571,6 @@ var Appointment = function() {
 		var hour = timeArr[0];
 		var min = timeArr[1];
 
-		var appointDate = new Date(year, month, day);
 		
 		events.push({
 			id : v.id,
@@ -582,9 +581,11 @@ var Appointment = function() {
 			time : v.time,
 			appointmentObj:v,
 			title : "Dr." + v.doctor.name + ">> " + v.patient.name,
-			start : new Date(appointDate.getFullYear(),
-					appointDate.getMonth() - 1, appointDate.getDate(), hour,
-					min,Math.random(900)),
+			/*start : new Date(appointDate.getFullYear(),
+					appointDate.getMonth() + 1, appointDate.getDate(), hour,
+					min,Math.random(900)),*/
+			start : new Date(year,month - 1,day, hour,
+							min,Math.random(900)),					
 			allDay : false,
 			//backgroundColor : '#00a65a', // Blue#FFA07A
 			//borderColor : '#00a65a' // Blue#FFA07A
