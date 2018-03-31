@@ -83,11 +83,32 @@
 							class="help-block"></span>
 					</div>
 					<div class="form-group">
+						<label>ColorCode</label> 
+						<input data-bind="value:colorCode" type="color" id="colorCode"  onclick="myFunction()">
+						
+							
+
+									<script>
+									function myFunction() {
+									    document.getElementById("colorCode").value = "#FF8040";
+									}
+									</script>
+					</div>
+					
+				<!-- 	<div class="form-group">
 						<label>ColorCode</label> <input class="form-control"
 							data-bind="value:colorCode" id="colorCode"
-							placeholder="ColorCode" type="text"> <span
+							placeholder="ColorCode" type="text" onclick="myFunction()"> <span
 							class="help-block"></span>
-					</div>					
+							
+							<script>
+									function myFunction() {
+										alert("hg");
+									    document.getElementById("colorCode").value = "#FF8040";
+									}
+							</script>
+							
+					</div> -->					
 
 				</div>
 				<!-- /.box-body -->
