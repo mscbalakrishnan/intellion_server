@@ -193,7 +193,7 @@ public class AppointmentController {
 		Doctor doctor = doctorService.findOne(appointmentInputDto.getDoctorId());
 		Patient patient = patientService.findOne(appointmentInputDto.getPatientId());
 		LocalDateTime from = appointmentInputDto.getTime().minusMinutes(appointmenDuration-1);
-		LocalDateTime to = appointmentInputDto.getTime().minusMinutes(1);
+		LocalDateTime to = appointmentInputDto.getTime().plusMinutes(appointmenDuration).minusMinutes(1);
 		Iterable<Appointment> iterable = appointmentService.findByTimeBetweenAndDoctorNameOrPatientName(from, to, doctor.getName(), patient.getName());
 		Iterator<Appointment> iterator = iterable.iterator();
 		if (iterator.hasNext()) {
@@ -227,6 +227,17 @@ public class AppointmentController {
 	public AppointmentDto editAppointment(@RequestBody AppointmentInputDto appointmentInputDto, HttpServletRequest request) {
 		logger.debug("*********** Received the Object to EDIT {}" , appointmentInputDto.toString());
 		properties =  SmsContentUtil.getInstance().getSmsParams();
+		Doctor doctor = doctorService.findOne(appointmentInputDto.getDoctorId());
+		Patient patient = patientService.findOne(appointmentInputDto.getPatientId());
+		LocalDateTime from = appointmentInputDto.getTime().minusMinutes(appointmenDuration-1);
+		LocalDateTime to = appointmentInputDto.getTime().plusMinutes(appointmenDuration).minusMinutes(1);
+		Iterable<Appointment> iterable = appointmentService.findByTimeBetweenAndDoctorNameOrPatientName(from, to, doctor.getName(), patient.getName());
+		Iterator<Appointment> iterator = iterable.iterator();
+		if (iterator.hasNext()) {
+			Appointment existsAppointment = iterator.next();
+			logger.error("An appointment was already exists for the doctor or patient at the givent time {}", existsAppointment);
+			throw new IllegalArgumentException("An appointment was already exists for the doctor or patient at the givent time");
+		}
 		Appointment appointment = appointmentService.findOne(appointmentInputDto.getId());
 		logger.debug("*********** Appointment Object from Database EDIT {}" , appointment.toString());
 		appointment.setTime(appointmentInputDto.getTime());
