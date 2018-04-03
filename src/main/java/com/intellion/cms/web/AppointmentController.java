@@ -201,6 +201,9 @@ public class AppointmentController {
 			logger.error("An appointment was already exists for the doctor or patient at the givent time {}", existsAppointment);
 			throw new IllegalArgumentException("An appointment was already exists for the doctor or patient at the givent time");
 		}
+		if (appointmentInputDto.getTime().isBefore(LocalDateTime.now())) {
+			throw new IllegalArgumentException("Appointment time is older date time");
+		}
 		Appointment appointment = new Appointment(appointmentInputDto.getTime(),doctor,patient);
 		appointment = appointmentService.save(appointment);
 		
@@ -237,6 +240,9 @@ public class AppointmentController {
 			Appointment existsAppointment = iterator.next();
 			logger.error("An appointment was already exists for the doctor or patient at the givent time {}", existsAppointment);
 			throw new IllegalArgumentException("An appointment was already exists for the doctor or patient at the givent time");
+		}
+		if (appointmentInputDto.getTime().isBefore(LocalDateTime.now())) {
+			throw new IllegalArgumentException("Appointment time is older date time");
 		}
 		Appointment appointment = appointmentService.findOne(appointmentInputDto.getId());
 		logger.debug("*********** Appointment Object from Database EDIT {}" , appointment.toString());
