@@ -63,6 +63,7 @@ public class PatientController {
 		List<PatientDto> toReturn = new ArrayList<>();
 		patients.forEach(p->toReturn.add(new PatientDto(p)));
 		return toReturn;
+		//modified
 	}
 	
 	/**
