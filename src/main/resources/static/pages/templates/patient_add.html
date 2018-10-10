@@ -23,7 +23,20 @@
 									placeholder="Enter Patient Name* " type="text"
 									data-bind="value:name" validation="required">
 							</div>
+							<div class="col-xs-6">
+								<input class="form-control" id="Name"
+									placeholder="Patient Last Name* " type="text"
+									data-bind="value:name" validation="required">
+							</div>
 
+							
+
+
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="row">
 							<div class="col-xs-3">
 								<input class="form-control" id="dob" placeholder="Date of Birth*"
 									type="dob" data-bind="value:dob" validation="required" onfocusout="new Patient().calculateAge(this)">
@@ -35,22 +48,7 @@
 
 
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-xs-6">
-								<input class="form-control" id="mobileNumber"
-									placeholder="Mobile Number (#10 digits only)*" type="mobile"
-									data-bind="value:mobile" validation="required">
-							</div>
-							<div class="col-xs-6">
-								<input class="form-control" placeholder="Profile ID" type="text" readonly
-									data-bind="value:profileId">
-							</div>
-
-
-						</div>
-					</div>
+					</div>	
 					<div class="form-group">
 						<div class="row">
 							<div class="col-xs-6">

@@ -60,6 +60,9 @@ public class PatientController {
 	@ResponseBody
 	public List<PatientDto> getAllPatientsPojo(HttpServletRequest request) {
 		List<Patient> patients =  (List<Patient>) this.patientService.findAll();
+		if(patients.size() > 100){
+			patients = patients.subList(0, 100);
+		}
 		List<PatientDto> toReturn = new ArrayList<>();
 		patients.forEach(p->toReturn.add(new PatientDto(p)));
 		return toReturn;
