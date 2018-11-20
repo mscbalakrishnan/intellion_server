@@ -1,0 +1,90 @@
+<style type="text/css">
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.bordererTable {
+	border: 1px solid #cdcdcd;
+	text-align: center;
+}
+
+table th, table td {
+	padding: 2px;
+	text-align: center;
+}
+
+.addRow {
+	cursor: pointer;
+}
+
+.delRow {
+	cursor: pointer;
+}
+
+.consumptionTimeTableStyles {
+	width: 100%;
+	margin: 0px 0;
+	border-collapse: collapse;
+	border: none !important color:#FFF;
+	font-weight: bold;
+	background-color: #867a7a;
+	color: #FFF;
+}
+
+.doctorLabel {
+	text-align: left;
+	margin: 10px;
+	float: left;
+}
+
+.patientLabel {
+	text-align: left;
+	margin: 10px;
+	float: right;
+}
+
+.buttons {
+	text-align: left;
+	margin: 0px;
+	float: right;
+	clear: both
+}
+
+.dtLabel {
+	text-align: left;
+	margin: 10px;
+	clear: both
+}
+
+.leftTextAlign {
+	text-align: left;
+}
+
+.tableHeadercolor {
+	background-color: #2196F3;
+	color: #FFF;
+}
+</style>
+<div class="box box-primary">
+	<div class="box-body">
+		<div class="form-group">
+			<div class="row prescriptionListFilter">
+				
+				<div class="col-xs-5 patient">
+					<label>Patient *</label> <input class="form-control" id="patientIdForSearch"
+						placeholder="Search Patient" type="text" validation="required">
+					<span class="help-block"></span>
+				</div>
+				<div class="col-md-2">
+					<label></label>
+					<button type="button" class="btn btn-block btn-info"
+						onclick="new Patient().loadSelectedPatientBySearch()">Apply</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	
+
+</div>

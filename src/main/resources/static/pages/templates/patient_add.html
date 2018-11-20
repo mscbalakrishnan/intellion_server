@@ -45,10 +45,30 @@
 								<input class="form-control" id="age" placeholder="Age*"
 									type="number" data-bind="value:age" validation="required">
 							</div>
+							<div class="col-xs-6">
+								<input class="form-control" id="profileId"
+									placeholder="profile Id " type="text"
+									data-bind="value:profileId" disabled="disabled">
+							</div>							
 
 
 						</div>
 					</div>	
+					<div class="form-group">
+						<div class="row">
+							<div class="col-xs-6">
+								<input class="form-control" id="email"
+									placeholder="Email Address..." type="email" validation="required"
+									data-bind="value:email"> <span class="help-block"></span>
+							</div>
+							<div class="col-xs-6">
+								<input class="form-control" id="mobileNumber"
+									placeholder="Mobile Number (#10 digits only)*" type="mobile"
+									data-bind="value:mobile" validation="required">
+							</div>
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<div class="row">
 							<div class="col-xs-6">
@@ -103,15 +123,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-group">
-						<div class="row">
-							<div class="col-xs-6">
-								<input class="form-control" id="email"
-									placeholder="Email Address..." type="email" validation="required"
-									data-bind="value:email"> <span class="help-block"></span>
-							</div>
-						</div>
-					</div>
+
 
 					<div class="form-group">
 						<div class="row">

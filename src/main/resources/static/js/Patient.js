@@ -286,5 +286,48 @@ var Patient = function() {
 		
 		$("#age").val(age);
 		return age;
+	},
+	self.searchPat = function() {
+
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function(){
+				var responseObj = resultGlobalClass.response;
+				$(".content").html(responseObj);
+				initPatientVo();
+				
+				
+			},
+			requestUrl : "../pages/templates/search_patient.html",			
+			requestData : {},
+			resultType : "text",
+		});
+		ServiceCalls.loadHtmlPage();
+
+	};
+	
+	
+	self.loadSelectedPatientBySearch = function() {
+		
+		var patientIdForSearch = $("#patientIdForSearch").val();
+		var url = "/intelhosp/patients/"+patientIdForSearch;
+
+		resultGlobalObject = $.extend(resultGlobalClass, {
+			callback : function() {
+				
+				var responseObj = resultGlobalClass.response;
+				new Profile().loadPatientProfilePage(responseObj);
+				currentPrescriptionPage = "profile";				
+			},
+			requestUrl :url,
+			requestMethod : "GET",
+			requestData : {},
+			resultType : "json",
+		});
+		ServiceCalls.call();
 	}
+	
+	
+	
+	
+	
 }

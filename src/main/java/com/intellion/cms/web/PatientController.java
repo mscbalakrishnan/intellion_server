@@ -60,8 +60,8 @@ public class PatientController {
 	@ResponseBody
 	public List<PatientDto> getAllPatientsPojo(HttpServletRequest request) {
 		List<Patient> patients =  (List<Patient>) this.patientService.findAll();
-		if(patients.size() > 100){
-			patients = patients.subList(0, 100);
+		if(patients.size() > 50){
+			patients = patients.subList(0, 50);
 		}
 		List<PatientDto> toReturn = new ArrayList<>();
 		patients.forEach(p->toReturn.add(new PatientDto(p)));
@@ -78,6 +78,8 @@ public class PatientController {
 	@GetMapping(value="/{patientid}")
 	@ResponseBody
 	public PatientDto getPatient(@PathVariable("patientid") String patientId, HttpServletRequest request) {
+		
+		Patient p = this.patientService.findOne(patientId);
 		return new PatientDto(this.patientService.findOne(patientId));
 	}
 	@GetMapping(value="/patientname/find")
